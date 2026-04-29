@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Login - Skin Care</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+
+
+<body>
+
+
+
+    <!-- ===================== TOPBAR ===================== -->
+
+    <div class="topbar" id="topbar">
+
+        <div class="topbar-inner">
+
+            <div class="topbar-left">
+
+                <span class="topbar-promo">✦ Free shipping on orders over ₱1,500</span>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <a href="../index.html" class="topbar-link">
+
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+
+                    Back to Home
+
+                </a>
+
+                <span class="topbar-divider">›</span>
+
+                <a href="tel:+639157118043" class="topbar-link topbar-phone">
+
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+
+                    +63 9157118043
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================== LOGIN PAGE ===================== -->
+
+    <section class="auth-page">
+
+        <div class="container">
+
+            <div class="auth-page-wrapper">
+
+                <div class="auth-page-visual">
+
+                    <div class="auth-page-bg">
+
+                        <div class="auth-orb orb1"></div>
+
+                        <div class="auth-orb orb2"></div>
+
+                        <div class="auth-orb orb3"></div>
+
+                    </div>
+
+                    <div class="auth-page-content">
+
+                        <div class="auth-logo">
+
+                            <span class="logo-icon">✦</span>
+
+                            <span class="logo-text">Skin Care</span>
+
+                        </div>
+
+                        <h1 class="auth-page-title">Welcome to Your Glow Journey</h1>
+
+                        <p class="auth-page-subtitle">Join thousands who've discovered their perfect skincare routine with our science-backed formulas.</p>
+
+                        <div class="auth-page-features">
+
+                            <div class="auth-feature">
+
+                                <div class="af-icon">🌿</div>
+
+                                <div class="af-text">Natural Ingredients</div>
+
+                            </div>
+
+                            <div class="auth-feature">
+
+                                <div class="af-icon">🧪</div>
+
+                                <div class="af-text">Clinically Tested</div>
+
+                            </div>
+
+                            <div class="auth-feature">
+
+                                <div class="af-icon">✨</div>
+
+                                <div class="af-text">Visible Results</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="auth-page-forms">
+
+                    <!-- Login Form -->
+
+                    <div class="auth-form-container" id="loginContainer">
+
+                        <div class="auth-form-header">
+
+                            <h2>Welcome Back</h2>
+
+                            <p>Sign in to your member account</p>
+
+                        </div>
+
+                        <form class="auth-form" onsubmit="handleLogin(event)">
+
+                            <div class="auth-field">
+
+                                <label>Email Address</label>
+
+                                <input type="email" placeholder="your@email.com" id="loginEmail" required>
+
+                            </div>
+
+                            <div class="auth-field">
+
+                                <label>Password</label>
+
+                                <div class="pw-wrap">
+
+                                    <input type="password" placeholder="••••••••" id="loginPass" required>
+
+                                    <button type="button" class="pw-toggle" onclick="togglePw('loginPass', this)">👁</button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="auth-row">
+
+                                <label class="auth-check"><input type="checkbox"> Remember me</label>
+
+                                <a href="#" class="auth-link">Forgot password?</a>
+
+                            </div>
+
+                            <button type="submit" class="btn-primary full-width auth-submit">Sign In</button>
+
+                            <p class="auth-switch">Don't have an account? <a href="#" onclick="switchToRegister(event)">Register here</a></p>
+
+                        </form>
+
+                    </div>
+
+
+
+                    <!-- Register Form -->
+
+                    <div class="auth-form-container" id="registerContainer" style="display:none">
+
+                        <div class="auth-form-header">
+
+                            <h2>Join the Glow</h2>
+
+                            <p>Create your member account</p>
+
+                        </div>
+
+                        <form class="auth-form" onsubmit="handleRegister(event)">
+
+                            <div class="auth-field-row">
+
+                                <div class="auth-field">
+
+                                    <label>First Name</label>
+
+                                    <input type="text" placeholder="Sofia" required>
+
+                                </div>
+
+                                <div class="auth-field">
+
+                                    <label>Last Name</label>
+
+                                    <input type="text" placeholder="Reyes" required>
+
+                                </div>
+
+                            </div>
+
+                            <div class="auth-field">
+
+                                <label>Email Address</label>
+
+                                <input type="email" placeholder="your@email.com" required>
+
+                            </div>
+
+                            <div class="auth-field">
+
+                                <label>Phone Number</label>
+
+                                <input type="tel" placeholder="+63 912 345 6789" required>
+
+                            </div>
+
+                            <div class="auth-field">
+
+                                <label>Password</label>
+
+                                <div class="pw-wrap">
+
+                                    <input type="password" placeholder="••••••••" id="regPass" required>
+
+                                    <button type="button" class="pw-toggle" onclick="togglePw('regPass', this)">👁</button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="auth-field">
+
+                                <label>Referral Code <span style="color:var(--text-light)">(optional)</span></label>
+
+                                <input type="text" placeholder="Enter referral code">
+
+                            </div>
+
+                            <div class="auth-row" style="margin-bottom:16px">
+
+                                <label class="auth-check"><input type="checkbox" required> I agree to the <a href="#" class="auth-link">Terms & Conditions</a></label>
+
+                            </div>
+
+                            <button type="submit" class="btn-primary full-width auth-submit">Create Account</button>
+
+                            <p class="auth-switch">Already a member? <a href="#" onclick="switchToLogin(event)">Sign in here</a></p>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================== FOOTER ===================== -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-top">
+
+                <div class="footer-brand">
+
+                    <div class="nav-logo">
+
+                        <span class="logo-icon">✦</span>
+
+                        <span class="logo-text">Skin Care</span>
+
+                    </div>
+
+                    <p>Elevating everyday skincare into a luxurious ritual. Glow with confidence.</p>
+
+                </div>
+
+                <div class="footer-links">
+
+                    <div class="fl-col">
+
+                        <h4>Navigate</h4>
+
+                        <a href="../index.html">Home</a>
+
+                        <a href="../recognition.html">Recognition</a>
+
+                        <a href="../products.html">Products</a>
+
+                    </div>
+
+                    <div class="fl-col">
+
+                        <h4>Company</h4>
+
+                        <a href="#">About Us</a>
+
+                        <a href="#">Our Story</a>
+
+                        <a href="#">Contact</a>
+
+                    </div>
+
+                    <div class="fl-col">
+
+                        <h4>Connect</h4>
+
+                        <a href="#">Instagram</a>
+
+                        <a href="#">Facebook</a>
+
+                        <a href="#">TikTok</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <p>© 2025 Skin Care. All rights reserved.</p>
+
+                <p>Crafted with ✦ for glowing skin</p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- Toast -->
+
+    <div class="toast" id="toast"></div>
+
+
+
+    <!-- Back to Top -->
+
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+
+    </button>
+
+
+
+    <script src="../script.js"></script>
+
+    <style>
+
+        /* Login Page Specific Styles */
+
+        .auth-page {
+            min-height: 100vh;
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-page-wrapper {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 60px;
+
+            align-items: center;
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+        }
+
+
+
+        .auth-page-visual {
+
+            position: relative;
+
+            padding: 40px;
+
+        }
+
+
+
+        .auth-page-bg {
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .auth-orb {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(255, 218, 185, 0.3));
+
+            animation: float 6s ease-in-out infinite;
+
+        }
+
+
+
+        .auth-orb.orb1 {
+
+            width: 80px;
+
+            height: 80px;
+
+            top: 20%;
+
+            left: 10%;
+
+            animation-delay: 0s;
+
+        }
+
+
+
+        .auth-orb.orb2 {
+
+            width: 60px;
+
+            height: 60px;
+
+            top: 60%;
+
+            right: 15%;
+
+            animation-delay: 2s;
+
+        }
+
+
+
+        .auth-orb.orb3 {
+
+            width: 40px;
+
+            height: 40px;
+
+            bottom: 20%;
+
+            left: 20%;
+
+            animation-delay: 4s;
+
+        }
+
+
+
+        @keyframes float {
+
+            0%, 100% { transform: translateY(0px); }
+
+            50% { transform: translateY(-20px); }
+
+        }
+
+
+
+        .auth-page-content {
+
+            position: relative;
+
+            z-index: 1;
+
+            text-align: center;
+
+        }
+
+
+
+        .auth-page-title {
+
+            font-size: 2.5rem;
+
+            font-weight: 300;
+
+            line-height: 1.2;
+
+            margin: 20px 0 10px;
+
+            color: var(--text-primary);
+
+        }
+
+
+
+        .auth-page-subtitle {
+
+            font-size: 1.1rem;
+
+            color: var(--text-secondary);
+
+            margin-bottom: 40px;
+
+            line-height: 1.6;
+
+        }
+
+
+
+        .auth-page-features {
+
+            display: flex;
+
+            justify-content: space-around;
+
+            gap: 20px;
+
+        }
+
+
+
+        .auth-feature {
+
+            text-align: center;
+
+        }
+
+
+
+        .af-icon {
+
+            font-size: 2rem;
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        .af-text {
+
+            font-size: 0.9rem;
+
+            color: var(--text-secondary);
+
+        }
+
+
+
+        .auth-page-forms {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+        }
+
+
+
+        .auth-form-container {
+
+            width: 100%;
+
+        }
+
+
+
+        .auth-form-header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+
+        .auth-form-header h2 {
+
+            font-size: 1.8rem;
+
+            font-weight: 400;
+
+            margin-bottom: 8px;
+
+            color: var(--text-primary);
+
+        }
+
+
+
+        .auth-form-header p {
+
+            color: var(--text-secondary);
+
+        }
+
+
+
+        .auth-form {
+
+            max-width: 400px;
+
+            margin: 0 auto;
+
+        }
+
+
+
+        @media (max-width: 768px) {
+
+            .auth-page-wrapper {
+
+                grid-template-columns: 1fr;
+
+                gap: 40px;
+
+            }
+
+
+
+            .auth-page-visual {
+
+                padding: 20px;
+
+            }
+
+
+
+            .auth-page-title {
+
+                font-size: 2rem;
+
+            }
+
+
+
+            .auth-page-forms {
+
+                padding: 30px 20px;
+
+            }
+
+
+
+            .auth-page-features {
+
+                flex-direction: column;
+
+                gap: 20px;
+
+            }
+
+        }
+
+    </style>
+
+    <script>
+
+        function switchToRegister(event) {
+
+            event.preventDefault();
+
+            document.getElementById('loginContainer').style.display = 'none';
+
+            document.getElementById('registerContainer').style.display = 'block';
+
+        }
+
+
+
+        function switchToLogin(event) {
+
+            event.preventDefault();
+
+            document.getElementById('registerContainer').style.display = 'none';
+
+            document.getElementById('loginContainer').style.display = 'block';
+
+        }
+
+
+
+        function togglePw(inputId, button) {
+
+            const input = document.getElementById(inputId);
+
+            const type = input.type === 'password' ? 'text' : 'password';
+
+            input.type = type;
+
+            button.textContent = type === 'password' ? '👁' : '👁‍🗨';
+
+        }
+
+
+
+        function handleLogin(event) {
+
+            event.preventDefault();
+
+            // Show success message
+
+            showToast('Welcome back! Redirecting to dashboard...', 'success');
+
+            // Redirect to home after 2 seconds
+
+            setTimeout(() => {
+
+                window.location.href = '../index.html';
+
+            }, 2000);
+
+        }
+
+
+
+        function handleRegister(event) {
+
+            event.preventDefault();
+
+            // Show success message
+
+            showToast('Account created successfully! Redirecting to home...', 'success');
+
+            // Redirect to home after 2 seconds
+
+            setTimeout(() => {
+
+                window.location.href = '../index.html';
+
+            }, 2000);
+
+        }
+
+
+
+        function showToast(message, type = 'info') {
+
+            const toast = document.getElementById('toast');
+
+            toast.textContent = message;
+
+            toast.className = 'toast show';
+
+            if (type === 'success') {
+
+                toast.style.background = 'var(--primary-color)';
+
+                toast.style.color = 'white';
+
+            }
+
+            setTimeout(() => {
+
+                toast.classList.remove('show');
+
+            }, 3000);
+
+        }
+
+    </script>
+
+</body>
+
+
+
+</html>

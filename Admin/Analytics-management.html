@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Lumière Admin · Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">✦</span>
+                <span class="brand-name">Lumière</span>
+                <span class="brand-badge">admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
+                    <span>Overview</span>
+                </a>
+                <a href="Products-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span>Products</span>
+                </a>
+                <a href="Recognition-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Recognition (Members)</span>
+                </a>
+                <a href="Analytics-management.html" class="nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-9-9" stroke-linecap="round"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <div class="admin-avatar">AD</div>
+                    <div class="admin-details">
+                        <span class="admin-name">Lumière Studio</span>
+                        <span class="admin-role">Master Admin</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutAdminBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Exit</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-title">
+                    <h1>Analytics Dashboard</h1>
+                    <p>Visual insights for products and member performance</p>
+                </div>
+                <div class="header-actions">
+                    <div class="date-badge" id="liveDate"></div>
+                </div>
+            </header>
+
+            <div class="tab-content active">
+                <div class="admin-grid-two">
+                    <div class="admin-card">
+                        <div class="card-header"><h3>🏷️ Products by category</h3></div>
+                        <canvas id="categoryChart" width="400" height="280" style="max-height:280px"></canvas>
+                    </div>
+                    <div class="admin-card">
+                        <div class="card-header"><h3>🏆 Member type distribution</h3></div>
+                        <canvas id="memberTypeChart" width="400" height="280" style="max-height:280px"></canvas>
+                    </div>
+                </div>
+                <div class="admin-card">
+                    <div class="card-header"><h3>💰 Price distribution (products)</h3></div>
+                    <canvas id="priceHistogram" height="90" style="max-height:200px"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let categoryChart, memberChart, priceChart;
+        let analyticsProducts = [];
+        let analyticsMembers = [];
+
+        function loadAnalyticsData() {
+            const storedProducts = localStorage.getItem('lumiere_admin_products');
+            if (storedProducts && JSON.parse(storedProducts).length > 0) {
+                analyticsProducts = JSON.parse(storedProducts);
+            } else {
+                analyticsProducts = [
+                    { id: 1, name: "Gentle Foam Cleanser", category: "cleanser", price: 598, rating: 4.8 },
+                    { id: 2, name: "Radiance Vitamin C Serum", category: "serum", price: 1298, rating: 4.9 },
+                    { id: 3, name: "Hydra-Guard SPF 50+", category: "sunscreen", price: 898, rating: 4.7 },
+                    { id: 4, name: "Peptide Renewal Moisturizer", category: "moisturizer", price: 1198, rating: 4.6 },
+                    { id: 5, name: "Rose Glow Essence Toner", category: "serum", price: 748, rating: 4.5 }
+                ];
+            }
+
+            const storedMembers = localStorage.getItem('lumiere_admin_members');
+            if (storedMembers && JSON.parse(storedMembers).length > 0) {
+                analyticsMembers = JSON.parse(storedMembers);
+            } else {
+                analyticsMembers = [
+                    { id: 1, name: "Sofia Reyes", type: "seller", rank: 1, sales: "₱248,500" },
+                    { id: 2, name: "Grace Villanueva", type: "recruiter", rank: 2, sales: "₱186,200" },
+                    { id: 3, name: "Ana Lim", type: "seller", rank: 3, sales: "₱162,400" },
+                    { id: 4, name: "Bianca Santos", type: "recruiter", rank: 4, sales: "₱134,800" },
+                    { id: 5, name: "Jessa Morales", type: "rising", rank: 5, sales: "₱98,600" }
+                ];
+            }
+            renderCharts();
+        }
+
+        function renderCharts() {
+            // Category chart
+            const catCounts = {};
+            analyticsProducts.forEach(p => { catCounts[p.category] = (catCounts[p.category] || 0) + 1; });
+            const ctxCat = document.getElementById('categoryChart').getContext('2d');
+            if (categoryChart) categoryChart.destroy();
+            categoryChart = new Chart(ctxCat, {
+                type: 'doughnut',
+                data: { labels: Object.keys(catCounts), datasets: [{ data: Object.values(catCounts), backgroundColor: ['#c9a96e', '#c49080', '#a8b89c', '#e0c8bc', '#d4b4a4'], borderWidth: 0 }] },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+            });
+
+            // Member type chart
+            const typeCount = { seller: 0, recruiter: 0, rising: 0 };
+            analyticsMembers.forEach(m => { typeCount[m.type] = (typeCount[m.type] || 0) + 1; });
+            const ctxMem = document.getElementById('memberTypeChart').getContext('2d');
+            if (memberChart) memberChart.destroy();
+            memberChart = new Chart(ctxMem, {
+                type: 'bar',
+                data: { labels: ['Top Sellers', 'Advocates', 'Rising Stars'], datasets: [{ label: 'Members', data: [typeCount.seller, typeCount.recruiter, typeCount.rising], backgroundColor: '#c9a96e', borderRadius: 12 }] },
+                options: { responsive: true }
+            });
+
+            // Price distribution
+            const prices = analyticsProducts.map(p => p.price);
+            const ctxPrice = document.getElementById('priceHistogram').getContext('2d');
+            if (priceChart) priceChart.destroy();
+            priceChart = new Chart(ctxPrice, {
+                type: 'line',
+                data: { labels: prices.map((_, i) => `#${i + 1}`), datasets: [{ label: 'Product Price (₱)', data: prices, borderColor: '#c49080', tension: 0.2, fill: false }] },
+                options: { responsive: true, plugins: { legend: { display: false } } }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('liveDate').innerText = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+            loadAnalyticsData();
+
+            document.getElementById('logoutAdminBtn')?.addEventListener('click', () => { window.location.href = '../index.html'; });
+
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'lumiere_admin_products' && e.newValue) {
+                    analyticsProducts = JSON.parse(e.newValue);
+                    renderCharts();
+                }
+                if (e.key === 'lumiere_admin_members' && e.newValue) {
+                    analyticsMembers = JSON.parse(e.newValue);
+                    renderCharts();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

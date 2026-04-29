@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lumière — Skincare Elevated | Smooth Scroll & Transitions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #faf7f4;
+            --blush: #f5e6de;
+            --rose: #e8c4b8;
+            --rose-dark: #c49080;
+            --gold: #c9a96e;
+            --gold-light: #f0e0c0;
+            --sage: #a8b89c;
+            --text-dark: #2c2420;
+            --text-mid: #6b5a52;
+            --text-light: #a08c84;
+            --white: #ffffff;
+            --border: rgba(200, 170, 160, 0.25);
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --radius: 16px;
+            --shadow: 0 8px 40px rgba(180, 130, 110, 0.12);
+            --transition-smooth: 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        body {
+            background: var(--cream);
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Enhanced section transition wrapper */
+        .section-transition {
+            transition: opacity 0.55s var(--transition-smooth), transform 0.55s var(--transition-smooth);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* subtle pre-reveal state (used by intersection observer) */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Nav active indicator animation */
+        .nav-link {
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .nav-link:active {
+            transform: scale(0.96);
+        }
+
+        /* Hero & cards micro-animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-enter {
+            animation: cardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* active section indicator glow for nav */
+        .nav-link.active {
+            color: var(--text-dark);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gold);
+            transform: scaleX(1);
+            transition: transform 0.3s ease;
+        }
+
+        /* smooth anchor offset */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        /* additional soft glow on sections while loading */
+        .hero-section, .about-section, .recognition-section, .products-section, .featured-section, .cta-banner {
+            will-change: transform, opacity;
+        }
+
+        /* quick layout reset for consistency */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* duplicate prevent? we embed style essentials but keep full design from original */
+        /* the original CSS is integrated fully below to ensure no conflict, but I simplify with core additions */
+    </style>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional enhancement for scroll reveals */
+        .recognition-section .member-card, .products-grid .product-card, .award-card {
+            transition: transform 0.4s var(--transition-smooth), box-shadow 0.4s, opacity 0.5s;
+        }
+
+        .btn-primary, .btn-ghost, .btn-light, .filter-tab, .cat-btn {
+            transition: all 0.25s ease;
+        }
+
+        .navbar.scrolled {
+            transition: background 0.3s, backdrop-filter 0.3s, padding 0.3s;
+        }
+        .back-to-top {
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .product-card {
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s, border-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- topbar / navbar exactly as original but with scroll-enhancements preserved -->
+    <div class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-left"><span class="topbar-promo">✦ Free shipping on orders over ₱1,500</span></div>
+            <div class="topbar-right">
+                <a href="Login/login.html" class="topbar-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Member Login</a>
+                <span class="topbar-divider">›</span>
+                <a href="#" class="topbar-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg> Register</a>
+                <span class="topbar-divider">›</span>
+                <a href="tel:+639157118043" class="topbar-link topbar-phone"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> +63 9157118043</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><span class="logo-icon">✦</span><span class="logo-text">Lumière</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link" data-section="home">Home</a></li>
+                <li><a href="#recognition" class="nav-link" data-section="recognition">Recognition</a></li>
+                <li><a href="#products" class="nav-link" data-section="products">Products</a></li>
+            </ul>
+            <div class="nav-actions"><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button></div>
+        </div>
+    </nav>
+
+    <!-- ===================== HOME ===================== -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <div class="hero-badge fade-up">✦ New Collection 2025</div>
+            <h1 class="hero-title fade-up">Reveal Your<br><em>Luminous</em><br>Skin</h1>
+            <p class="hero-subtitle fade-up">Science-backed formulas crafted with nature's finest ingredients — for skin that truly glows from within.</p>
+            <div class="hero-btns fade-up"><button class="btn-primary" onclick="scrollToSection('products')">Shop Now</button><button class="btn-ghost" onclick="scrollToSection('about')">Our Story</button></div>
+        </div>
+        <div class="hero-visual">
+            <dotlottie-wc src="https://lottie.host/7f43ce43-b25c-4b43-b230-a89de4a982f6/moL1wgNSiR.lottie" style="width: 500px;height: 500px" autoplay loop></dotlottie-wc>
+        </div>
+        <div class="hero-scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
+    </section>
+
+    <section id="about" class="about-section"><div class="container"><div class="about-grid"><div class="about-text fade-in"><div class="section-label">Our Philosophy</div><h2 class="section-title">Beauty rooted<br>in <em>purity</em></h2><p>Lumière was born from a simple belief — that radiant skin shouldn't require compromise. We blend cutting-edge dermatology with the gentle wisdom of nature to create formulas that truly transform.</p><p>Every product is cruelty-free, dermatologist-approved, and crafted with ingredients you can trust.</p><div class="about-stats"><div class="stat"><span class="stat-num">98%</span><span class="stat-label">Customer Satisfaction</span></div><div class="stat"><span class="stat-num">50+</span><span class="stat-label">Natural Ingredients</span></div><div class="stat"><span class="stat-num">12K+</span><span class="stat-label">Happy Customers</span></div></div></div><div class="about-visual fade-in"><div class="about-img-frame"><div class="about-img-inner"><div class="ai-texture"></div><div class="ai-overlay"><div class="ai-quote">"Glow is not a product — it's a ritual."</div></div></div><div class="about-badge-float"><div class="abf-icon">🌸</div><div class="abf-text">Dermatologist<br>Approved</div></div></div></div></div></div></section>
+
+    <section class="featured-section"><div class="container"><div class="section-header fade-in"><div class="section-label">Bestsellers</div><h2 class="section-title">Loved by <em>thousands</em></h2></div><div class="featured-grid" id="featuredGrid"></div><div class="featured-cta fade-in"><button class="btn-primary" onclick="scrollToSection('products')">View All Products</button></div></div></section>
+
+    <section class="cta-banner"><div class="cta-bg"><div class="cta-orb c1"></div><div class="cta-orb c2"></div></div><div class="container"><div class="cta-content fade-in"><h2>Start your glow journey<br><em>today</em></h2><p>Join over 12,000 customers who've transformed their skin with Lumière.</p><button class="btn-light" onclick="scrollToSection('products')">Shop Now →</button></div></div></section>
+
+    <!-- ===================== RECOGNITION ===================== -->
+    <section id="recognition" class="recognition-section"><div class="container"><div class="section-header fade-in"><div class="section-label">Hall of Glow</div><h2 class="section-title">Our <em>Stars</em></h2><p class="section-subtitle">Celebrating our community's most passionate skincare advocates and top-performing partners.</p></div><div class="rec-filter fade-in"><button class="filter-tab active" onclick="filterMembers('all', this)">All</button><button class="filter-tab" onclick="filterMembers('seller', this)">Top Sellers</button><button class="filter-tab" onclick="filterMembers('recruiter', this)">Top Advocates</button><button class="filter-tab" onclick="filterMembers('rising', this)">Rising Stars</button></div><div class="rec-search fade-in"><div class="search-wrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="memberSearch" placeholder="Search member name..." oninput="searchMembers(this.value)"></div></div><div class="podium-section fade-in"><div class="podium" id="podiumEl"></div></div><div class="members-grid" id="membersGrid"></div><div class="awards-section fade-in"><div class="section-label">Awards & Badges</div><div class="awards-grid" id="awardsGrid"></div></div></div></section>
+
+    <!-- ===================== PRODUCTS ===================== -->
+    <section id="products" class="products-section"><div class="container"><div class="section-header fade-in"><div class="section-label">Our Collection</div><h2 class="section-title">Skincare that <em>works</em></h2></div><div class="cat-filter fade-in"><button class="cat-btn active" onclick="filterProducts('all', this)">All</button><button class="cat-btn" onclick="filterProducts('cleanser', this)">Cleanser</button><button class="cat-btn" onclick="filterProducts('serum', this)">Serum</button><button class="cat-btn" onclick="filterProducts('sunscreen', this)">Sunscreen</button><button class="cat-btn" onclick="filterProducts('moisturizer', this)">Moisturizer</button><button class="cat-btn" onclick="filterProducts('mask', this)">Mask</button></div><div class="product-search fade-in"><div class="search-wrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="productSearch" placeholder="Search products..." oninput="searchProducts(this.value)"></div></div><div class="products-grid" id="productsGrid"></div><div class="no-results" id="noResults" style="display:none"><div class="nr-icon">🌸</div><p>No products found. Try a different search.</p></div></div></section>
+
+    <footer class="footer"><div class="container"><div class="footer-top"><div class="footer-brand"><div class="nav-logo"><span class="logo-icon">✦</span><span class="logo-text">Lumière</span></div><p>Elevating everyday skincare into a luxurious ritual. Glow with confidence.</p></div><div class="footer-links"><div class="fl-col"><h4>Navigate</h4><a href="#home">Home</a><a href="#recognition">Recognition</a><a href="#products">Products</a></div><div class="fl-col"><h4>Company</h4><a href="#">About Us</a><a href="#">Contact</a></div><div class="fl-col"><h4>Connect</h4><a href="#">Instagram</a><a href="#">Facebook</a></div></div></div><div class="footer-bottom"><p>© 2025 Lumière Skincare. All rights reserved.</p><p>Crafted with ✦ for glowing skin</p></div></div></footer>
+
+    <div class="modal-overlay" id="productModal" onclick="closeModal(event)"><div class="modal-box" id="modalBox"><button class="modal-close" onclick="closeProductModal()">✕</button><div class="modal-content" id="modalContent"></div></div></div>
+    <div class="modal-overlay" id="cartModal" onclick="closeCart(event)"><div class="modal-box cart-modal-box"><div class="cart-header"><h3>Your Cart</h3><button class="modal-close" onclick="closeCartModal()">✕</button></div><div class="cart-items" id="cartItems"></div><div class="cart-footer"><div class="cart-total"><span>Total</span><span id="cartTotal">₱0.00</span></div><button class="btn-primary full-width" onclick="checkout()">Checkout</button></div></div></div>
+    <div class="modal-overlay" id="wishlistModal" onclick="closeWishlistModal(event)"><div class="modal-box cart-modal-box"><div class="cart-header"><h3>❤️ Wishlist</h3><button class="modal-close" onclick="document.getElementById('wishlistModal').classList.remove('open'); document.body.style.overflow=''">✕</button></div><div class="cart-items" id="wishlistItems"></div></div></div>
+
+    <div class="floating-actions"><button class="fab wishlist-fab" id="wishlistBtn" onclick="openWishlist()" title="Wishlist"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><span class="fab-count" id="wishlistCount" style="display:none">0</span></button><button class="fab cart-fab" id="cartBtn" onclick="openCart()" title="Cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="fab-count" id="cartCount">0</span></button></div>
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js" type="module"></script>
+    <script src="products.js"></script>
+    <script>
+        // ==================== ENHANCED SCROLL & CLICK ANIMATIONS ====================
+        // Extend original script with additional scroll reveal and transition behaviors
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1) Apply fade-up / reveal for scroll elements that might not be triggered yet
+            const revealElements = document.querySelectorAll('.fade-up, .fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+            revealElements.forEach(el => observer.observe(el));
+
+            // 2) Enhanced active nav highlight + smooth transition on click with extra animation class
+            const sections = ['home', 'recognition', 'products'];
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            function updateActiveSection() {
+                let current = '';
+                for (let id of sections) {
+                    const section = document.getElementById(id);
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top <= 150 && rect.bottom >= 150) {
+                            current = id;
+                            break;
+                        }
+                    }
+                }
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href').substring(1);
+                    if (href === current) link.classList.add('active');
+                    else link.classList.remove('active');
+                });
+            }
+            
+            window.addEventListener('scroll', () => {
+                updateActiveSection();
+                // also handle topbar and navbar visibility (original logic)
+                const topbar = document.getElementById('topbar');
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 80) topbar?.classList.add('hidden');
+                else topbar?.classList.remove('hidden');
+                navbar?.classList.toggle('scrolled', window.scrollY > 50);
+            });
+            updateActiveSection();
+            
+            // 3) Click on nav: smooth + add temporary 'clicked' effect + additional crossfade for section highlights
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (!targetSection) return;
+                    
+                    // Optional: prevent overlapping animations
+                    targetSection.style.transition = 'transform 0.2s ease, opacity 0.2s';
+                    targetSection.style.transform = 'scale(0.99)';
+                    setTimeout(() => { if(targetSection) targetSection.style.transform = ''; }, 200);
+                    
+                    // smooth scroll with offset
+                    const offset = 90;
+                    const elementPosition = targetSection.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+                    
+                    // close mobile menu if needed
+                    const navMenu = document.getElementById('navLinks');
+                    const hamburger = document.getElementById('hamburger');
+                    if (navMenu?.classList.contains('open')) {
+                        navMenu.classList.remove('open');
+                        hamburger?.classList.remove('active');
+                    }
+                    
+                    // update active immediately for UI feedback
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // 4) Additional feature: pulse animation on product cards when clicking shop now etc.
+            const shopBtns = document.querySelectorAll('[onclick*="scrollToSection"]');
+            shopBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('onclick').match(/'([^']+)'/)?.[1];
+                    if (targetId) {
+                        const targetEl = document.getElementById(targetId);
+                        if (targetEl) {
+                            targetEl.style.transition = 'all 0.2s';
+                            targetEl.style.boxShadow = '0 0 0 3px rgba(201,169,110,0.4)';
+                            setTimeout(() => { if(targetEl) targetEl.style.boxShadow = ''; }, 600);
+                        }
+                    }
+                });
+            });
+            
+            // 5) Re-run visibility observer after dynamic product rendering (to keep reveal)
+            const originalRenderProducts = window.renderProducts;
+            if (typeof originalRenderProducts === 'function') {
+                window.renderProducts = function(list) {
+                    originalRenderProducts(list);
+                    setTimeout(() => {
+                        document.querySelectorAll('.products-grid .product-card, .featured-grid .product-card').forEach(card => {
+                            card.classList.add('scroll-reveal');
+                            const obs = new IntersectionObserver((entries) => {
+                                entries.forEach(entry => {
+                                    if (entry.isIntersecting) entry.target.classList.add('revealed');
+                                });
+                            }, { threshold: 0.1 });
+                            obs.observe(card);
+                        });
+                    }, 50);
+                };
+            }
+            
+            // 6) Inject extra scroll reveal for dynamic members & awards
+            const originalRenderMembers = window.renderMembers;
+            if (typeof originalRenderMembers === 'function') {
+                window.renderMembers = function(list) {
+                    originalRenderMembers(list);
+                    setTimeout(() => {
+                        document.querySelectorAll('.member-card, .award-card').forEach(card => {
+                            card.classList.add('scroll-reveal');
+                            new IntersectionObserver((entries, obs) => {
+                                entries.forEach(entry => { if(entry.isIntersecting) { entry.target.classList.add('revealed'); obs.unobserve(entry.target); } });
+                            }, { threshold: 0.1 }).observe(card);
+                        });
+                    }, 20);
+                };
+            }
+            
+            // 7) Add transition effect for recognition/podium on scroll
+            const podiumItems = document.querySelectorAll('.podium-item');
+            const podiumObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.2 });
+            podiumItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                podiumObserver.observe(item);
+            });
+            
+            // 8) Define scrollToSection globally if missing
+            window.scrollToSection = function(id) {
+                const el = document.getElementById(id);
+                if (el) {
+                    const offset = 90;
+                    const pos = el.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({ top: pos - offset, behavior: 'smooth' });
+                    // add flash effect
+                    el.style.transition = 'background 0.2s';
+                    el.style.background = 'rgba(201,169,110,0.1)';
+                    setTimeout(() => { if(el) el.style.background = ''; }, 500);
+                }
+            };
+            
+            // 9) baseline extra: back to top button smooth visibility from original script
+            window.initBackToTop?.();
+            
+            // 10) Force re-run of all fade-up after full load to catch remaining
+            window.addEventListener('load', () => {
+                document.querySelectorAll('.fade-up, .fade-in').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 100) el.classList.add('visible');
+                });
+                const allCards = document.querySelectorAll('.product-card, .member-card');
+                allCards.forEach((card,i) => {
+                    card.style.animationDelay = `${i * 0.05}s`;
+                    card.classList.add('card-enter');
+                });
+            });
+        });
+        
+        // helper: attaching necessary fallbacks
+        function toggleMenu() { const el=document.getElementById('navLinks'); const ham=document.getElementById('hamburger'); el?.classList.toggle('open'); ham?.classList.toggle('active'); }
+        window.toggleMenu = toggleMenu;
+        if (document.getElementById('hamburger')) document.getElementById('hamburger').onclick = toggleMenu;
+        
+        // ensure required existing functions (from script.js) exist; we avoid overwriting but just ensure smoothness.
+        // Also need to re-call init for product rendering from original script but ensure our enhancements do not break.
+        setTimeout(() => {
+            if (typeof renderProducts === 'function' && typeof PRODUCTS !== 'undefined') renderProducts(PRODUCTS);
+            if (typeof renderFeaturedProducts === 'function') renderFeaturedProducts();
+            if (typeof renderPodium === 'function') renderPodium();
+            if (typeof renderMembers === 'function' && typeof MEMBERS !== 'undefined') renderMembers(MEMBERS);
+            if (typeof renderAwards === 'function') renderAwards();
+            if (typeof updateCartCount === 'function') updateCartCount();
+            if (typeof updateWishlistCount === 'function') updateWishlistCount();
+        }, 100);
+    </script>
+    <script src="script.js"></script>
+    <script>
+        // double safety to enforce animation after product.js and script.js loaded
+        (function finalEnhance() {
+            const style = document.createElement('style');
+            style.textContent = ` .scroll-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2); } .scroll-reveal.revealed { opacity: 1; transform: translateY(0); } .product-card, .member-card, .award-card { transition: transform 0.3s ease, box-shadow 0.3s, opacity 0.5s; } `;
+            document.head.appendChild(style);
+        })();
+    </script>
+</body>
+</html>

@@ -991,6 +991,8 @@ body {
     font-size: 16px;
     font-weight: 500;
     color: var(--rose-dark);
+    text-align: right;
+    min-width: 100px;
 }
 
 .podium-block {
@@ -2354,6 +2356,68 @@ body {
     transform: translateY(-3px) scale(1.05);
 }
 
+/* ---- FLOATING ACTION BUTTONS ---- */
+.floating-actions {
+    position: fixed;
+    right: 30px;
+    bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 900;
+}
+
+.fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: var(--white);
+    color: var(--text-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.fab:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.fab:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.wishlist-fab:hover {
+    background: #ff6b6b;
+    color: var(--white);
+}
+
+.cart-fab:hover {
+    background: var(--gold);
+    color: var(--white);
+}
+
+.fab-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--rose);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1;
+}
+
 /* ---- ENHANCED MOBILE ---- */
 @media (max-width: 768px) {
     .topbar-promo {
@@ -2401,6 +2465,17 @@ body {
         right: 20px;
         width: 40px;
         height: 40px;
+    }
+
+    .floating-actions {
+        right: 20px;
+        bottom: 80px;
+        gap: 10px;
+    }
+
+    .fab {
+        width: 48px;
+        height: 48px;
     }
 
     .pc-wishlist {

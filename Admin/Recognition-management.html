@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Lumière Admin · Recognition (Members)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">✦</span>
+                <span class="brand-name">Lumière</span>
+                <span class="brand-badge">admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
+                    <span>Overview</span>
+                </a>
+                <a href="Products-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span>Products</span>
+                </a>
+                <a href="Recognition-management.html" class="nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Recognition (Members)</span>
+                </a>
+                <a href="Analytics-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-9-9" stroke-linecap="round"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <div class="admin-avatar">AD</div>
+                    <div class="admin-details">
+                        <span class="admin-name">Lumière Studio</span>
+                        <span class="admin-role">Master Admin</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutAdminBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Exit</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-title">
+                    <h1>Recognition Management</h1>
+                    <p>Manage advocates, top sellers, and rising stars</p>
+                </div>
+                <div class="header-actions">
+                    <div class="date-badge" id="liveDate"></div>
+                </div>
+            </header>
+
+            <div class="tab-content active">
+                <div class="tab-actions">
+                    <button class="btn-primary-sm" id="addMemberBtn">+ Add Advocate</button>
+                    <div class="search-filter">
+                        <input type="text" id="adminMemberSearch" placeholder="Search by name or location..." class="search-input">
+                    </div>
+                </div>
+                <div class="members-admin-grid" id="membersAdminGrid"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: Member Form -->
+    <div class="modal-overlay" id="memberModalForm">
+        <div class="modal-dialog">
+            <div class="modal-header"><h3 id="memberFormTitle">Add Member</h3><button class="modal-close-btn" id="closeMemberModalBtn">✕</button></div>
+            <div class="modal-body">
+                <input type="hidden" id="editMemberId">
+                <div class="form-group"><label>Full Name</label><input type="text" id="memberName" placeholder="Sofia Reyes"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Member Type</label><select id="memberType"><option value="seller">Top Seller</option><option value="recruiter">Top Advocate</option><option value="rising">Rising Star</option></select></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="memberLocation" placeholder="Manila"></div>
+                </div>
+                <div class="form-group"><label>Sales (₱ string)</label><input type="text" id="memberSales" placeholder="₱248,500"></div>
+                <div class="form-group"><label>Badge (e.g. Diamond Lumière)</label><input type="text" id="memberBadge" placeholder="Platinum Lumière"></div>
+                <div class="form-group"><label>Tagline</label><input type="text" id="memberTagline" placeholder="Glow is a lifestyle"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Avatar initials (2 letters)</label><input type="text" id="memberAvatar" placeholder="SR" maxlength="2"></div>
+                    <div class="form-group"><label>Rank (numeric)</label><input type="number" id="memberRank" placeholder="5"></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn-secondary" id="cancelMemberBtn">Cancel</button><button class="btn-primary" id="saveMemberBtn">Save Member</button></div>
+        </div>
+    </div>
+
+    <script>
+        let adminMembers = [];
+
+        function loadMembersData() {
+            const stored = localStorage.getItem('lumiere_admin_members');
+            if (stored && JSON.parse(stored).length > 0) {
+                adminMembers = JSON.parse(stored);
+            } else {
+                seedDemoMembers();
+            }
+            renderMembersGrid();
+        }
+
+        function seedDemoMembers() {
+            adminMembers = [
+                { id: 1, name: "Sofia Reyes", type: "seller", rank: 1, sales: "₱248,500", avatar: "SR", location: "Manila", badge: "Diamond Lumière", tagline: "Sharing glow one serum at a time", color: "#f9e8e0", accentColor: "#d4a574" },
+                { id: 2, name: "Grace Villanueva", type: "recruiter", rank: 2, sales: "₱186,200", avatar: "GV", location: "Cebu", badge: "Platinum Lumière", tagline: "Building community", color: "#fdf3e0", accentColor: "#b5956b" },
+                { id: 3, name: "Ana Lim", type: "seller", rank: 3, sales: "₱162,400", avatar: "AL", location: "Davao", badge: "Platinum Lumière", tagline: "Glow lifestyle", color: "#e8f0e8", accentColor: "#7a9b76" },
+                { id: 4, name: "Bianca Santos", type: "recruiter", rank: 4, sales: "₱134,800", avatar: "BS", location: "Quezon City", badge: "Gold Lumière", tagline: "Pink skies", color: "#f9e0ec", accentColor: "#c4708a" },
+                { id: 5, name: "Jessa Morales", type: "rising", rank: 5, sales: "₱98,600", avatar: "JM", location: "Iloilo", badge: "Silver Lumière", tagline: "Rising star", color: "#e8e8f5", accentColor: "#7a7ab5" }
+            ];
+            saveMembersToLocal();
+        }
+
+        function saveMembersToLocal() {
+            localStorage.setItem('lumiere_admin_members', JSON.stringify(adminMembers));
+        }
+
+        function renderMembersGrid() {
+            const search = document.getElementById('adminMemberSearch')?.value.toLowerCase() || '';
+            let filtered = adminMembers.filter(m => m.name.toLowerCase().includes(search) || m.location.toLowerCase().includes(search));
+            const container = document.getElementById('membersAdminGrid');
+            container.innerHTML = filtered.map(m => `
+                <div class="member-card-admin">
+                    <div style="display:flex; gap:12px; align-items:center">
+                        <div style="width:44px;height:44px;background:${m.color || '#f0e0d0'}; border-radius:50%; display:flex;align-items:center;justify-content:center;font-weight:bold">${m.avatar}</div>
+                        <div><strong>${escapeHtml(m.name)}</strong><br><span style="font-size:12px;color:var(--text-mid)">${m.location} · ${m.type}</span></div>
+                    </div>
+                    <div><span style="background:#f5e6de; padding:4px 12px; border-radius:50px;font-size:12px">${m.sales}</span></div>
+                    <div class="action-btns">
+                        <button class="edit-btn" data-id="${m.id}">✏️</button>
+                        <button class="delete-btn" data-id="${m.id}">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => openEditMember(parseInt(btn.dataset.id)));
+            });
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => deleteMember(parseInt(btn.dataset.id)));
+            });
+        }
+
+        function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
+        function openAddMember() {
+            document.getElementById('editMemberId').value = '';
+            document.getElementById('memberFormTitle').innerText = 'Add Member';
+            document.getElementById('memberName').value = '';
+            document.getElementById('memberType').value = 'seller';
+            document.getElementById('memberLocation').value = '';
+            document.getElementById('memberSales').value = '';
+            document.getElementById('memberBadge').value = '';
+            document.getElementById('memberTagline').value = '';
+            document.getElementById('memberAvatar').value = '';
+            document.getElementById('memberRank').value = '';
+            document.getElementById('memberModalForm').classList.add('open');
+        }
+
+        function openEditMember(id) {
+            const m = adminMembers.find(x => x.id === id);
+            if (m) {
+                document.getElementById('editMemberId').value = id;
+                document.getElementById('memberFormTitle').innerText = 'Edit Member';
+                document.getElementById('memberName').value = m.name;
+                document.getElementById('memberType').value = m.type;
+                document.getElementById('memberLocation').value = m.location;
+                document.getElementById('memberSales').value = m.sales;
+                document.getElementById('memberBadge').value = m.badge;
+                document.getElementById('memberTagline').value = m.tagline;
+                document.getElementById('memberAvatar').value = m.avatar;
+                document.getElementById('memberRank').value = m.rank;
+                document.getElementById('memberModalForm').classList.add('open');
+            }
+        }
+
+        function saveMember() {
+            const id = document.getElementById('editMemberId').value;
+            const name = document.getElementById('memberName').value.trim();
+            if (!name) return alert('Member name required');
+            const newMember = {
+                id: id ? parseInt(id) : Date.now(),
+                name: name,
+                type: document.getElementById('memberType').value,
+                rank: parseInt(document.getElementById('memberRank').value) || 99,
+                sales: document.getElementById('memberSales').value,
+                avatar: document.getElementById('memberAvatar').value.toUpperCase(),
+                location: document.getElementById('memberLocation').value,
+                badge: document.getElementById('memberBadge').value,
+                tagline: document.getElementById('memberTagline').value,
+                color: '#f9e8e0',
+                accentColor: '#c9a96e'
+            };
+            if (id) {
+                const idx = adminMembers.findIndex(m => m.id == id);
+                if (idx !== -1) adminMembers[idx] = newMember;
+            } else {
+                adminMembers.push(newMember);
+            }
+            saveMembersToLocal();
+            renderMembersGrid();
+            closeMemberForm();
+            window.dispatchEvent(new StorageEvent('storage', { key: 'lumiere_admin_members', newValue: JSON.stringify(adminMembers) }));
+        }
+
+        function deleteMember(id) {
+            if (confirm('Remove member?')) {
+                adminMembers = adminMembers.filter(m => m.id !== id);
+                saveMembersToLocal();
+                renderMembersGrid();
+                window.dispatchEvent(new StorageEvent('storage', { key: 'lumiere_admin_members', newValue: JSON.stringify(adminMembers) }));
+            }
+        }
+
+        function closeMemberForm() {
+            document.getElementById('memberModalForm').classList.remove('open');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('liveDate').innerText = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+            loadMembersData();
+
+            document.getElementById('addMemberBtn')?.addEventListener('click', openAddMember);
+            document.getElementById('saveMemberBtn')?.addEventListener('click', saveMember);
+            document.getElementById('closeMemberModalBtn')?.addEventListener('click', closeMemberForm);
+            document.getElementById('cancelMemberBtn')?.addEventListener('click', closeMemberForm);
+            document.getElementById('adminMemberSearch')?.addEventListener('input', () => renderMembersGrid());
+            document.getElementById('logoutAdminBtn')?.addEventListener('click', () => { window.location.href = '../index.html'; });
+
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'lumiere_admin_members' && e.newValue) {
+                    adminMembers = JSON.parse(e.newValue);
+                    renderMembersGrid();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
