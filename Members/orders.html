@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Skin Care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Member Orders Specific Styles */
+        :root {
+            --admin-bg: #f8f5f2;
+            --admin-sidebar: #1e1816;
+            --admin-card: #ffffff;
+            --gold: #c9a96e;
+            --rose-dark: #c49080;
+            --text-dark: #2c2420;
+            --text-mid: #6b5a52;
+            --text-light: #a08c84;
+            --border: #e6ddd6;
+            --shadow-sm: 0 4px 12px rgba(44, 36, 32, 0.06);
+            --shadow-md: 0 8px 24px rgba(44, 36, 32, 0.08);
+            --transition: 0.2s ease;
+        }
+
+        .member-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ---------- MEMBER SIDEBAR ---------- */
+        .member-sidebar {
+            width: 280px;
+            background: var(--admin-sidebar);
+            backdrop-filter: blur(2px);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            transition: all 0.3s;
+            z-index: 100;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar-brand {
+            padding: 32px 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 28px;
+        }
+
+        .brand-icon {
+            font-size: 28px;
+            color: var(--gold);
+        }
+
+        .brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 500;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .brand-badge {
+            background: rgba(201, 169, 110, 0.2);
+            color: var(--gold);
+            font-size: 9px;
+            padding: 2px 8px;
+            border-radius: 40px;
+            margin-left: 6px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.65);
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: left;
+            text-decoration: none;
+        }
+
+        .nav-item svg {
+            flex-shrink: 0;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(201, 169, 110, 0.18);
+            color: var(--gold);
+            border-left: 3px solid var(--gold);
+        }
+
+        .sidebar-footer {
+            padding: 24px 20px 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: auto;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .member-avatar {
+            width: 42px;
+            height: 42px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .member-details {
+            flex: 1;
+        }
+
+        .member-name {
+            display: block;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .member-role {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        /* ---------- MAIN CONTENT ---------- */
+        .member-main {
+            flex: 1;
+            background: var(--admin-bg);
+            overflow-x: hidden;
+        }
+
+        .orders-page {
+            min-height: 100vh;
+            background: var(--admin-bg);
+            padding: 20px 0;
+        }
+
+        .orders-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .orders-header {
+            background: var(--admin-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .welcome-section h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .welcome-section p {
+            color: var(--text-mid);
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--rose-dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .orders-content {
+            background: var(--admin-card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .orders-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-mid);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--rose-dark);
+            color: white;
+            border-color: var(--rose-dark);
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .order-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-shipped {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .order-detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-detail-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .order-detail-value {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .order-items {
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            background: var(--admin-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .order-item-quantity {
+            font-size: 14px;
+            color: var(--text-mid);
+        }
+
+        .order-item-price {
+            font-weight: 600;
+            color: var(--rose-dark);
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border);
+        }
+
+        .order-total-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .order-total-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--rose-dark);
+        }
+
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-mid);
+        }
+
+        .empty-orders-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-orders h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .empty-orders p {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background: var(--rose-dark);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .member-sidebar {
+                position: fixed;
+                left: -280px;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+            }
+
+            .member-sidebar.open {
+                left: 0;
+            }
+
+            .member-main {
+                margin-left: 0;
+            }
+
+            .orders-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+
+            .order-details {
+                grid-template-columns: 1fr;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="member-wrapper">
+        <!-- MEMBER SIDEBAR -->
+        <aside class="member-sidebar" id="memberSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">✦</span>
+                <span class="brand-name">Skin Care</span>
+                <span class="brand-badge">member</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="products.html  " class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span>Shop Products</span>
+                </a>
+                <a href="orders.html" class="nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <span>My Orders</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Profile</span>
+                </a>
+                <a href="recruits.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-4-4H11a4 4 0 00-4 4v2"/>
+                        <circle cx="15" cy="7" r="4"/>
+                    </svg>
+                    <span>My Recruits</span>
+                </a>
+                <a href="rewards.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    <span>Rewards</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="member-info">
+                    <div class="member-avatar" id="sidebarAvatar">JD</div>
+                    <div class="member-details">
+                        <span class="member-name" id="sidebarName">John Doe</span>
+                        <span class="member-role">Premium Member</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutMemberBtn" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="member-main">
+            <!-- Orders Page -->
+            <section class="orders-page">
+                <div class="orders-container">
+                    <!-- Orders Header -->
+                    <div class="orders-header">
+                        <div class="welcome-section">
+                            <h1>My Orders</h1>
+                            <p>Track and manage your skincare orders</p>
+                        </div>
+                        <div class="header-actions">
+                            <div class="user-info">
+                                <div class="user-avatar">👤</div>
+                                <div>
+                                    <div id="userName">Loading...</div>
+                                    <div style="font-size: 0.85rem; opacity: 0.9;">Member</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orders Content -->
+                    <div class="orders-content">
+                        <!-- Order Filters -->
+                        <div class="orders-filters">
+                            <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
+                            <button class="filter-btn" onclick="filterOrders('processing')">Processing</button>
+                            <button class="filter-btn" onclick="filterOrders('shipped')">Shipped</button>
+                            <button class="filter-btn" onclick="filterOrders('delivered')">Delivered</button>
+                        </div>
+
+                        <!-- Orders List -->
+                        <div class="orders-list" id="ordersList">
+                            <!-- Orders will be populated from external data -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Load user data
+        function loadUserData() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const userName = document.getElementById('userName');
+            const sidebarName = document.getElementById('sidebarName');
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            
+            if (currentUser.name) {
+                userName.textContent = currentUser.name;
+                sidebarName.textContent = currentUser.name;
+                
+                // Create initials for avatar
+                const names = currentUser.name.split(' ');
+                const initials = names.map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                sidebarAvatar.textContent = initials;
+            } else {
+                userName.textContent = 'Guest Member';
+                sidebarName.textContent = 'Guest Member';
+                sidebarAvatar.textContent = 'GM';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            showToast('Logged out successfully. Redirecting to login...', 'success');
+            setTimeout(() => {
+                window.location.href = '../Login/login.html';
+            }, 2000);
+        }
+
+        function filterOrders(status) {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const orderCards = document.querySelectorAll('.order-card');
+            
+            // Update active filter button
+            filterBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(status) || 
+                    (status === 'all' && btn.textContent === 'All Orders')) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Show/hide orders based on status
+            orderCards.forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 10px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                toast.style.background = '#28a745';
+            } else if (type === 'error') {
+                toast.style.background = '#dc3545';
+            } else {
+                toast.style.background = '#17a2b8';
+            }
+            
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
+            loadOrdersData();
+        });
+
+        // Function to load orders data from external source
+        function loadOrdersData() {
+            // This function will be called to populate orders data
+            // You can connect this to an API, database, or external file
+            console.log('Orders data loading - connect to external data source');
+            
+            // Example structure for loading orders:
+            // loadOrders();
+        }
+
+        // Function to populate orders list
+        function populateOrders(orders) {
+            const ordersList = document.getElementById('ordersList');
+            ordersList.innerHTML = '';
+            
+            orders.forEach(order => {
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+                orderCard.setAttribute('data-status', order.status);
+                
+                // Generate order items HTML
+                const orderItemsHTML = order.items.map(item => `
+                    <div class="order-item">
+                        <div class="order-item-image">${item.emoji || '🧴'}</div>
+                        <div class="order-item-details">
+                            <div class="order-item-name">${item.name}</div>
+                            <div class="order-item-quantity">Quantity: ${item.quantity}</div>
+                        </div>
+                        <div class="order-item-price">$${item.price}</div>
+                    </div>
+                `).join('');
+                
+                orderCard.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-number">#${order.orderNumber}</div>
+                        <div class="order-status status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</div>
+                    </div>
+                    <div class="order-details">
+                        <div class="order-detail-item">
+                            <span class="order-detail-label">Order Date</span>
+                            <span class="order-detail-value">${order.orderDate}</span>
+                        </div>
+                        ${order.deliveryDate ? `
+                        <div class="order-detail-item">
+                            <span class="order-detail-label">${order.status === 'delivered' ? 'Delivery Date' : 'Expected Delivery'}</span>
+                            <span class="order-detail-value">${order.deliveryDate}</span>
+                        </div>
+                        ` : ''}
+                        <div class="order-detail-item">
+                            <span class="order-detail-label">Payment Method</span>
+                            <span class="order-detail-value">${order.paymentMethod}</span>
+                        </div>
+                        <div class="order-detail-item">
+                            <span class="order-detail-label">Tracking Number</span>
+                            <span class="order-detail-value">${order.trackingNumber || 'Pending'}</span>
+                        </div>
+                    </div>
+                    <div class="order-items">
+                        ${orderItemsHTML}
+                    </div>
+                    <div class="order-total">
+                        <div class="order-total-label">Total Amount</div>
+                        <div class="order-total-value">$${order.total}</div>
+                    </div>
+                `;
+                ordersList.appendChild(orderCard);
+            });
+        }
+
+        // Example data structure for external connection:
+        /*
+        const ordersData = [
+            {
+                orderNumber: 'ORD-2024-001',
+                status: 'delivered',
+                orderDate: 'March 15, 2024',
+                deliveryDate: 'March 18, 2024',
+                paymentMethod: 'Credit Card',
+                trackingNumber: 'TRK123456789',
+                items: [
+                    { emoji: '🧴', name: 'Vitamin C Serum', quantity: 1, price: 45 },
+                    { emoji: '🌿', name: 'Aloe Vera Moisturizer', quantity: 1, price: 32 }
+                ],
+                total: 77
+            },
+            {
+                orderNumber: 'ORD-2024-002',
+                status: 'shipped',
+                orderDate: 'March 20, 2024',
+                deliveryDate: 'March 23, 2024',
+                paymentMethod: 'PayPal',
+                trackingNumber: 'TRK987654321',
+                items: [
+                    { emoji: '🌸', name: 'Rosehip Face Oil', quantity: 2, price: 58 }
+                ],
+                total: 116
+            },
+            // ... more orders
+        ];
+        */
+    </script>
+</body>
+</html>

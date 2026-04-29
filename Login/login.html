@@ -166,6 +166,36 @@
 
                             <div class="auth-field">
 
+                                <label>Account Type</label>
+
+                                <div class="account-type-selector">
+
+                                    <label class="radio-option">
+
+                                        <input type="radio" name="accountType" value="member" checked>
+
+                                        <span class="radio-custom"></span>
+
+                                        <span class="radio-label">Member</span>
+
+                                    </label>
+
+                                    <label class="radio-option">
+
+                                        <input type="radio" name="accountType" value="admin">
+
+                                        <span class="radio-custom"></span>
+
+                                        <span class="radio-label">Admin</span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                            <div class="auth-field">
+
                                 <label>Password</label>
 
                                 <div class="pw-wrap">
@@ -714,6 +744,96 @@
 
         }
 
+        .account-type-selector {
+
+            display: flex;
+
+            gap: 20px;
+
+            margin-top: 8px;
+
+        }
+
+        .radio-option {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            color: var(--text-secondary);
+
+            transition: color 0.3s ease;
+
+        }
+
+        .radio-option:hover {
+
+            color: var(--text-primary);
+
+        }
+
+        .radio-option input[type="radio"] {
+
+            display: none;
+
+        }
+
+        .radio-custom {
+
+            width: 18px;
+
+            height: 18px;
+
+            border: 2px solid var(--border-color);
+
+            border-radius: 50%;
+
+            position: relative;
+
+            transition: all 0.3s ease;
+
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom {
+
+            border-color: var(--primary-color);
+
+        }
+
+        .radio-option input[type="radio"]:checked + .radio-custom::after {
+
+            content: '';
+
+            width: 8px;
+
+            height: 8px;
+
+            background: var(--primary-color);
+
+            border-radius: 50%;
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+        }
+
+        .radio-label {
+
+            font-weight: 400;
+
+        }
+
     </style>
 
     <script>
@@ -754,70 +874,152 @@
 
         }
 
-
-
         function handleLogin(event) {
 
             event.preventDefault();
 
-            // Show success message
+            const email = document.getElementById('loginEmail').value;
 
-            showToast('Welcome back! Redirecting to dashboard...', 'success');
+            const password = document.getElementById('loginPass').value;
 
-            // Redirect to home after 2 seconds
+            const accountType = document.querySelector('input[name="accountType"]:checked').value;
 
-            setTimeout(() => {
+            console.log('Login attempt:', { email, accountType });
 
-                window.location.href = '../index.html';
+            const credentials = validateCredentials(email, password, accountType);
 
-            }, 2000);
+            console.log('Credentials validation result:', credentials);
+
+            if (credentials.success) {
+
+                const userData = {
+
+                    email: email,
+
+                    type: accountType,
+
+                    name: credentials.name
+
+                };
+
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+
+                console.log('User data stored in localStorage:', userData);
+
+                showToast(`Welcome back, ${credentials.name}! Redirecting to ${accountType} dashboard...`, 'success');
+
+                setTimeout(() => {
+
+                    console.log('Redirecting to:', accountType === 'admin' ? '../Admin/dashboard.html' : '../Members/dashboard.html');
+
+                    if (accountType === 'admin') {
+
+                        window.location.href = '../Admin/dashboard.html';
+
+                    } else {
+
+                        window.location.href = '../Members/dashboard.html';
+
+                    }
+
+                }, 2000);
+
+            } else {
+
+                console.log('Login failed:', credentials.message);
+
+                showToast(credentials.message, 'error');
+
+            }
 
         }
 
+        function validateCredentials(email, password, accountType) {
 
+            console.log('Validating credentials:', { email, password, accountType });
 
-        function handleRegister(event) {
+            const adminCredentials = {
 
-            event.preventDefault();
+                email: 'admin@skincare.com',
 
-            // Show success message
+                password: 'admin123',
 
-            showToast('Account created successfully! Redirecting to home...', 'success');
+                name: 'Administrator'
 
-            // Redirect to home after 2 seconds
+            };
 
-            setTimeout(() => {
+            const memberCredentials = {
 
-                window.location.href = '../index.html';
+                email: 'member@skincare.com',
 
-            }, 2000);
+                password: 'member123',
+
+                name: 'John Member'
+
+            };
+
+            if (accountType === 'admin') {
+
+                console.log('Checking admin credentials...');
+
+                console.log('Expected:', adminCredentials);
+
+                console.log('Email match:', email === adminCredentials.email);
+
+                console.log('Password match:', password === adminCredentials.password);
+
+                if (email === adminCredentials.email && password === adminCredentials.password) {
+
+                    return { success: true, name: adminCredentials.name };
+
+                } else {
+
+                    return { success: false, message: 'Invalid admin credentials. Use admin@skincare.com / admin123' };
+
+                }
+
+            } else {
+
+                console.log('Checking member credentials...');
+
+                console.log('Expected:', memberCredentials);
+
+                console.log('Email match:', email === memberCredentials.email);
+
+                console.log('Password match:', password === memberCredentials.password);
+
+                if (email === memberCredentials.email && password === memberCredentials.password) {
+
+                    return { success: true, name: memberCredentials.name };
+
+                } else {
+
+                    return { success: false, message: 'Invalid member credentials. Use member@skincare.com / member123' };
+
+                }
+
+            }
 
         }
 
 
 
         function showToast(message, type = 'info') {
-
             const toast = document.getElementById('toast');
-
             toast.textContent = message;
-
             toast.className = 'toast show';
-
+            
             if (type === 'success') {
-
                 toast.style.background = 'var(--primary-color)';
-
                 toast.style.color = 'white';
-
+            } else if (type === 'error') {
+                toast.style.background = '#e74c3c';
+                toast.style.color = 'white';
             }
-
+            
             setTimeout(() => {
-
                 toast.classList.remove('show');
-
             }, 3000);
-
         }
 
     </script>

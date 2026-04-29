@@ -1,0 +1,43 @@
+===========================================
+ SKIN CARE E-COMMERCE - ACCOUNT CREDENTIALS
+===========================================
+
+ADMIN ACCOUNT
+==============
+Email: admin@skincare.com
+Password: admin123
+Name: Administrator
+Access Level: Full Admin Access
+Dashboard: ../Admin/dashboard.html
+
+MEMBER ACCOUNT
+===============
+Email: member@skincare.com
+Password: member123
+Name: John Member
+Access Level: Member Access
+Dashboard: ../Members/dashboard.html
+
+===========================================
+LOGIN INSTRUCTIONS
+===========================================
+
+1. Navigate to: Login/login.html
+2. Select account type (Admin or Member)
+3. Enter corresponding email and password
+4. Click "Sign In"
+
+===========================================
+SYSTEM FEATURES
+===========================================
+
+- Admin: Full product management, analytics, user management
+- Member: Dashboard, orders, profile, rewards, recruits
+- Automatic redirect to appropriate dashboard
+- Session storage for user data
+- Responsive design for all devices
+
+===========================================
+Created: April 29, 2026
+System: Skin Care E-Commerce Platform
+===========================================

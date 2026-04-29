@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards - Skin Care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Member Rewards Specific Styles */
+        :root {
+            --admin-bg: #f8f5f2;
+            --admin-sidebar: #1e1816;
+            --admin-card: #ffffff;
+            --gold: #c9a96e;
+            --rose-dark: #c49080;
+            --text-dark: #2c2420;
+            --text-mid: #6b5a52;
+            --text-light: #a08c84;
+            --border: #e6ddd6;
+            --shadow-sm: 0 4px 12px rgba(44, 36, 32, 0.06);
+            --shadow-md: 0 8px 24px rgba(44, 36, 32, 0.08);
+            --transition: 0.2s ease;
+        }
+
+        .member-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ---------- MEMBER SIDEBAR ---------- */
+        .member-sidebar {
+            width: 280px;
+            background: var(--admin-sidebar);
+            backdrop-filter: blur(2px);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            transition: all 0.3s;
+            z-index: 100;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar-brand {
+            padding: 32px 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 28px;
+        }
+
+        .brand-icon {
+            font-size: 28px;
+            color: var(--gold);
+        }
+
+        .brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 500;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .brand-badge {
+            background: rgba(201, 169, 110, 0.2);
+            color: var(--gold);
+            font-size: 9px;
+            padding: 2px 8px;
+            border-radius: 40px;
+            margin-left: 6px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.65);
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: left;
+            text-decoration: none;
+        }
+
+        .nav-item svg {
+            flex-shrink: 0;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(201, 169, 110, 0.18);
+            color: var(--gold);
+            border-left: 3px solid var(--gold);
+        }
+
+        .sidebar-footer {
+            padding: 24px 20px 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: auto;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .member-avatar {
+            width: 42px;
+            height: 42px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .member-details {
+            flex: 1;
+        }
+
+        .member-name {
+            display: block;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .member-role {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        /* ---------- MAIN CONTENT ---------- */
+        .member-main {
+            flex: 1;
+            background: var(--admin-bg);
+            overflow-x: hidden;
+        }
+
+        .rewards-page {
+            min-height: 100vh;
+            background: var(--admin-bg);
+            padding: 20px 0;
+        }
+
+        .rewards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .rewards-header {
+            background: var(--admin-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .welcome-section h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .welcome-section p {
+            color: var(--text-mid);
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--rose-dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .rewards-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .points-card {
+            background: var(--admin-card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+        }
+
+        .points-card h2 {
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .points-display {
+            text-align: center;
+            padding: 30px 0;
+            border: 3px solid var(--gold);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.05) 0%, rgba(201, 169, 110, 0.1) 100%);
+        }
+
+        .points-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .points-label {
+            color: var(--text-mid);
+            font-size: 1.1rem;
+        }
+
+        .points-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-mid);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .rewards-card {
+            background: var(--admin-card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .rewards-card h2 {
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .rewards-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            color: var(--text-mid);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-dark);
+        }
+
+        .tab-btn.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .reward-item {
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .reward-item:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-2px);
+        }
+
+        .reward-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--admin-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .reward-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .reward-description {
+            color: var(--text-mid);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .reward-points {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .points-cost {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+
+        .redeem-btn {
+            background: var(--rose-dark);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .redeem-btn:hover {
+            background: var(--gold);
+            transform: translateY(-1px);
+        }
+
+        .redeem-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .history-info {
+            flex: 1;
+        }
+
+        .history-title {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .history-date {
+            font-size: 12px;
+            color: var(--text-mid);
+        }
+
+        .history-points {
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .empty-rewards {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-mid);
+        }
+
+        .empty-rewards-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-rewards h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .empty-rewards p {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .member-sidebar {
+                position: fixed;
+                left: -280px;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
+            }
+
+            .member-sidebar.open {
+                left: 0;
+            }
+
+            .member-main {
+                margin-left: 0;
+            }
+
+            .rewards-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+
+            .rewards-content {
+                grid-template-columns: 1fr;
+            }
+
+            .rewards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rewards-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="member-wrapper">
+        <!-- MEMBER SIDEBAR -->
+        <aside class="member-sidebar" id="memberSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">✦</span>
+                <span class="brand-name">Skin Care</span>
+                <span class="brand-badge">member</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="products.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span>Shop Products</span>
+                </a>
+                <a href="orders.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <span>My Orders</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Profile</span>
+                </a>
+                <a href="recruits.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 00-4-4H11a4 4 0 00-4 4v2"/>
+                        <circle cx="15" cy="7" r="4"/>
+                    </svg>
+                    <span>My Recruits</span>
+                </a>
+                <a href="rewards.html" class="nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    <span>Rewards</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="member-info">
+                    <div class="member-avatar" id="sidebarAvatar">JD</div>
+                    <div class="member-details">
+                        <span class="member-name" id="sidebarName">John Doe</span>
+                        <span class="member-role">Premium Member</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutMemberBtn" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="member-main">
+            <!-- Rewards Page -->
+            <section class="rewards-page">
+                <div class="rewards-container">
+                    <!-- Rewards Header -->
+                    <div class="rewards-header">
+                        <div class="welcome-section">
+                            <h1>My Rewards</h1>
+                            <p>Earn and redeem points for exclusive benefits</p>
+                        </div>
+                        <div class="header-actions">
+                            <div class="user-info">
+                                <div class="user-avatar">👤</div>
+                                <div>
+                                    <div id="userName">Loading...</div>
+                                    <div style="font-size: 0.85rem; opacity: 0.9;">Member</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rewards Content -->
+                    <div class="rewards-content">
+                        <!-- Points Summary -->
+                        <div class="points-card">
+                            <h2>Points Summary</h2>
+                            <div class="points-display">
+                                <div class="points-value">2,450</div>
+                                <div class="points-label">Available Points</div>
+                            </div>
+                            <div class="points-info">
+                                <div class="info-item">
+                                    <span class="info-label">Lifetime Points</span>
+                                    <span class="info-value">8,750</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Points This Month</span>
+                                    <span class="info-value">320</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Member Level</span>
+                                    <span class="info-value">Gold</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Next Level</span>
+                                    <span class="info-value">550 pts</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rewards Catalog -->
+                        <div class="rewards-card">
+                            <h2>Rewards Catalog</h2>
+                            <div class="rewards-tabs">
+                                <button class="tab-btn active" onclick="switchTab('available')">Available</button>
+                                <button class="tab-btn" onclick="switchTab('redeemed')">Redeemed</button>
+                                <button class="tab-btn" onclick="switchTab('history')">History</button>
+                            </div>
+
+                            <!-- Available Rewards Tab -->
+                            <div class="tab-content active" id="available-tab">
+                                <div class="rewards-grid" id="availableRewards">
+                                    <!-- Available rewards will be populated from external data -->
+                                </div>
+                            </div>
+
+                            <!-- Redeemed Rewards Tab -->
+                            <div class="tab-content" id="redeemed-tab">
+                                <div class="rewards-grid" id="redeemedRewards">
+                                    <!-- Redeemed rewards will be populated from external data -->
+                                </div>
+                            </div>
+
+                            <!-- History Tab -->
+                            <div class="tab-content" id="history-tab">
+                                <div class="history-list" id="historyList">
+                                    <!-- History items will be populated from external data -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Load user data
+        function loadUserData() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            const userName = document.getElementById('userName');
+            const sidebarName = document.getElementById('sidebarName');
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            
+            if (currentUser.name) {
+                userName.textContent = currentUser.name;
+                sidebarName.textContent = currentUser.name;
+                
+                // Create initials for avatar
+                const names = currentUser.name.split(' ');
+                const initials = names.map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                sidebarAvatar.textContent = initials;
+            } else {
+                userName.textContent = 'Guest Member';
+                sidebarName.textContent = 'Guest Member';
+                sidebarAvatar.textContent = 'GM';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            showToast('Logged out successfully. Redirecting to login...', 'success');
+            setTimeout(() => {
+                window.location.href = '../Login/login.html';
+            }, 2000);
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        function redeemReward(rewardName, pointsCost) {
+            const currentPoints = 2450; // This would come from user data
+            if (currentPoints >= pointsCost) {
+                showToast(`Successfully redeemed ${rewardName}!`, 'success');
+                // In a real app, this would update the user's points
+            } else {
+                showToast('Insufficient points for this reward', 'error');
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 10px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                toast.style.background = '#28a745';
+            } else if (type === 'error') {
+                toast.style.background = '#dc3545';
+            } else {
+                toast.style.background = '#17a2b8';
+            }
+            
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
+            loadRewardsData();
+        });
+
+        // Function to load rewards data from external source
+        function loadRewardsData() {
+            // This function will be called to populate rewards data
+            // You can connect this to an API, database, or external file
+            console.log('Rewards data loading - connect to external data source');
+            
+            // Example structure for loading rewards:
+            // loadAvailableRewards();
+            // loadRedeemedRewards();
+            // loadRewardsHistory();
+        }
+
+        // Function to populate available rewards
+        function populateAvailableRewards(rewards) {
+            const availableRewards = document.getElementById('availableRewards');
+            availableRewards.innerHTML = '';
+            
+            rewards.forEach(reward => {
+                const rewardItem = document.createElement('div');
+                rewardItem.className = 'reward-item';
+                rewardItem.innerHTML = `
+                    <div class="reward-icon">${reward.icon}</div>
+                    <div class="reward-name">${reward.name}</div>
+                    <div class="reward-description">${reward.description}</div>
+                    <div class="reward-points">
+                        <span class="points-cost">${reward.points} pts</span>
+                        <button class="redeem-btn" onclick="redeemReward('${reward.name}', ${reward.points})">Redeem</button>
+                    </div>
+                `;
+                availableRewards.appendChild(rewardItem);
+            });
+        }
+
+        // Function to populate redeemed rewards
+        function populateRedeemedRewards(rewards) {
+            const redeemedRewards = document.getElementById('redeemedRewards');
+            redeemedRewards.innerHTML = '';
+            
+            rewards.forEach(reward => {
+                const rewardItem = document.createElement('div');
+                rewardItem.className = 'reward-item';
+                rewardItem.innerHTML = `
+                    <div class="reward-icon">${reward.icon}</div>
+                    <div class="reward-name">${reward.name}</div>
+                    <div class="reward-description">${reward.description}</div>
+                    <div class="reward-points">
+                        <span class="points-cost" style="color: var(--text-mid);">Redeemed</span>
+                        <button class="redeem-btn" ${reward.used ? 'disabled' : ''}>${reward.used ? 'Used' : 'Available'}</button>
+                    </div>
+                `;
+                redeemedRewards.appendChild(rewardItem);
+            });
+        }
+
+        // Function to populate rewards history
+        function populateRewardsHistory(history) {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            
+            history.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-info">
+                        <div class="history-title">${item.title}</div>
+                        <div class="history-date">${item.date}</div>
+                    </div>
+                    <div class="history-points">${item.points > 0 ? '+' : ''}${item.points}</div>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // Example data structure for external connection:
+        /*
+        const rewardsData = {
+            available: [
+                {
+                    icon: '🎁',
+                    name: 'Free Shipping',
+                    description: 'Get free shipping on your next order',
+                    points: 500
+                },
+                {
+                    icon: '💄',
+                    name: 'Lip Balm Set',
+                    description: 'Set of 3 organic lip balms',
+                    points: 800
+                },
+                // ... more rewards
+            ],
+            redeemed: [
+                {
+                    icon: '🎁',
+                    name: 'Free Shipping',
+                    description: 'Valid until April 30, 2024',
+                    used: true
+                },
+                // ... more redeemed rewards
+            ],
+            history: [
+                {
+                    title: 'Earned points from purchase',
+                    date: 'March 22, 2024',
+                    points: 120
+                },
+                {
+                    title: 'Redeemed Free Shipping',
+                    date: 'March 20, 2024',
+                    points: -500
+                },
+                // ... more history items
+            ]
+        };
+        */
+    </script>
+</body>
+</html>
