@@ -1,0 +1,30 @@
+pulling 
+
+git checkout main
+git pull origin main
+
+Creating Branch
+
+git checkout -b "Example name pero walang quote"
+
+Saving (gawin mo pre kunyari landing page edit mo lagay mo lagay mo landing page something)
+
+git add . 
+git commit -m "Login"
+
+git add .
+git commit -m "Dashboard"
+
+Pushing 
+
+git push -u origin "name branch na ginawa mo"
+
+Merge (kapag want mo na pagsamahin yung branch na ginawa mo into main then if tapos kana magedit)
+
+git checkout main 
+git merge "branch name na ginawa mo pero wala paring quote"
+
+PUSH
+
+git push origin main
+
