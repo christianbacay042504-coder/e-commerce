@@ -608,12 +608,14 @@
         .modal {
             background: white;
             border-radius: 32px;
-            max-width: 500px;
-            width: 90%;
+            max-width: 540px;
+            width: 92%;
             padding: 28px;
             transform: scale(0.95);
             transition: 0.2s;
             box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            max-height: 88vh;
+            overflow-y: auto;
         }
         .modal-overlay.active .modal {
             transform: scale(1);
@@ -704,89 +706,180 @@
             cursor: pointer;
         }
 
-        /* Team Hierarchy Card Styles for Modal */
+        /* ===== TEAM HIERARCHY PYRAMID (MODAL) ===== */
         .modal-pyramid-section {
-            background: #f9f6f3;
-            padding: 16px;
+            background: linear-gradient(135deg, #fdf9f5, #f5ede6);
+            padding: 20px 16px 24px;
             border-radius: 20px;
             margin-top: 16px;
+            border: 1px solid rgba(201,169,110,0.2);
         }
         .team-hierarchy-title {
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             color: var(--text-dark);
             font-size: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .hierarchy-icon {
-            font-size: 1.1rem;
-        }
-        .team-hierarchy-cards {
+        .hierarchy-icon { font-size: 1.1rem; }
+
+        /* Pyramid wrapper inside modal */
+        .modal-pyramid-wrap {
             display: flex;
-            gap: 16px;
-            justify-content: flex-start;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            width: 100%;
         }
-        .team-hierarchy-card {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(44, 36, 32, 0.08);
-            border: 1px solid var(--border);
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            cursor: pointer;
-            min-width: 120px;
-            max-width: 140px;
+
+        /* Each level row */
+        .modal-pyr-level {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            width: 100%;
+            position: relative;
+            padding-top: 36px;
+        }
+
+        /* Vertical stem from previous level down to horizontal branch */
+        .modal-pyr-level::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 36px;
+            background: linear-gradient(180deg, var(--gold), var(--rose-dark));
+            border-radius: 2px;
+        }
+
+        /* Horizontal branch bar (only when >1 member in this level) */
+        .modal-pyr-level.multi-node::after {
+            content: '';
+            position: absolute;
+            top: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 400px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--rose-dark) 50%, var(--gold) 80%, transparent);
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        /* Individual card wrapper — adds the drop line */
+        .modal-pyr-card-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
             flex: 0 0 auto;
         }
-        .team-hierarchy-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(44, 36, 32, 0.12);
+
+        /* Drop line from horizontal bar to each card */
+        .modal-pyr-level.multi-node .modal-pyr-card-wrap::before {
+            content: '';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 16px;
+            background: linear-gradient(180deg, var(--rose-dark), var(--gold));
+            border-radius: 2px;
+            z-index: 2;
+        }
+
+        /* Single-node level: no branch, just the stem connects directly */
+        .modal-pyr-level.single-node .modal-pyr-card-wrap::before {
+            display: none;
+        }
+
+        /* The card itself */
+        .modal-pyr-card {
+            background: white;
+            border-radius: 18px;
+            padding: 14px 12px 12px;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(44,36,32,0.1);
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+            cursor: pointer;
+            width: 108px;
+            position: relative;
+            overflow: visible;
+        }
+
+        /* Level accent stripe */
+        .modal-pyr-card.lv-1 { border-top: 4px solid var(--gold); }
+        .modal-pyr-card.lv-2 { border-top: 4px solid var(--rose-dark); }
+        .modal-pyr-card.lv-3 { border-top: 4px solid var(--text-mid); }
+
+        .modal-pyr-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(44,36,32,0.14);
             border-color: var(--gold);
         }
-        .team-hierarchy-avatar {
-            width: 60px;
-            height: 60px;
+
+        /* Level pill */
+        .modal-pyr-lvbadge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            padding: 3px 10px;
+            border-radius: 40px;
+            color: white;
+            white-space: nowrap;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+            z-index: 5;
+        }
+        .modal-pyr-card.lv-1 .modal-pyr-lvbadge { background: linear-gradient(135deg, var(--gold), #bd8a5a); }
+        .modal-pyr-card.lv-2 .modal-pyr-lvbadge { background: linear-gradient(135deg, var(--rose-dark), #b57867); }
+        .modal-pyr-card.lv-3 .modal-pyr-lvbadge { background: linear-gradient(135deg, var(--text-mid), #8e6f62); }
+
+        .modal-pyr-avatar {
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 0 auto 12px;
+            margin: 4px auto 10px;
             border: 2px solid var(--gold);
-            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            display: block;
+            transition: transform 0.2s;
         }
-        .team-hierarchy-card:hover .team-hierarchy-avatar {
-            transform: scale(1.05);
-            box-shadow: 0 0 12px rgba(201, 169, 110, 0.3);
-        }
-        .team-hierarchy-name {
-            font-size: 0.85rem;
-            font-weight: 600;
+        .modal-pyr-card.lv-2 .modal-pyr-avatar { border-color: var(--rose-dark); }
+        .modal-pyr-card.lv-3 .modal-pyr-avatar { border-color: var(--text-mid); }
+        .modal-pyr-card:hover .modal-pyr-avatar { transform: scale(1.07); }
+
+        .modal-pyr-name {
+            font-size: 0.75rem;
+            font-weight: 700;
             color: var(--text-dark);
-            margin-bottom: 8px;
+            margin-bottom: 7px;
             line-height: 1.2;
         }
-        .team-hierarchy-status {
-            font-size: 0.75rem;
-            padding: 4px 12px;
+        .modal-pyr-status {
+            font-size: 0.68rem;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.2px;
             display: inline-block;
         }
-        .team-hierarchy-status.status-active {
-            background-color: #e6f4ea;
-            color: #2e7d32;
-        }
-        .team-hierarchy-status.status-pending {
-            background-color: #fff2db;
-            color: #b45f1b;
-        }
-        .team-hierarchy-status.status-inactive {
-            background-color: #ffebee;
-            color: #c62828;
-        }
+        .modal-pyr-status.status-active  { background: #e6f4ea; color: #2e6b3e; }
+        .modal-pyr-status.status-pending  { background: #fff2db; color: #b45f1b; }
+        .modal-pyr-status.status-inactive { background: #ffebee; color: #c62828; }
+
         .no-recruits-message {
             text-align: center;
             color: var(--text-mid);
@@ -877,7 +970,54 @@
         function loadUserData(){const u=JSON.parse(localStorage.getItem('currentUser')||'{}');const nameSpan=document.getElementById('userName'),sideName=document.getElementById('sidebarName'),avatar=document.getElementById('sidebarAvatar');if(u.name){nameSpan.textContent=u.name;sideName.textContent=u.name;let initials=u.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();avatar.textContent=initials;}else{nameSpan.textContent='Guest Member';sideName.textContent='Guest Member';avatar.textContent='GM';}}
         function logout(){localStorage.removeItem('currentUser');showToast('Logged out successfully. Redirecting...','success');setTimeout(()=>{window.location.href='../Login/login.html';},1500);}
         function showRecruitForm(){showToast('Recruitment form coming soon!','info');}
-        function openModal(d){const m=document.getElementById('memberModal');document.getElementById('modalProfileImage').src=d.image;document.getElementById('modalName').innerText=d.name;const statusSpan=document.getElementById('modalStatus');statusSpan.innerText=d.status;statusSpan.className=`modal-status status-${d.status.toLowerCase()}`;document.getElementById('modalJoinDate').innerText=d.joinDate;document.getElementById('modalEmail').innerText=d.email;document.getElementById('modalPhone').innerText=d.phone;document.getElementById('modalLevel').innerText=d.level;document.getElementById('modalOrders').innerText=d.orders;document.getElementById('modalSales').innerText=d.sales;document.getElementById('modalRecruits').innerText=d.recruits;const pyramidSection=document.getElementById('modalPyramidSection');const pyramidContainer=document.getElementById('modalPyramidContainer');if(d.teamHierarchy&&d.teamHierarchy.length>0){pyramidSection.style.display='block';pyramidContainer.innerHTML='<h4 class="modal-section-title team-hierarchy-title"><span class="hierarchy-icon">📊</span> Team Hierarchy</h4><div class="team-hierarchy-cards"></div>';const teamHierarchyCards=pyramidContainer.querySelector('.team-hierarchy-cards');d.teamHierarchy.forEach(level=>{level.members.forEach(member=>{const memberCard=document.createElement('div');memberCard.className='team-hierarchy-card';memberCard.innerHTML=`<img src="${member.image}" alt="${member.name}" class="team-hierarchy-avatar"><div class="team-hierarchy-name">${member.name}</div><div class="team-hierarchy-status status-${member.status.toLowerCase()}">${member.status}</div>`;teamHierarchyCards.appendChild(memberCard);});});}else{pyramidSection.style.display='none';}m.classList.add('active');document.body.style.overflow='hidden';}
+        function openModal(d){
+            const m=document.getElementById('memberModal');
+            document.getElementById('modalProfileImage').src=d.image;
+            document.getElementById('modalName').innerText=d.name;
+            const statusSpan=document.getElementById('modalStatus');
+            statusSpan.innerText=d.status;
+            statusSpan.className=`modal-status status-${d.status.toLowerCase()}`;
+            document.getElementById('modalJoinDate').innerText=d.joinDate;
+            document.getElementById('modalEmail').innerText=d.email;
+            document.getElementById('modalPhone').innerText=d.phone;
+            document.getElementById('modalLevel').innerText=d.level;
+            document.getElementById('modalOrders').innerText=d.orders;
+            document.getElementById('modalSales').innerText=d.sales;
+            document.getElementById('modalRecruits').innerText=d.recruits;
+            const pyramidSection=document.getElementById('modalPyramidSection');
+            const pyramidContainer=document.getElementById('modalPyramidContainer');
+            if(d.teamHierarchy&&d.teamHierarchy.length>0){
+                pyramidSection.style.display='block';
+                // level class names map
+                const lvClass=['lv-1','lv-2','lv-3'];
+                const lvLabel=['LEVEL 1','LEVEL 2','LEVEL 3'];
+                let html='<h4 class="team-hierarchy-title"><span class="hierarchy-icon">🏆</span> Team Hierarchy</h4>';
+                html+='<div class="modal-pyramid-wrap">';
+                d.teamHierarchy.forEach((lvData,idx)=>{
+                    const lv=lvClass[idx]||'lv-3';
+                    const label=lvLabel[idx]||`LEVEL ${idx+1}`;
+                    const multi=lvData.members.length>1?'multi-node':'single-node';
+                    html+=`<div class="modal-pyr-level ${multi}">`;
+                    lvData.members.forEach(member=>{
+                        html+=`<div class="modal-pyr-card-wrap">
+                            <div class="modal-pyr-card ${lv}">
+                                <span class="modal-pyr-lvbadge">${label}</span>
+                                <img src="${member.image}" alt="${member.name}" class="modal-pyr-avatar">
+                                <div class="modal-pyr-name">${member.name}</div>
+                                <span class="modal-pyr-status status-${member.status.toLowerCase()}">${member.status}</span>
+                            </div>
+                        </div>`;
+                    });
+                    html+='</div>';
+                });
+                html+='</div>';
+                pyramidContainer.innerHTML=html;
+            }else{
+                pyramidSection.style.display='none';
+            }
+            m.classList.add('active');
+            document.body.style.overflow='hidden';
+        }
         function closeModal(){document.getElementById('memberModal').classList.remove('active');document.body.style.overflow='auto';}
         document.getElementById('memberModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
         document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});

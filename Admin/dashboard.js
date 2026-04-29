@@ -213,3 +213,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('adminMemberSearch')?.addEventListener('input', () => renderMembersGrid());
     document.getElementById('logoutAdminBtn')?.addEventListener('click', () => { window.location.href = '../index.html'; });
 });
+

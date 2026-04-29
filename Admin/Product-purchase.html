@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Lumière Admin · Product Purchase Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        .purchase-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .purchase-form-section, .purchase-list-section {
+            background: var(--admin-card);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+        .section-header {
+            margin-bottom: 24px;
+        }
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        .section-header p {
+            color: var(--text-mid);
+            font-size: 0.9rem;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .purchase-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .purchase-item {
+            background: var(--admin-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .purchase-item:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .purchase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+        .purchase-customer {
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 1rem;
+        }
+        .purchase-date {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        .purchase-details {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        .detail-label {
+            color: var(--text-mid);
+        }
+        .detail-value {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        .purchase-items {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .purchase-item-product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .purchase-item-product:last-child {
+            border-bottom: none;
+        }
+        .product-name {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        .product-quantity {
+            color: var(--text-mid);
+            font-size: 0.85rem;
+        }
+        .product-price {
+            color: var(--gold);
+            font-weight: 500;
+        }
+        .purchase-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 2px solid var(--border);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+        .status-processing {
+            background: rgba(23, 162, 184, 0.2);
+            color: #0c5460;
+        }
+        .status-shipped {
+            background: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+        .status-delivered {
+            background: rgba(201, 169, 110, 0.2);
+            color: var(--gold);
+        }
+        .status-cancelled {
+            background: rgba(220, 53, 69, 0.2);
+            color: #721c24;
+        }
+        .purchase-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-view {
+            background: var(--gold);
+            color: white;
+        }
+        .btn-view:hover {
+            background: #b09056;
+        }
+        .btn-update {
+            background: var(--sage);
+            color: white;
+        }
+        .btn-update:hover {
+            background: #92a586;
+        }
+        .btn-cancel {
+            background: #e14b3c;
+            color: white;
+        }
+        .btn-cancel:hover {
+            background: #d23322;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--admin-bg);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+        }
+        .filter-section {
+            background: var(--admin-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        @media (max-width: 1024px) {
+            .purchase-container {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon"></span>
+                <span class="brand-name">Lumière</span>
+                <span class="brand-badge">admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
+                    <span>Overview</span>
+                </a>
+                <a href="Products-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span>Products</span>
+                </a>
+                <a href="Recognition-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Recognition (Members)</span>
+                </a>
+                <a href="Recruits-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-4-4H11a4 4 0 0 0-4 4v2"/><circle cx="15" cy="7" r="4"/></svg>
+                    <span>Recruits</span>
+                </a>
+                <a href="Updates-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                    <span>Updates</span>
+                </a>
+                <a href="Product-purchase.html" class="nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11H3v10h6V11z"/><path d="M21 11h-6v10h6V11z"/><path d="M15 3H9v6h6V3z"/><path d="M9 3H3v6h6V3z"/></svg>
+                    <span>Purchases</span>
+                </a>
+                <a href="Analytics-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-9-9" stroke-linecap="round"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <div class="admin-avatar">AD</div>
+                    <div class="admin-details">
+                        <span class="admin-name">Lumière Studio</span>
+                        <span class="admin-role">Master Admin</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span>Sign out</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <div class="page-header">
+                <h1>Product Purchases</h1>
+                <p>Manage customer orders and purchase transactions</p>
+            </div>
+
+            <!-- STATISTICS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalOrders">0</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalRevenue">0</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingOrders">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="deliveredOrders">0</div>
+                    <div class="stat-label">Delivered</div>
+                </div>
+            </div>
+
+            <!-- FILTERS -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="statusFilter" onchange="filterPurchases()">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Date Range</label>
+                        <select id="dateFilter" onchange="filterPurchases()">
+                            <option value="">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Search</label>
+                        <input type="text" id="searchFilter" placeholder="Customer name..." oninput="filterPurchases()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="purchase-container">
+                <!-- FORM SECTION -->
+                <div class="purchase-form-section">
+                    <div class="section-header">
+                        <h2>Create Purchase Order</h2>
+                        <p>Record new customer purchase</p>
+                    </div>
+                    
+                    <form id="purchaseForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerName">Customer Name</label>
+                                <input type="text" id="customerName" placeholder="Enter customer name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerEmail">Customer Email</label>
+                                <input type="email" id="customerEmail" placeholder="customer@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerPhone">Phone Number</label>
+                                <input type="tel" id="customerPhone" placeholder="+63 912 345 6789" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerAddress">Delivery Address</label>
+                                <input type="text" id="customerAddress" placeholder="Full delivery address" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Order Items</label>
+                            <div id="orderItems">
+                                <div class="order-item-row" style="display: flex; gap: 8px; margin-bottom: 8px;">
+                                    <select style="flex: 2;" class="product-select" onchange="updateItemTotal(this)">
+                                        <option value="">Select Product</option>
+                                    </select>
+                                    <input type="number" style="flex: 1;" placeholder="Qty" min="1" value="1" onchange="updateItemTotal(this)">
+                                    <input type="text" style="flex: 1;" placeholder="Total" readonly class="item-total">
+                                    <button type="button" style="padding: 8px;" onclick="removeOrderItem(this)">×</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-secondary" onclick="addOrderItem()" style="margin-top: 8px;">+ Add Item</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Order Total</label>
+                            <input type="text" id="orderTotal" readonly style="font-weight: 600; font-size: 1.1rem;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orderStatus">Order Status</label>
+                            <select id="orderStatus" required>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orderNotes">Order Notes</label>
+                            <textarea id="orderNotes" placeholder="Additional notes about this order..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Create Order</button>
+                            <button type="button" class="btn-secondary" onclick="resetPurchaseForm()">Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- LIST SECTION -->
+                <div class="purchase-list-section">
+                    <div class="section-header">
+                        <h2>Recent Orders</h2>
+                        <p>View and manage customer purchases</p>
+                    </div>
+                    
+                    <div class="purchase-list" id="purchaseList">
+                        <!-- Purchases will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize data
+        let purchases = JSON.parse(localStorage.getItem('productPurchases')) || [
+            {
+                id: 1,
+                customerName: "Maria Santos",
+                customerEmail: "maria@email.com",
+                customerPhone: "+63 912 345 6789",
+                customerAddress: "123 Main St, Manila",
+                items: [
+                    { name: "Vitamin C Serum", quantity: 2, price: 1500 },
+                    { name: "Gentle Cleanser", quantity: 1, price: 800 }
+                ],
+                total: 3800,
+                status: "delivered",
+                date: "2025-04-28",
+                notes: "Customer requested gift wrapping"
+            },
+            {
+                id: 2,
+                customerName: "John Reyes",
+                customerEmail: "john@email.com",
+                customerPhone: "+63 923 456 7890",
+                customerAddress: "456 Oak Ave, Quezon City",
+                items: [
+                    { name: "Hydrating Moisturizer", quantity: 1, price: 1200 }
+                ],
+                total: 1200,
+                status: "processing",
+                date: "2025-04-29",
+                notes: "First-time customer"
+            }
+        ];
+
+        // Sample products for dropdown
+        const products = [
+            { name: "Vitamin C Serum", price: 1500 },
+            { name: "Gentle Cleanser", price: 800 },
+            { name: "Hydrating Moisturizer", price: 1200 },
+            { name: "Sunscreen SPF 50", price: 950 },
+            { name: "Night Cream", price: 1100 },
+            { name: "Eye Cream", price: 750 }
+        ];
+
+        let editingId = null;
+
+        // Initialize product dropdowns
+        function initializeProductDropdowns() {
+            const productOptions = products.map(p => 
+                `<option value="${p.name}" data-price="${p.price}">${p.name} - ¥${p.price}</option>`
+            ).join('');
+
+            document.querySelectorAll('.product-select').forEach(select => {
+                select.innerHTML = '<option value="">Select Product</option>' + productOptions;
+            });
+        }
+
+        // Add order item row
+        function addOrderItem() {
+            const orderItems = document.getElementById('orderItems');
+            const newRow = document.createElement('div');
+            newRow.className = 'order-item-row';
+            newRow.style.display = 'flex';
+            newRow.style.gap = '8px';
+            newRow.style.marginBottom = '8px';
+            
+            const productOptions = products.map(p => 
+                `<option value="${p.name}" data-price="${p.price}">${p.name} - ¥${p.price}</option>`
+            ).join('');
+
+            newRow.innerHTML = `
+                <select style="flex: 2;" class="product-select" onchange="updateItemTotal(this)">
+                    <option value="">Select Product</option>
+                    ${productOptions}
+                </select>
+                <input type="number" style="flex: 1;" placeholder="Qty" min="1" value="1" onchange="updateItemTotal(this)">
+                <input type="text" style="flex: 1;" placeholder="Total" readonly class="item-total">
+                <button type="button" style="padding: 8px;" onclick="removeOrderItem(this)">×</button>
+            `;
+            
+            orderItems.appendChild(newRow);
+        }
+
+        // Remove order item row
+        function removeOrderItem(button) {
+            const row = button.parentElement;
+            if (document.querySelectorAll('.order-item-row').length > 1) {
+                row.remove();
+                updateOrderTotal();
+            }
+        }
+
+        // Update individual item total
+        function updateItemTotal(element) {
+            const row = element.parentElement;
+            const select = row.querySelector('.product-select');
+            const qtyInput = row.querySelector('input[type="number"]');
+            const totalInput = row.querySelector('.item-total');
+
+            if (select.value && qtyInput.value) {
+                const price = parseFloat(select.options[select.selectedIndex].dataset.price) || 0;
+                const quantity = parseInt(qtyInput.value) || 0;
+                const total = price * quantity;
+                totalInput.value = `¥${total.toFixed(2)}`;
+            } else {
+                totalInput.value = '';
+            }
+
+            updateOrderTotal();
+        }
+
+        // Update order total
+        function updateOrderTotal() {
+            let total = 0;
+            document.querySelectorAll('.order-item-row').forEach(row => {
+                const select = row.querySelector('.product-select');
+                const qtyInput = row.querySelector('input[type="number"]');
+                if (select.value && qtyInput.value) {
+                    const price = parseFloat(select.options[select.selectedIndex].dataset.price) || 0;
+                    const quantity = parseInt(qtyInput.value) || 0;
+                    total += price * quantity;
+                }
+            });
+            document.getElementById('orderTotal').value = `¥${total.toFixed(2)}`;
+        }
+
+        // Form submission
+        document.getElementById('purchaseForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const items = [];
+            document.querySelectorAll('.order-item-row').forEach(row => {
+                const select = row.querySelector('.product-select');
+                const qtyInput = row.querySelector('input[type="number"]');
+                if (select.value && qtyInput.value) {
+                    const price = parseFloat(select.options[select.selectedIndex].dataset.price) || 0;
+                    const quantity = parseInt(qtyInput.value) || 0;
+                    items.push({
+                        name: select.value,
+                        quantity: quantity,
+                        price: price
+                    });
+                }
+            });
+
+            if (items.length === 0) {
+                showToast('Please add at least one item to the order');
+                return;
+            }
+
+            const purchase = {
+                id: editingId || Date.now(),
+                customerName: document.getElementById('customerName').value,
+                customerEmail: document.getElementById('customerEmail').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                customerAddress: document.getElementById('customerAddress').value,
+                items: items,
+                total: parseFloat(document.getElementById('orderTotal').value.replace('¥', '')),
+                status: document.getElementById('orderStatus').value,
+                date: new Date().toISOString().split('T')[0],
+                notes: document.getElementById('orderNotes').value
+            };
+
+            if (editingId) {
+                const index = purchases.findIndex(p => p.id === editingId);
+                purchases[index] = purchase;
+                editingId = null;
+            } else {
+                purchases.unshift(purchase);
+            }
+
+            localStorage.setItem('productPurchases', JSON.stringify(purchases));
+            renderPurchases();
+            updateStats();
+            resetPurchaseForm();
+            showToast('Purchase order created successfully!');
+        });
+
+        function resetPurchaseForm() {
+            document.getElementById('purchaseForm').reset();
+            editingId = null;
+            
+            // Reset to single empty item row
+            const orderItems = document.getElementById('orderItems');
+            orderItems.innerHTML = `
+                <div class="order-item-row" style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <select style="flex: 2;" class="product-select" onchange="updateItemTotal(this)">
+                        <option value="">Select Product</option>
+                    </select>
+                    <input type="number" style="flex: 1;" placeholder="Qty" min="1" value="1" onchange="updateItemTotal(this)">
+                    <input type="text" style="flex: 1;" placeholder="Total" readonly class="item-total">
+                    <button type="button" style="padding: 8px;" onclick="removeOrderItem(this)">×</button>
+                </div>
+            `;
+            
+            initializeProductDropdowns();
+            updateOrderTotal();
+        }
+
+        function renderPurchases(filteredPurchases = null) {
+            const purchaseList = document.getElementById('purchaseList');
+            const purchasesToRender = filteredPurchases || purchases;
+            
+            if (purchasesToRender.length === 0) {
+                purchaseList.innerHTML = '<p style="text-align: center; color: var(--text-light);">No purchases found</p>';
+                return;
+            }
+
+            purchaseList.innerHTML = purchasesToRender.map(purchase => `
+                <div class="purchase-item">
+                    <div class="purchase-header">
+                        <div>
+                            <div class="purchase-customer">${purchase.customerName}</div>
+                            <span class="status-badge status-${purchase.status}">${purchase.status}</span>
+                        </div>
+                        <div class="purchase-date">${formatDate(purchase.date)}</div>
+                    </div>
+                    <div class="purchase-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value">${purchase.customerEmail}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Phone:</span>
+                            <span class="detail-value">${purchase.customerPhone}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Address:</span>
+                            <span class="detail-value">${purchase.customerAddress}</span>
+                        </div>
+                    </div>
+                    <div class="purchase-items">
+                        ${purchase.items.map(item => `
+                            <div class="purchase-item-product">
+                                <div>
+                                    <div class="product-name">${item.name}</div>
+                                    <div class="product-quantity">Qty: ${item.quantity}</div>
+                                </div>
+                                <div class="product-price">¥${(item.price * item.quantity).toFixed(2)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="purchase-total">
+                        <span>Total Amount:</span>
+                        <span>¥${purchase.total.toFixed(2)}</span>
+                    </div>
+                    ${purchase.notes ? `
+                        <div style="margin-top: 12px; padding: 8px; background: var(--admin-bg); border-radius: 6px;">
+                            <div style="font-size: 0.8rem; color: var(--text-mid); margin-bottom: 4px;">Notes:</div>
+                            <div style="font-size: 0.85rem; color: var(--text-dark);">${purchase.notes}</div>
+                        </div>
+                    ` : ''}
+                    <div class="purchase-actions">
+                        <button class="btn-small btn-view" onclick="viewPurchase(${purchase.id})">View</button>
+                        <button class="btn-small btn-update" onclick="updateStatus(${purchase.id})">Update Status</button>
+                        <button class="btn-small btn-cancel" onclick="cancelPurchase(${purchase.id})">Cancel</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewPurchase(id) {
+            const purchase = purchases.find(p => p.id === id);
+            if (purchase) {
+                alert(`Order Details:\n\nCustomer: ${purchase.customerName}\nEmail: ${purchase.customerEmail}\nPhone: ${purchase.customerPhone}\nAddress: ${purchase.customerAddress}\n\nItems:\n${purchase.items.map(item => `- ${item.name} x${item.quantity} = ¥${(item.price * item.quantity).toFixed(2)}`).join('\n')}\n\nTotal: ¥${purchase.total.toFixed(2)}\nStatus: ${purchase.status}\nNotes: ${purchase.notes || 'None'}`);
+            }
+        }
+
+        function updateStatus(id) {
+            const purchase = purchases.find(p => p.id === id);
+            if (purchase) {
+                const statuses = ['pending', 'processing', 'shipped', 'delivered'];
+                const currentIndex = statuses.indexOf(purchase.status);
+                const nextIndex = (currentIndex + 1) % statuses.length;
+                purchase.status = statuses[nextIndex];
+                
+                localStorage.setItem('productPurchases', JSON.stringify(purchases));
+                renderPurchases();
+                updateStats();
+                showToast(`Order status updated to ${statuses[nextIndex]}`);
+            }
+        }
+
+        function cancelPurchase(id) {
+            if (confirm('Are you sure you want to cancel this order?')) {
+                const purchase = purchases.find(p => p.id === id);
+                if (purchase) {
+                    purchase.status = 'cancelled';
+                    localStorage.setItem('productPurchases', JSON.stringify(purchases));
+                    renderPurchases();
+                    updateStats();
+                    showToast('Order cancelled');
+                }
+            }
+        }
+
+        function filterPurchases() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            const searchFilter = document.getElementById('searchFilter').value.toLowerCase();
+
+            let filtered = purchases;
+
+            if (statusFilter) {
+                filtered = filtered.filter(p => p.status === statusFilter);
+            }
+
+            if (dateFilter) {
+                const today = new Date();
+                const filterDate = new Date();
+
+                switch(dateFilter) {
+                    case 'today':
+                        filterDate.setHours(0, 0, 0, 0);
+                        break;
+                    case 'week':
+                        filterDate.setDate(today.getDate() - 7);
+                        break;
+                    case 'month':
+                        filterDate.setMonth(today.getMonth() - 1);
+                        break;
+                    case 'year':
+                        filterDate.setFullYear(today.getFullYear() - 1);
+                        break;
+                }
+
+                filtered = filtered.filter(p => new Date(p.date) >= filterDate);
+            }
+
+            if (searchFilter) {
+                filtered = filtered.filter(p => 
+                    p.customerName.toLowerCase().includes(searchFilter) ||
+                    p.customerEmail.toLowerCase().includes(searchFilter)
+                );
+            }
+
+            renderPurchases(filtered);
+        }
+
+        function updateStats() {
+            const totalOrders = purchases.length;
+            const totalRevenue = purchases.reduce((sum, p) => sum + p.total, 0);
+            const pendingOrders = purchases.filter(p => p.status === 'pending').length;
+            const deliveredOrders = purchases.filter(p => p.status === 'delivered').length;
+
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('totalRevenue').textContent = `¥${totalRevenue.toFixed(0)}`;
+            document.getElementById('pendingOrders').textContent = pendingOrders;
+            document.getElementById('deliveredOrders').textContent = deliveredOrders;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--text-dark);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../Login/login.html';
+            }
+        }
+
+        // Initialize
+        initializeProductDropdowns();
+        renderPurchases();
+        updateStats();
+    </script>
+</body>
+</html>

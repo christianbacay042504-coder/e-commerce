@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Lumière Admin · Recruits Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-icon">✦</span>
+                <span class="brand-name">Lumière</span>
+                <span class="brand-badge">admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
+                    <span>Overview</span>
+                </a>
+                <a href="Products-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span>Products</span>
+                </a>
+                <a href="Recognition-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Recognition (Members)</span>
+                </a>
+                <a href="Recruits-management.html" class="nav-item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-4-4H11a4 4 0 0 0-4 4v2"/><circle cx="15" cy="7" r="4"/></svg>
+                    <span>Recruits</span>
+                </a>
+                <a href="Updates-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                    <span>Updates</span>
+                </a>
+                <a href="Product-purchase.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11H3v10h6V11z"/><path d="M21 11h-6v10h6V11z"/><path d="M15 3H9v6h6V3z"/><path d="M9 3H3v6h6V3z"/></svg>
+                    <span>Purchases</span>
+                </a>
+                <a href="Analytics-management.html" class="nav-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a9 9 0 1 1-9-9" stroke-linecap="round"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <div class="admin-avatar">AD</div>
+                    <div class="admin-details">
+                        <span class="admin-name">Lumière Studio</span>
+                        <span class="admin-role">Master Admin</span>
+                    </div>
+                </div>
+                <button class="logout-btn" id="logoutAdminBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Exit</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-title">
+                    <h1>Recruits Management</h1>
+                    <p>Manage recruitment network and team hierarchy</p>
+                </div>
+                <div class="header-actions">
+                    <div class="date-badge" id="liveDate"></div>
+                </div>
+            </header>
+
+            <div class="tab-content active">
+                <div class="tab-actions">
+                    <button class="btn-primary-sm" id="addRecruitBtn">+ Add Recruit</button>
+                    <div class="search-filter">
+                        <input type="text" id="adminRecruitSearch" placeholder="Search by name or recruiter..." class="search-input">
+                        <select id="recruitStatusFilter" class="cat-select">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="stats-grid" style="margin-bottom: 32px;">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalRecruitsStat">0</span>
+                            <span class="stat-label">Total Recruits</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="activeRecruitsStat">0</span>
+                            <span class="stat-label">Active Members</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="pendingRecruitsStat">0</span>
+                            <span class="stat-label">Pending Approval</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="topRecruitersStat">0</span>
+                            <span class="stat-label">Top Recruiters</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recruits Table -->
+                <div class="products-admin-table">
+                    <div class="member-row header-row">
+                        <div>Avatar</div>
+                        <div>Name</div>
+                        <div>Recruiter</div>
+                        <div>Status</div>
+                        <div>Join Date</div>
+                        <div>Actions</div>
+                    </div>
+                    <div id="recruitsTableBody"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: Recruit Form -->
+    <div class="modal-overlay" id="recruitModalForm">
+        <div class="modal-dialog">
+            <div class="modal-header"><h3 id="recruitFormTitle">Add Recruit</h3><button class="modal-close-btn" id="closeRecruitModalBtn">✕</button></div>
+            <div class="modal-body">
+                <input type="hidden" id="editRecruitId">
+                <div class="form-group"><label>Full Name</label><input type="text" id="recruitName" placeholder="Jane Doe"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Email</label><input type="email" id="recruitEmail" placeholder="jane@example.com"></div>
+                    <div class="form-group"><label>Phone</label><input type="tel" id="recruitPhone" placeholder="+63 912 345 6789"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Recruiter</label><select id="recruitRecruiter"><option value="">Select Recruiter</option></select></div>
+                    <div class="form-group"><label>Status</label><select id="recruitStatus"><option value="pending">Pending</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+                </div>
+                <div class="form-group"><label>Location</label><input type="text" id="recruitLocation" placeholder="Manila, Philippines"></div>
+                <div class="form-group"><label>Notes</label><textarea id="recruitNotes" placeholder="Additional notes about the recruit..." rows="3"></textarea>
+            </div>
+            <div class="modal-footer"><button class="btn-secondary" id="cancelRecruitBtn">Cancel</button><button class="btn-primary" id="saveRecruitBtn">Save Recruit</button></div>
+        </div>
+    </div>
+
+    <!-- MODAL: Pyramid Hierarchy View -->
+    <div class="modal-overlay" id="pyramidModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <h3 id="pyramidModalTitle">Team Hierarchy</h3>
+                <button class="modal-close-btn" id="closePyramidModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="pyramid-container" id="pyramidContent">
+                    <!-- Pyramid will be rendered here -->
+                </div>
+                <div class="hierarchy-stats" id="hierarchyStats"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="closePyramidBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let adminRecruits = [];
+        let adminMembers = [];
+
+        function loadRecruitsData() {
+            const stored = localStorage.getItem('lumiere_admin_recruits');
+            if (stored && JSON.parse(stored).length > 0) {
+                adminRecruits = JSON.parse(stored);
+            } else {
+                seedDemoRecruits();
+            }
+            
+            const membersStored = localStorage.getItem('lumiere_admin_members');
+            if (membersStored && JSON.parse(membersStored).length > 0) {
+                adminMembers = JSON.parse(membersStored);
+            } else {
+                // Seed demo members if none exist
+                seedDemoMembers();
+            }
+            
+            renderRecruitsTable();
+            updateRecruitStats();
+            populateRecruiterDropdown();
+        }
+
+        function seedDemoMembers() {
+            adminMembers = [
+                { id: 1, name: "Sofia Reyes", email: "sofia.r@example.com", role: "Senior Member", status: "active" },
+                { id: 2, name: "Grace Villanueva", email: "grace.v@example.com", role: "Team Leader", status: "active" },
+                { id: 3, name: "Ana Lim", email: "ana.l@example.com", role: "Member", status: "active" },
+                { id: 4, name: "Bianca Santos", email: "bianca.s@example.com", role: "Member", status: "active" },
+                { id: 5, name: "Jessa Morales", email: "jessa.m@example.com", role: "Team Leader", status: "active" }
+            ];
+            localStorage.setItem('lumiere_admin_members', JSON.stringify(adminMembers));
+        }
+
+        function seedDemoRecruits() {
+            adminRecruits = [
+                { id: 1, name: "Maria Santos", email: "maria.s@example.com", phone: "+63 912 345 6789", recruiter: "Sofia Reyes", status: "active", joinDate: "2024-01-15", location: "Manila", notes: "Excellent performer", recruits: ["Juan Dela Cruz", "Pedro Garcia"] },
+                { id: 2, name: "Ana Cruz", email: "ana.c@example.com", phone: "+63 913 456 7890", recruiter: "Grace Villanueva", status: "pending", joinDate: "2024-02-20", location: "Cebu", notes: "Awaiting document submission", recruits: [] },
+                { id: 3, name: "Luis Martinez", email: "luis.m@example.com", phone: "+63 914 567 8901", recruiter: "Ana Lim", status: "active", joinDate: "2024-01-28", location: "Davao", notes: "Quick learner", recruits: ["Maria Clara", "Jose Rizal"] },
+                { id: 4, name: "Carla Reyes", email: "carla.r@example.com", phone: "+63 915 678 9012", recruiter: "Bianca Santos", status: "active", joinDate: "2024-03-10", location: "Quezon City", notes: "Strong sales skills", recruits: ["Andrea Brillantes"] },
+                { id: 5, name: "Roberto Tan", email: "roberto.t@example.com", phone: "+63 916 789 0123", recruiter: "Jessa Morales", status: "inactive", joinDate: "2023-12-05", location: "Iloilo", notes: "On leave", recruits: ["Miguel Lopez", "Isabella Santos", "Carlos Yulo"] }
+            ];
+            
+            // Add sub-recruits for demo pyramid
+            const subRecruits = [
+                { name: "Juan Dela Cruz", recruiter: "Maria Santos", status: "active", joinDate: "2024-03-01" },
+                { name: "Pedro Garcia", recruiter: "Maria Santos", status: "active", joinDate: "2024-03-15" },
+                { name: "Maria Clara", recruiter: "Luis Martinez", status: "pending", joinDate: "2024-04-01" },
+                { name: "Jose Rizal", recruiter: "Luis Martinez", status: "active", joinDate: "2024-04-10" },
+                { name: "Andrea Brillantes", recruiter: "Carla Reyes", status: "active", joinDate: "2024-05-01" },
+                { name: "Miguel Lopez", recruiter: "Roberto Tan", status: "active", joinDate: "2024-02-01" },
+                { name: "Isabella Santos", recruiter: "Roberto Tan", status: "pending", joinDate: "2024-02-15" },
+                { name: "Carlos Yulo", recruiter: "Roberto Tan", status: "active", joinDate: "2024-03-01" }
+            ];
+            
+            // Store sub-recruits in a separate storage for hierarchy
+            localStorage.setItem('lumiere_sub_recruits', JSON.stringify(subRecruits));
+            
+            saveRecruitsToLocal();
+        }
+
+        function saveRecruitsToLocal() {
+            localStorage.setItem('lumiere_admin_recruits', JSON.stringify(adminRecruits));
+        }
+
+        function renderRecruitsTable() {
+            const search = document.getElementById('adminRecruitSearch')?.value.toLowerCase() || '';
+            const statusFilter = document.getElementById('recruitStatusFilter')?.value || '';
+            
+            let filtered = adminRecruits.filter(r => {
+                const matchesSearch = r.name.toLowerCase().includes(search) || 
+                                     r.recruiter.toLowerCase().includes(search) ||
+                                     r.email.toLowerCase().includes(search);
+                const matchesStatus = !statusFilter || r.status === statusFilter;
+                return matchesSearch && matchesStatus;
+            });
+            
+            const container = document.getElementById('recruitsTableBody');
+            container.innerHTML = filtered.map(r => `
+                <div class="member-row">
+                    <div>
+                        <div style="width:40px;height:40px;background:${getStatusColor(r.status)}; border-radius:50%; display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;font-size:12px">
+                            ${getInitials(r.name)}
+                        </div>
+                    </div>
+                    <div>
+                        <strong>${escapeHtml(r.name)}</strong><br>
+                        <span style="font-size:12px;color:var(--text-mid)">${escapeHtml(r.email)}</span>
+                    </div>
+                    <div>${escapeHtml(r.recruiter)}</div>
+                    <div>
+                        <span class="status-badge status-${r.status}">${r.status.charAt(0).toUpperCase() + r.status.slice(1)}</span>
+                    </div>
+                    <div>${formatDate(r.joinDate)}</div>
+                    <div class="action-btns">
+                        <button class="view-btn" data-id="${r.id}" title="View Hierarchy">👁️</button>
+                        <button class="edit-btn" data-id="${r.id}" title="Edit">✏️</button>
+                        <button class="delete-btn" data-id="${r.id}" title="Delete">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add event listeners for view buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => openPyramidView(parseInt(btn.dataset.id)));
+            });
+            
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => openEditRecruit(parseInt(btn.dataset.id)));
+            });
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => deleteRecruit(parseInt(btn.dataset.id)));
+            });
+        }
+
+        function openPyramidView(recruitId) {
+            const recruit = adminRecruits.find(r => r.id === recruitId);
+            if (!recruit) return;
+            
+            document.getElementById('pyramidModalTitle').innerText = `Team Hierarchy: ${recruit.name}`;
+            
+            // Build hierarchy data
+            const hierarchyData = buildHierarchy(recruit);
+            
+            // Render pyramid
+            renderPyramid(hierarchyData);
+            
+            // Update stats
+            updateHierarchyStats(hierarchyData);
+            
+            document.getElementById('pyramidModal').classList.add('open');
+        }
+
+        function buildHierarchy(recruit) {
+            const subRecruits = JSON.parse(localStorage.getItem('lumiere_sub_recruits') || '[]');
+            
+            // Get direct recruits of this person
+            const directRecruits = subRecruits.filter(sr => sr.recruiter === recruit.name);
+            
+            // Build tree structure
+            const hierarchy = {
+                name: recruit.name,
+                email: recruit.email,
+                status: recruit.status,
+                joinDate: recruit.joinDate,
+                level: 0,
+                recruits: directRecruits.map(sr => {
+                    // Check if these sub-recruits have their own recruits
+                    const subSubRecruits = subRecruits.filter(ssr => ssr.recruiter === sr.name);
+                    return {
+                        name: sr.name,
+                        status: sr.status,
+                        joinDate: sr.joinDate,
+                        level: 1,
+                        recruits: subSubRecruits.map(ssr => ({
+                            name: ssr.name,
+                            status: ssr.status,
+                            joinDate: ssr.joinDate,
+                            level: 2,
+                            recruits: []
+                        }))
+                    };
+                })
+            };
+            
+            return hierarchy;
+        }
+
+        function renderPyramid(hierarchy) {
+            const container = document.getElementById('pyramidContent');
+            
+            // Count total team members
+            let totalMembers = 1; // The main person
+            let level1Count = hierarchy.recruits.length;
+            let level2Count = 0;
+            
+            hierarchy.recruits.forEach(r1 => {
+                level2Count += r1.recruits.length;
+            });
+            
+            totalMembers += level1Count + level2Count;
+            
+            let html = `
+                <div class="pyramid-tree">
+                    <!-- Level 0: Main Person -->
+                    <div class="pyramid-level level-0">
+                        <div class="pyramid-node main-node">
+                            <div class="node-avatar" style="background: ${getStatusColor(hierarchy.status)}">
+                                ${getInitials(hierarchy.name)}
+                            </div>
+                            <div class="node-info">
+                                <strong>${escapeHtml(hierarchy.name)}</strong>
+                                <span class="node-badge">You</span>
+                                <small>${escapeHtml(hierarchy.email)}</small>
+                            </div>
+                        </div>
+                    </div>
+            `;
+            
+            // Level 1: Direct recruits
+            if (hierarchy.recruits.length > 0) {
+                html += `
+                    <div class="pyramid-connector">
+                        <div class="connector-line"></div>
+                    </div>
+                    <div class="pyramid-level level-1">
+                        <div class="level-label">Level 1 Recruits (${level1Count})</div>
+                        <div class="pyramid-nodes">
+                `;
+                
+                hierarchy.recruits.forEach(r1 => {
+                    html += `
+                        <div class="pyramid-node">
+                            <div class="node-avatar" style="background: ${getStatusColor(r1.status)}">
+                                ${getInitials(r1.name)}
+                            </div>
+                            <div class="node-info">
+                                <strong>${escapeHtml(r1.name)}</strong>
+                                <span class="status-badge status-${r1.status}">${r1.status.charAt(0).toUpperCase() + r1.status.slice(1)}</span>
+                                <small>Joined: ${formatDate(r1.joinDate)}</small>
+                            </div>
+                            ${r1.recruits.length > 0 ? `<div class="node-children-count">+${r1.recruits.length}</div>` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Level 2: Sub-recruits
+            if (level2Count > 0) {
+                html += `
+                    <div class="pyramid-connector">
+                        <div class="connector-line"></div>
+                    </div>
+                    <div class="pyramid-level level-2">
+                        <div class="level-label">Level 2 Recruits (${level2Count})</div>
+                        <div class="pyramid-nodes">
+                `;
+                
+                hierarchy.recruits.forEach(r1 => {
+                    r1.recruits.forEach(r2 => {
+                        html += `
+                            <div class="pyramid-node sub-node">
+                                <div class="node-avatar" style="background: ${getStatusColor(r2.status)}">
+                                    ${getInitials(r2.name)}
+                                </div>
+                                <div class="node-info">
+                                    <strong>${escapeHtml(r2.name)}</strong>
+                                    <span class="status-badge status-${r2.status}">${r2.status.charAt(0).toUpperCase() + r2.status.slice(1)}</span>
+                                    <small>Recruited by: ${escapeHtml(r1.name)}</small>
+                                </div>
+                            </div>
+                        `;
+                    });
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += `</div>`;
+            
+            container.innerHTML = html;
+        }
+
+        function updateHierarchyStats(hierarchy) {
+            const statsContainer = document.getElementById('hierarchyStats');
+            
+            let level1Count = hierarchy.recruits.length;
+            let level2Count = 0;
+            let activeCount = hierarchy.status === 'active' ? 1 : 0;
+            let pendingCount = hierarchy.status === 'pending' ? 1 : 0;
+            
+            hierarchy.recruits.forEach(r1 => {
+                if (r1.status === 'active') activeCount++;
+                if (r1.status === 'pending') pendingCount++;
+                
+                r1.recruits.forEach(r2 => {
+                    level2Count++;
+                    if (r2.status === 'active') activeCount++;
+                    if (r2.status === 'pending') pendingCount++;
+                });
+            });
+            
+            const totalMembers = 1 + level1Count + level2Count;
+            
+            statsContainer.innerHTML = `
+                <div class="stats-mini-grid">
+                    <div class="stat-mini-card">
+                        <span class="stat-mini-value">${totalMembers}</span>
+                        <span class="stat-mini-label">Total Team</span>
+                    </div>
+                    <div class="stat-mini-card">
+                        <span class="stat-mini-value">${level1Count}</span>
+                        <span class="stat-mini-label">Level 1</span>
+                    </div>
+                    <div class="stat-mini-card">
+                        <span class="stat-mini-value">${level2Count}</span>
+                        <span class="stat-mini-label">Level 2</span>
+                    </div>
+                    <div class="stat-mini-card">
+                        <span class="stat-mini-value">${activeCount}</span>
+                        <span class="stat-mini-label">Active</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateRecruitStats() {
+            const total = adminRecruits.length;
+            const active = adminRecruits.filter(r => r.status === 'active').length;
+            const pending = adminRecruits.filter(r => r.status === 'pending').length;
+            const topRecruiters = [...new Set(adminRecruits.map(r => r.recruiter))].length;
+            
+            document.getElementById('totalRecruitsStat').innerText = total;
+            document.getElementById('activeRecruitsStat').innerText = active;
+            document.getElementById('pendingRecruitsStat').innerText = pending;
+            document.getElementById('topRecruitersStat').innerText = topRecruiters;
+        }
+
+        function populateRecruiterDropdown() {
+            const dropdown = document.getElementById('recruitRecruiter');
+            dropdown.innerHTML = '<option value="">Select Recruiter</option>' + 
+                adminMembers.map(m => `<option value="${m.name}">${m.name}</option>`).join('');
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'active': return '#2e6b3e';
+                case 'pending': return '#b45f1b';
+                case 'inactive': return '#c62828';
+                default: return '#6b5a52';
+            }
+        }
+
+        function getInitials(name) {
+            if (!name) return 'NA';
+            const parts = name.trim().split(' ');
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            } else {
+                return name.substring(0, 2).toUpperCase();
+            }
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function escapeHtml(str) { 
+            if (!str) return ''; 
+            return str.replace(/[&<>]/g, function(m) { 
+                if (m === '&') return '&amp;'; 
+                if (m === '<') return '&lt;'; 
+                if (m === '>') return '&gt;'; 
+                return m; 
+            }); 
+        }
+
+        function openAddRecruit() {
+            document.getElementById('editRecruitId').value = '';
+            document.getElementById('recruitFormTitle').innerText = 'Add Recruit';
+            document.getElementById('recruitName').value = '';
+            document.getElementById('recruitEmail').value = '';
+            document.getElementById('recruitPhone').value = '';
+            document.getElementById('recruitRecruiter').value = '';
+            document.getElementById('recruitStatus').value = 'pending';
+            document.getElementById('recruitLocation').value = '';
+            document.getElementById('recruitNotes').value = '';
+            document.getElementById('recruitModalForm').classList.add('open');
+        }
+
+        function openEditRecruit(id) {
+            const r = adminRecruits.find(x => x.id === id);
+            if (r) {
+                document.getElementById('editRecruitId').value = id;
+                document.getElementById('recruitFormTitle').innerText = 'Edit Recruit';
+                document.getElementById('recruitName').value = r.name;
+                document.getElementById('recruitEmail').value = r.email;
+                document.getElementById('recruitPhone').value = r.phone;
+                document.getElementById('recruitRecruiter').value = r.recruiter;
+                document.getElementById('recruitStatus').value = r.status;
+                document.getElementById('recruitLocation').value = r.location;
+                document.getElementById('recruitNotes').value = r.notes || '';
+                document.getElementById('recruitModalForm').classList.add('open');
+            }
+        }
+
+        function saveRecruit() {
+            const id = document.getElementById('editRecruitId').value;
+            const name = document.getElementById('recruitName').value.trim();
+            const email = document.getElementById('recruitEmail').value.trim();
+            
+            if (!name) return alert('Recruit name required');
+            if (!email) return alert('Email required');
+            
+            const newRecruit = {
+                id: id ? parseInt(id) : Date.now(),
+                name: name,
+                email: email,
+                phone: document.getElementById('recruitPhone').value,
+                recruiter: document.getElementById('recruitRecruiter').value,
+                status: document.getElementById('recruitStatus').value,
+                location: document.getElementById('recruitLocation').value,
+                notes: document.getElementById('recruitNotes').value,
+                joinDate: id ? adminRecruits.find(r => r.id == id)?.joinDate : new Date().toISOString().split('T')[0],
+                recruits: id ? adminRecruits.find(r => r.id == id)?.recruits || [] : []
+            };
+            
+            if (id) {
+                const idx = adminRecruits.findIndex(r => r.id == id);
+                if (idx !== -1) adminRecruits[idx] = newRecruit;
+            } else {
+                adminRecruits.push(newRecruit);
+            }
+            
+            saveRecruitsToLocal();
+            renderRecruitsTable();
+            updateRecruitStats();
+            closeRecruitForm();
+        }
+
+        function deleteRecruit(id) {
+            if (confirm('Remove recruit? This action cannot be undone.')) {
+                adminRecruits = adminRecruits.filter(r => r.id !== id);
+                saveRecruitsToLocal();
+                renderRecruitsTable();
+                updateRecruitStats();
+            }
+        }
+
+        function closeRecruitForm() {
+            document.getElementById('recruitModalForm').classList.remove('open');
+        }
+
+        function closePyramidModal() {
+            document.getElementById('pyramidModal').classList.remove('open');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('liveDate').innerText = new Date().toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' });
+            loadRecruitsData();
+
+            document.getElementById('addRecruitBtn')?.addEventListener('click', openAddRecruit);
+            document.getElementById('saveRecruitBtn')?.addEventListener('click', saveRecruit);
+            document.getElementById('closeRecruitModalBtn')?.addEventListener('click', closeRecruitForm);
+            document.getElementById('cancelRecruitBtn')?.addEventListener('click', closeRecruitForm);
+            document.getElementById('closePyramidModalBtn')?.addEventListener('click', closePyramidModal);
+            document.getElementById('closePyramidBtn')?.addEventListener('click', closePyramidModal);
+            document.getElementById('adminRecruitSearch')?.addEventListener('input', renderRecruitsTable);
+            document.getElementById('recruitStatusFilter')?.addEventListener('change', renderRecruitsTable);
+            document.getElementById('logoutAdminBtn')?.addEventListener('click', () => { window.location.href = '../index.html'; });
+        });
+    </script>
+
+    <style>
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-active {
+            background: #e6f4ea;
+            color: #2e6b3e;
+        }
+        .status-pending {
+            background: #fff2db;
+            color: #b45f1b;
+        }
+        .status-inactive {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* View button styling */
+        .view-btn {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .view-btn:hover {
+            background: #bbdefb;
+            transform: scale(1.1);
+        }
+
+        /* Pyramid Modal Styles */
+        .modal-lg {
+            max-width: 800px;
+            width: 95%;
+        }
+
+        .pyramid-container {
+            padding: 20px;
+            min-height: 300px;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .pyramid-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .pyramid-level {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .level-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b5a52;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            background: #f5f0eb;
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .pyramid-nodes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .pyramid-node {
+            background: white;
+            border: 2px solid #e0d5c7;
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .pyramid-node:hover {
+            border-color: #c9a96e;
+            box-shadow: 0 4px 12px rgba(201, 169, 110, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .main-node {
+            border-color: #c9a96e;
+            background: linear-gradient(135deg, #faf6f0, #f5efe4);
+            min-width: 250px;
+        }
+
+        .sub-node {
+            border-color: #d4c5b2;
+            background: #fafaf9;
+        }
+
+        .node-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .node-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .node-info strong {
+            font-size: 14px;
+            color: #3d3226;
+        }
+
+        .node-info small {
+            font-size: 11px;
+            color: #8b7d6b;
+        }
+
+        .node-badge {
+            font-size: 10px;
+            background: #c9a96e;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            width: fit-content;
+            font-weight: 600;
+        }
+
+        .node-children-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #c9a96e;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .pyramid-connector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            position: relative;
+        }
+
+        .connector-line {
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #c9a96e, #d4c5b2);
+            position: relative;
+        }
+
+        .connector-line::before,
+        .connector-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #c9a96e);
+        }
+
+        .connector-line::before {
+            left: -60px;
+        }
+
+        .connector-line::after {
+            right: -60px;
+            background: linear-gradient(to left, transparent, #c9a96e);
+        }
+
+        /* Hierarchy Stats */
+        .hierarchy-stats {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #e0d5c7;
+        }
+
+        .stats-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .stat-mini-card {
+            background: #faf6f0;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e0d5c7;
+        }
+
+        .stat-mini-value {
+            display: block;
+            font-size: 24px;
+            font-weight: 700;
+            color: #c9a96e;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .stat-mini-label {
+            display: block;
+            font-size: 11px;
+            color: #6b5a52;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .pyramid-node {
+                min-width: 150px;
+                padding: 10px;
+                gap: 8px;
+            }
+            
+            .node-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 12px;
+            }
+            
+            .stats-mini-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Modal Overlay Styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.modal-overlay.open {
+    display: flex !important;
+}
+
+.modal-dialog {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.modal-lg {
+    max-width: 800px;
+    width: 95%;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e0d5c7;
+}
+
+.modal-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #3d3226;
+    margin: 0;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #8b7d6b;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: #f5f0eb;
+    color: #3d3226;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 24px;
+    border-top: 1px solid #e0d5c7;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b5a52;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d4c5b2;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #3d3226;
+    background: #fafaf9;
+    transition: border-color 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #c9a96e;
+    background: white;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Button Styles */
+.btn-primary {
+    background: #c9a96e;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.btn-primary:hover {
+    background: #b8944f;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #f5f0eb;
+    color: #6b5a52;
+    border: 1px solid #d4c5b2;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.btn-secondary:hover {
+    background: #e8dccf;
+}
+    </style>
+</body>
+</html>
