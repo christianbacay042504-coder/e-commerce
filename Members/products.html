@@ -630,7 +630,143 @@
 
                         <!-- Products Grid -->
                         <div class="products-grid" id="productsGrid">
-                            <!-- Products will be populated from external data -->
+                            <!-- Product 1 -->
+                            <div class="product-card">
+                                <div class="product-image">
+                                    🧴
+                                    <span class="product-badge">Bestseller</span>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">Vitamin C Serum</h3>
+                                    <p class="product-description">Brightening serum with 20% vitamin C for radiant skin</p>
+                                    <div class="product-price">
+                                        <span class="price-current">$45.00</span>
+                                        <span class="price-original">$55.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn-add-cart" onclick="addToCart('Vitamin C Serum', 45)">Add to Cart</button>
+                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 2 -->
+                            <div class="product-card">
+                                <div class="product-image">
+                                    🌿
+                                    <span class="product-badge">New</span>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">Aloe Vera Moisturizer</h3>
+                                    <p class="product-description">Hydrating moisturizer with organic aloe vera</p>
+                                    <div class="product-price">
+                                        <span class="price-current">$32.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn-add-cart" onclick="addToCart('Aloe Vera Moisturizer', 32)">Add to Cart</button>
+                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 3 -->
+                            <div class="product-card">
+                                <div class="product-image">
+                                    🌸
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">Rosehip Face Oil</h3>
+                                    <p class="product-description">Luxurious face oil for anti-aging and hydration</p>
+                                    <div class="product-price">
+                                        <span class="price-current">$58.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn-add-cart" onclick="addToCart('Rosehip Face Oil', 58)">Add to Cart</button>
+                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 4 -->
+                            <div class="product-card">
+                                <div class="product-image">
+                                    🧼
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">Gentle Cleanser</h3>
+                                    <p class="product-description">pH-balanced cleanser for all skin types</p>
+                                    <div class="product-price">
+                                        <span class="price-current">$28.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn-add-cart" onclick="addToCart('Gentle Cleanser', 28)">Add to Cart</button>
+                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 5 -->
+                            <div class="product-card">
+                                <div class="product-image">
+                                    ☀️
+                                    <span class="product-badge">Essential</span>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">SPF 50 Sunscreen</h3>
+                                    <p class="product-description">Broad spectrum sunscreen with zinc oxide</p>
+                                    <div class="product-price">
+                                        <span class="price-current">$42.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn-add-cart" onclick="addToCart('SPF 50 Sunscreen', 42)">Add to Cart</button>
+                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product 6 -->
+                            <div class="product-card">
+                                <div class="product-image">
+                                    💎
+                                    <span class="product-badge">Premium</span>
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">Night Repair Cream</h3>
+                                    <p class="product-description">Advanced anti-aging night treatment</p>
+                                    <div class="product-price">
+                                        <span class="price-current">$78.00</span>
+                                        <span class="price-original">$95.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn-add-cart" onclick="addToCart('Night Repair Cream', 78)">Add to Cart</button>
+                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -758,76 +894,7 @@
         }
 
         // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUserData();
-            loadProductsData();
-        });
-
-        // Function to load products data from external source
-        function loadProductsData() {
-            // This function will be called to populate products data
-            // You can connect this to an API, database, or external file
-            console.log('Products data loading - connect to external data source');
-            
-            // Example structure for loading products:
-            // loadProducts();
-        }
-
-        // Function to populate products grid
-        function populateProducts(products) {
-            const productsGrid = document.getElementById('productsGrid');
-            productsGrid.innerHTML = '';
-            
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <div class="product-image">
-                        ${product.emoji || '🧴'}
-                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="product-description">${product.description}</p>
-                        <div class="product-price">
-                            <span class="price-current">$${product.price}</span>
-                            ${product.originalPrice ? `<span class="price-original">$${product.originalPrice}</span>` : ''}
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn-add-cart" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
-                            <button class="btn-wishlist" onclick="toggleWishlist(this)">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                productsGrid.appendChild(card);
-            });
-        }
-
-        // Example data structure for external connection:
-        /*
-        const productsData = [
-            {
-                emoji: '🧴',
-                name: 'Vitamin C Serum',
-                description: 'Brightening serum with 20% vitamin C for radiant skin',
-                price: 45,
-                originalPrice: 55,
-                badge: 'Bestseller'
-            },
-            {
-                emoji: '🌿',
-                name: 'Aloe Vera Moisturizer',
-                description: 'Hydrating moisturizer with organic aloe vera',
-                price: 32,
-                badge: 'New'
-            },
-            // ... more products
-        ];
-        */
+        document.addEventListener('DOMContentLoaded', loadUserData);
     </script>
 </body>
 </html>
