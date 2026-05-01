@@ -3,308 +3,567 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Products - Skin Care</title>
+    <title>Shop Products — Lumière Skincare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Member Products Specific Styles */
         :root {
-            --admin-bg: #f8f5f2;
-            --admin-sidebar: #1e1816;
-            --admin-card: #ffffff;
-            --gold: #c9a96e;
+            --cream: #faf8f5;
+            --cream-2: #f3ede6;
+            --blush: #f5e6de;
+            --rose: #e8c4b8;
             --rose-dark: #c49080;
-            --text-dark: #2c2420;
-            --text-mid: #6b5a52;
-            --text-light: #a08c84;
-            --border: #e6ddd6;
-            --shadow-sm: 0 4px 12px rgba(44, 36, 32, 0.06);
-            --shadow-md: 0 8px 24px rgba(44, 36, 32, 0.08);
-            --transition: 0.2s ease;
+            --gold: #c9a96e;
+            --gold-2: #b8924f;
+            --gold-light: #f5e8cc;
+            --gold-glow: rgba(201,169,110,0.18);
+            --sage: #a8b89c;
+            --text-dark: #1e1610;
+            --text-mid: #5c4a40;
+            --text-light: #9c8278;
+            --white: #ffffff;
+            --border: rgba(180,150,130,0.18);
+            --border-gold: rgba(201,169,110,0.3);
+            --sidebar: #18120e;
+            --sidebar-2: #211710;
+            --card: #ffffff;
+            --shadow-xs: 0 2px 8px rgba(44,36,32,0.05);
+            --shadow-sm: 0 4px 16px rgba(44,36,32,0.07);
+            --shadow-md: 0 10px 32px rgba(44,36,32,0.11);
+            --shadow-gold: 0 4px 20px rgba(201,169,110,0.22);
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Jost', sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --nav-h: 68px;
+            --topbar-h: 38px;
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 28px;
         }
 
-        .member-wrapper {
-            display: flex;
-            min-height: 100vh;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* ---------- MEMBER SIDEBAR ---------- */
-        .member-sidebar {
-            width: 280px;
-            background: var(--admin-sidebar);
-            backdrop-filter: blur(2px);
+        /* ─── TOPBAR ─────────────────────────────────────── */
+        .topbar {
+            background: var(--sidebar);
+            color: rgba(255,255,255,0.65);
+            font-size: 11.5px;
+            height: var(--topbar-h);
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            transition: height 0.4s var(--ease), opacity 0.3s;
+            overflow: hidden;
+            letter-spacing: 0.035em;
+        }
+        .topbar.hidden { height: 0; opacity: 0; pointer-events: none; }
+        .topbar-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .topbar-promo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .topbar-dot {
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse-dot 2.4s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 11px;
+        }
+        .topbar-right a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+        .topbar-right a:hover { color: var(--gold); }
+        .topbar-sep { color: rgba(255,255,255,0.18); }
+
+        /* ─── NAVBAR ─────────────────────────────────────── */
+        .navbar {
             position: sticky;
             top: 0;
-            height: 100vh;
-            transition: all 0.3s;
-            z-index: 100;
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .sidebar-brand {
-            padding: 32px 24px;
+            z-index: 200;
+            background: var(--sidebar);
+            height: var(--nav-h);
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: box-shadow 0.3s, background 0.3s;
         }
-
-        .brand-icon {
-            font-size: 28px;
-            color: var(--gold);
+        .navbar::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.35;
         }
-
-        .brand-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 500;
-            color: white;
-            letter-spacing: 1px;
+        .navbar.scrolled {
+            box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+            background: rgba(24, 18, 14, 0.96);
+            backdrop-filter: blur(16px);
         }
-
-        .brand-badge {
-            background: rgba(201, 169, 110, 0.2);
-            color: var(--gold);
-            font-size: 9px;
-            padding: 2px 8px;
-            border-radius: 40px;
-            margin-left: 6px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 0 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .nav-item {
+        .navbar-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            background: transparent;
-            border: none;
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(255,255,255,0.65);
-            cursor: pointer;
-            transition: all 0.2s;
+            justify-content: space-between;
             width: 100%;
-            text-align: left;
-            text-decoration: none;
+            gap: 28px;
         }
 
-        .nav-item svg {
-            flex-shrink: 0;
-        }
-
-        .nav-item:hover {
-            background: rgba(255,255,255,0.06);
-            color: white;
-        }
-
-        .nav-item.active {
-            background: rgba(201, 169, 110, 0.18);
-            color: var(--gold);
-            border-left: 3px solid var(--gold);
-        }
-
-        .sidebar-footer {
-            padding: 24px 20px 32px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            margin-top: auto;
-        }
-
-        .member-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .member-avatar {
-            width: 42px;
-            height: 42px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .member-details {
-            flex: 1;
-        }
-
-        .member-name {
-            display: block;
-            color: white;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .member-role {
-            display: block;
-            color: rgba(255,255,255,0.6);
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
-        .logout-btn {
+        /* Brand */
+        .nav-brand {
             display: flex;
             align-items: center;
             gap: 10px;
-            width: 100%;
-            padding: 10px 16px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .brand-emblem {
+            width: 34px; height: 34px;
+            border: 1px solid rgba(201,169,110,0.45);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold);
+            font-size: 14px;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(201,169,110,0.12), transparent);
+            transition: all 0.3s;
+        }
+        .nav-brand:hover .brand-emblem {
+            border-color: var(--gold);
+            box-shadow: 0 0 16px rgba(201,169,110,0.3);
+        }
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+        .brand-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+        .brand-tagline {
+            font-size: 8.5px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            list-style: none;
+            flex: 1;
+        }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
             font-size: 13px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.52);
+            letter-spacing: 0.02em;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-links a svg { flex-shrink: 0; opacity: 0.65; transition: opacity 0.2s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+        .nav-links a:hover svg { opacity: 1; }
+        .nav-links a.active {
+            background: linear-gradient(135deg, rgba(201,169,110,0.18), rgba(201,169,110,0.06));
+            color: var(--gold);
+            position: relative;
+        }
+        .nav-links a.active::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 2px;
+            background: var(--gold);
+            border-radius: 1px;
+        }
+        .nav-links a.active svg { opacity: 1; }
+
+        /* Nav actions */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .nav-member-pill {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(201,169,110,0.1);
+            border: 1px solid rgba(201,169,110,0.22);
+            padding: 5px 13px 5px 5px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .nav-member-pill:hover {
+            background: rgba(201,169,110,0.18);
+            border-color: rgba(201,169,110,0.5);
+            box-shadow: var(--shadow-gold);
+        }
+        .nav-avatar {
+            width: 30px; height: 30px;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--sidebar);
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0;
+            flex-shrink: 0;
+        }
+        .nav-member-name {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .nav-logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.42);
+            font-size: 12.5px;
+            font-family: var(--font-body);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .nav-logout-btn:hover {
+            border-color: rgba(231,76,60,0.35);
+            color: #e8614f;
+            background: rgba(231,76,60,0.07);
         }
 
-        .logout-btn:hover {
-            background: rgba(231, 76, 60, 0.2);
-            border-color: rgba(231, 76, 60, 0.3);
-            color: #e74c3c;
+        /* Hamburger */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
         }
+        .nav-hamburger span {
+            display: block;
+            width: 22px; height: 1.5px;
+            background: rgba(255,255,255,0.65);
+            border-radius: 2px;
+            transition: all 0.3s var(--ease);
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-        /* ---------- MAIN CONTENT ---------- */
-        .member-main {
+        /* Mobile drawer */
+        .mobile-nav-drawer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+        }
+        .mobile-nav-drawer.open { display: block; }
+        .mobile-drawer-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(3px);
+        }
+        .mobile-drawer-panel {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 284px;
+            background: var(--sidebar);
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.35s var(--ease);
+            display: flex;
+            flex-direction: column;
+        }
+        .mobile-nav-drawer.open .mobile-drawer-panel { transform: translateX(0); }
+        .mobile-drawer-brand {
+            padding: 28px 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mobile-drawer-links {
+            list-style: none;
+            padding: 14px 10px;
             flex: 1;
-            background: var(--admin-bg);
-            overflow-x: hidden;
+        }
+        .mobile-drawer-links a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.58);
+            transition: all 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .mobile-drawer-links a:hover { background: rgba(255,255,255,0.06); color: white; }
+        .mobile-drawer-links a.active {
+            background: linear-gradient(135deg, rgba(201,169,110,0.18), rgba(201,169,110,0.06));
+            color: var(--gold);
+        }
+        .mobile-drawer-footer {
+            padding: 18px 14px 32px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .mobile-member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding: 12px;
+            background: rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
+        /* ─── PAGE ─────────────────────────────────────── */
         .products-page {
-            min-height: 100vh;
-            background: var(--admin-bg);
-            padding: 20px 0;
+            min-height: calc(100vh - var(--nav-h) - var(--topbar-h));
+            padding: 36px 0 80px;
         }
-
         .products-container {
-            max-width: 1400px;
+            max-width: 1240px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 28px;
         }
 
+        /* ─── WELCOME HEADER ────────────────────────────── */
         .products-header {
-            background: var(--admin-card);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            padding: 0;
+            margin-bottom: 28px;
             box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            position: relative;
+        }
+        .header-accent-bar {
+            width: 5px;
+            flex-shrink: 0;
+            background: linear-gradient(180deg, var(--gold) 0%, var(--rose) 60%, transparent 100%);
+            border-radius: 4px 0 0 4px;
+        }
+        .header-content {
+            flex: 1;
+            padding: 28px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 18px;
         }
-
+        .header-pattern {
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: 260px;
+            background: radial-gradient(ellipse at 100% 50%, rgba(201,169,110,0.06) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .welcome-section { position: relative; }
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(201,169,110,0.05));
+            border: 1px solid rgba(201,169,110,0.28);
+            color: var(--gold-2);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 4px 11px;
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+        .welcome-badge::before { content: '✦'; font-size: 8px; }
         .welcome-section h1 {
-            font-size: 2rem;
-            font-weight: 300;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-        }
-
-        .welcome-section p {
-            color: var(--text-mid);
-            font-size: 1.1rem;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--rose-dark);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-weight: 500;
-        }
-
-        /* Products Section */
-        .products-section {
-            background: var(--admin-card);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
+            font-family: var(--font-display);
+            font-size: 2.15rem;
             font-weight: 400;
             color: var(--text-dark);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            line-height: 1.25;
         }
+        .welcome-section p { color: var(--text-mid); font-size: 13.5px; font-weight: 300; }
+        .header-date {
+            font-size: 11.5px;
+            color: var(--text-light);
+            margin-top: 6px;
+            letter-spacing: 0.04em;
+        }
+        .header-user-block {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-user-text { text-align: right; }
+        .header-user-name {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: 0.5px;
+        }
+        .header-user-tier {
+            font-size: 11px;
+            color: var(--text-light);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+        .header-avatar {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 0 0 3px rgba(201,169,110,0.2), var(--shadow-gold);
+        }
+
+        /* ─── PRODUCTS SECTION ──────────────────────────── */
+        .products-section {
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: 0.5px;
+        }
+        .section-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+        .section-body { padding: 20px 24px; }
+        .view-all-link {
+            font-size: 12px;
+            color: var(--gold-2);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            display: flex; align-items: center; gap: 4px;
+            transition: opacity 0.2s;
+        }
+        .view-all-link:hover { opacity: 0.75; }
 
         .products-controls {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
             flex-wrap: wrap;
         }
 
         .search-box {
             position: relative;
-            width: 300px;
+            width: 280px;
         }
 
         .search-box input {
             width: 100%;
-            padding: 12px 45px 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 25px;
-            font-size: 14px;
-            background: var(--admin-bg);
+            padding: 10px 40px 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-family: var(--font-body);
+            background: var(--cream-2);
             transition: all 0.3s ease;
+            color: var(--text-dark);
         }
 
         .search-box input:focus {
             outline: none;
             border-color: var(--gold);
-            background: white;
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(201,169,110,0.1);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-light);
         }
 
         .search-box svg {
             position: absolute;
-            right: 16px;
+            right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            color: var(--text-mid);
+            width: 16px;
+            height: 16px;
+            color: var(--text-light);
+            pointer-events: none;
         }
 
         .filter-dropdown {
@@ -312,50 +571,68 @@
         }
 
         .filter-btn {
-            background: transparent;
-            border: 2px solid var(--border);
-            padding: 12px 20px;
-            border-radius: 25px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
             color: var(--text-mid);
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-family: var(--font-body);
+            font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .filter-btn:hover {
-            border-color: var(--gold);
+            border-color: var(--border-gold);
             color: var(--text-dark);
+            background: var(--cream-2);
         }
 
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            gap: 20px;
+            margin-top: 20px;
         }
 
         .product-card {
-            background: var(--admin-bg);
-            border-radius: 15px;
+            background: var(--card);
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.3s var(--ease);
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 60%, rgba(201,169,110,0.03) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-md);
-            border-color: var(--gold);
+            border-color: var(--border-gold);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
         }
 
         .product-image {
             width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, #f8f5f2 0%, #e6ddd6 100%);
+            background: linear-gradient(135deg, var(--cream-2), var(--blush));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -366,14 +643,16 @@
 
         .product-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             background: var(--rose-dark);
             color: white;
-            padding: 4px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
 
         .product-info {
@@ -385,13 +664,15 @@
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 8px;
+            font-family: var(--font-body);
         }
 
         .product-description {
             color: var(--text-mid);
             font-size: 0.9rem;
             margin-bottom: 15px;
-            line-height: 1.4;
+            line-height: 1.5;
+            font-weight: 300;
         }
 
         .product-price {
@@ -405,6 +686,7 @@
             font-size: 1.3rem;
             font-weight: 700;
             color: var(--rose-dark);
+            font-family: var(--font-display);
         }
 
         .price-original {
@@ -420,31 +702,35 @@
 
         .btn-add-cart {
             flex: 1;
-            background: var(--rose-dark);
+            background: linear-gradient(135deg, var(--rose-dark), var(--rose));
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 25px;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: var(--font-body);
+            font-size: 13px;
+            letter-spacing: 0.02em;
         }
 
         .btn-add-cart:hover {
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold), var(--gold-2));
             transform: translateY(-1px);
+            box-shadow: var(--shadow-gold);
         }
 
         .btn-wishlist {
-            background: transparent;
-            border: 2px solid var(--border);
+            background: var(--white);
+            border: 1px solid var(--border);
             color: var(--text-mid);
-            padding: 10px;
+            padding: 12px;
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -453,6 +739,7 @@
         .btn-wishlist:hover {
             border-color: var(--rose-dark);
             color: var(--rose-dark);
+            background: rgba(232, 196, 184, 0.1);
         }
 
         .btn-wishlist.active {
@@ -461,119 +748,178 @@
             color: white;
         }
 
+        /* ─── RESPONSIVE ────────────────────────────────── */
+        @media (max-width: 1060px) {
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        }
+        @media (max-width: 960px) {
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+            .mobile-nav-drawer { display: block; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+        }
         @media (max-width: 768px) {
-            .member-sidebar {
-                position: fixed;
-                left: -280px;
-                height: 100vh;
-                z-index: 1000;
-                transition: left 0.3s ease;
-            }
-
-            .member-sidebar.open {
-                left: 0;
-            }
-
-            .member-main {
-                margin-left: 0;
-            }
-
-            .products-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .header-actions {
-                flex-direction: column;
-                gap: 15px;
-                width: 100%;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .products-controls {
-                width: 100%;
-                flex-direction: column;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
-            }
+            .header-content { flex-direction: column; text-align: center; gap: 14px; }
+            .header-user-block { flex-direction: column; gap: 10px; }
+            .header-user-text { text-align: center; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .products-controls { width: 100%; flex-direction: column; }
+            .search-box { width: 100%; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+        }
+        @media (max-width: 480px) {
+            .products-container { padding: 0 16px; }
+            .header-content { padding: 20px; }
+            .section-body { padding: 16px; }
+            .products-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="member-wrapper">
-        <!-- MEMBER SIDEBAR -->
-        <aside class="member-sidebar" id="memberSidebar">
-            <div class="sidebar-brand">
-                <span class="brand-icon">✦</span>
-                <span class="brand-name">Skin Care</span>
-                <span class="brand-badge">member</span>
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-promo">
+                <span class="topbar-dot"></span>
+                
             </div>
-            <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <div class="topbar-right">
+                <a href="#">Help</a>
+                <span class="topbar-sep">|</span>
+                <a href="#">Contact</a>
+                <span class="topbar-sep">|</span>
+                <a href="#">Rewards</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="dashboard.html" class="nav-brand">
+                <div class="brand-emblem">✦</div>
+                <div class="brand-text">
+                    <span class="brand-name">Lumière</span>
+                    <span class="brand-tagline">Skincare</span>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="dashboard.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
                     </svg>
-                    <span>Dashboard</span>
-                </a>
-                <a href="products.html" class="nav-item active">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    Dashboard
+                </a></li>
+                <li><a href="products.html" class="active">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                         <line x1="3" y1="6" x2="21" y2="6"/>
                         <path d="M16 10a4 4 0 0 1-8 0"/>
                     </svg>
-                    <span>Shop Products</span>
-                </a>
-                <a href="orders.html" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    Shop
+                </a></li>
+                <li><a href="orders.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
                     </svg>
-                    <span>My Orders</span>
-                </a>
-                <a href="profile.html" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    Orders
+                </a></li>
+                <li><a href="profile.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
-                    <span>Profile</span>
-                </a>
-                <a href="recruits.html" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 00-4-4H11a4 4 0 00-4 4v2"/>
-                        <circle cx="15" cy="7" r="4"/>
-                    </svg>
-                    <span>My Recruits</span>
-                </a>
-                <a href="rewards.html" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    Profile
+                </a></li>
+                <li><a href="rewards.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                     </svg>
-                    <span>Rewards</span>
-                </a>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="member-info">
-                    <div class="member-avatar" id="sidebarAvatar">JD</div>
-                    <div class="member-details">
-                        <span class="member-name" id="sidebarName">John Doe</span>
-                        <span class="member-role">Premium Member</span>
+                    Rewards
+                </a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="nav-member-pill">
+                    <div class="nav-avatar" id="navAvatar">JD</div>
+                    <span class="nav-member-name" id="navMemberName">John Doe</span>
+                </div>
+                <button class="nav-logout-btn" onclick="logout()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+                <button class="nav-hamburger" id="navHamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <div class="mobile-drawer-overlay" onclick="toggleMobileDrawer()"></div>
+        <div class="mobile-drawer-panel">
+            <div class="mobile-drawer-brand">
+                <div class="brand-emblem">✦</div>
+                <div class="brand-text">
+                    <span class="brand-name">Lumière</span>
+                    <span class="brand-tagline">Skincare</span>
+                </div>
+            </div>
+            <ul class="mobile-drawer-links">
+                <li><a href="dashboard.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    Dashboard
+                </a></li>
+                <li><a href="products.html" class="active">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    Shop Products
+                </a></li>
+                <li><a href="orders.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    My Orders
+                </a></li>
+                <li><a href="profile.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Profile
+                </a></li>
+                <li><a href="rewards.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    Rewards
+                </a></li>
+            </ul>
+            <div class="mobile-drawer-footer">
+                <div class="mobile-member-info">
+                    <div class="nav-avatar" id="mobileNavAvatar">JD</div>
+                    <div>
+                        <div id="mobileNavName">John Doe</div>
+                        <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px;">Premium Member</div>
                     </div>
                 </div>
-                <button class="logout-btn" id="logoutMemberBtn" onclick="logout()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <button class="nav-logout-btn" onclick="logout()" style="width: 100%; justify-content: center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
                         <polyline points="16 17 21 12 16 7"/>
                         <line x1="21" y1="12" x2="9" y2="12"/>
@@ -581,265 +927,300 @@
                     <span>Logout</span>
                 </button>
             </div>
-        </aside>
+        </div>
+    </div>
 
-        <!-- MAIN CONTENT -->
-        <main class="member-main">
-            <!-- Products Page -->
-            <section class="products-page">
-                <div class="products-container">
-                    <!-- Products Header -->
-                    <div class="products-header">
-                        <div class="welcome-section">
-                            <h1>Shop Products</h1>
-                            <p>Discover our premium skincare collection</p>
-                        </div>
-                        <div class="header-actions">
-                            <div class="user-info">
-                                <div class="user-avatar">👤</div>
-                                <div>
-                                    <div id="userName">Loading...</div>
-                                    <div style="font-size: 0.85rem; opacity: 0.9;">Member</div>
-                                </div>
-                            </div>
+    <!-- MAIN PAGE CONTENT -->
+    <main class="products-page">
+        <div class="products-container">
+            <!-- Products Header -->
+            <div class="products-header">
+                <div class="header-accent-bar"></div>
+                <div class="header-content">
+                    <div class="welcome-section">
+                        <div class="welcome-badge">Member Exclusive</div>
+                        <h1>Shop Products</h1>
+                        <p>Discover our premium skincare collection</p>
+                        <div class="header-date">
+                            <span id="currentDate">Loading...</span>
                         </div>
                     </div>
+                    <div class="header-user-block">
+                        <div class="header-user-text">
+                            <div class="header-user-name" id="headerUserName">John Doe</div>
+                            <div class="header-user-tier">Premium Member</div>
+                        </div>
+                        <div class="header-avatar" id="headerAvatar">JD</div>
+                    </div>
+                </div>
+                <div class="header-pattern"></div>
+            </div>
 
-                    <!-- Products Section -->
-                    <div class="products-section">
-                        <div class="section-header">
-                            <h2 class="section-title">All Products</h2>
-                            <div class="products-controls">
-                                <div class="search-box">
-                                    <input type="text" placeholder="Search products..." id="searchInput">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"></circle>
-                                        <path d="m21 21-4.35-4.35"></path>
-                                    </svg>
+            <!-- Products Section -->
+            <div class="products-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">All Products</h2>
+                        <div class="section-sub">6 products available</div>
+                    </div>
+                    <div class="products-controls">
+                        <div class="search-box">
+                            <input type="text" placeholder="Search products..." id="searchInput">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </div>
+                        <div class="filter-dropdown">
+                            <button class="filter-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                                </svg>
+                                All Categories
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="section-body">
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Product 1 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                🧴
+                                <span class="product-badge">Bestseller</span>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Vitamin C Serum</h3>
+                                <p class="product-description">Brightening serum with 20% vitamin C for radiant skin</p>
+                                <div class="product-price">
+                                    <span class="price-current">$45.00</span>
+                                    <span class="price-original">$55.00</span>
                                 </div>
-                                <div class="filter-dropdown">
-                                    <button class="filter-btn">
+                                <div class="product-actions">
+                                    <button class="btn-add-cart" onclick="addToCart('Vitamin C Serum', 45)">Add to Cart</button>
+                                    <button class="btn-wishlist" onclick="toggleWishlist(this)">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                                         </svg>
-                                        All Categories
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Products Grid -->
-                        <div class="products-grid" id="productsGrid">
-                            <!-- Product 1 -->
-                            <div class="product-card">
-                                <div class="product-image">
-                                    🧴
-                                    <span class="product-badge">Bestseller</span>
+                        <!-- Product 2 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                🌿
+                                <span class="product-badge">New</span>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Aloe Vera Moisturizer</h3>
+                                <p class="product-description">Hydrating moisturizer with organic aloe vera</p>
+                                <div class="product-price">
+                                    <span class="price-current">$32.00</span>
                                 </div>
-                                <div class="product-info">
-                                    <h3 class="product-name">Vitamin C Serum</h3>
-                                    <p class="product-description">Brightening serum with 20% vitamin C for radiant skin</p>
-                                    <div class="product-price">
-                                        <span class="price-current">$45.00</span>
-                                        <span class="price-original">$55.00</span>
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="btn-add-cart" onclick="addToCart('Vitamin C Serum', 45)">Add to Cart</button>
-                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                <div class="product-actions">
+                                    <button class="btn-add-cart" onclick="addToCart('Aloe Vera Moisturizer', 32)">Add to Cart</button>
+                                    <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Product 2 -->
-                            <div class="product-card">
-                                <div class="product-image">
-                                    🌿
-                                    <span class="product-badge">New</span>
+                        <!-- Product 3 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                🌸
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Rosehip Face Oil</h3>
+                                <p class="product-description">Luxurious face oil for anti-aging and hydration</p>
+                                <div class="product-price">
+                                    <span class="price-current">$58.00</span>
                                 </div>
-                                <div class="product-info">
-                                    <h3 class="product-name">Aloe Vera Moisturizer</h3>
-                                    <p class="product-description">Hydrating moisturizer with organic aloe vera</p>
-                                    <div class="product-price">
-                                        <span class="price-current">$32.00</span>
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="btn-add-cart" onclick="addToCart('Aloe Vera Moisturizer', 32)">Add to Cart</button>
-                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                <div class="product-actions">
+                                    <button class="btn-add-cart" onclick="addToCart('Rosehip Face Oil', 58)">Add to Cart</button>
+                                    <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Product 3 -->
-                            <div class="product-card">
-                                <div class="product-image">
-                                    🌸
+                        <!-- Product 4 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                🧼
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Gentle Cleanser</h3>
+                                <p class="product-description">pH-balanced cleanser for all skin types</p>
+                                <div class="product-price">
+                                    <span class="price-current">$28.00</span>
                                 </div>
-                                <div class="product-info">
-                                    <h3 class="product-name">Rosehip Face Oil</h3>
-                                    <p class="product-description">Luxurious face oil for anti-aging and hydration</p>
-                                    <div class="product-price">
-                                        <span class="price-current">$58.00</span>
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="btn-add-cart" onclick="addToCart('Rosehip Face Oil', 58)">Add to Cart</button>
-                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                <div class="product-actions">
+                                    <button class="btn-add-cart" onclick="addToCart('Gentle Cleanser', 28)">Add to Cart</button>
+                                    <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Product 4 -->
-                            <div class="product-card">
-                                <div class="product-image">
-                                    🧼
+                        <!-- Product 5 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                ☀️
+                                <span class="product-badge">Essential</span>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">SPF 50 Sunscreen</h3>
+                                <p class="product-description">Broad spectrum sunscreen with zinc oxide</p>
+                                <div class="product-price">
+                                    <span class="price-current">$42.00</span>
                                 </div>
-                                <div class="product-info">
-                                    <h3 class="product-name">Gentle Cleanser</h3>
-                                    <p class="product-description">pH-balanced cleanser for all skin types</p>
-                                    <div class="product-price">
-                                        <span class="price-current">$28.00</span>
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="btn-add-cart" onclick="addToCart('Gentle Cleanser', 28)">Add to Cart</button>
-                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                <div class="product-actions">
+                                    <button class="btn-add-cart" onclick="addToCart('SPF 50 Sunscreen', 42)">Add to Cart</button>
+                                    <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Product 5 -->
-                            <div class="product-card">
-                                <div class="product-image">
-                                    ☀️
-                                    <span class="product-badge">Essential</span>
-                                </div>
-                                <div class="product-info">
-                                    <h3 class="product-name">SPF 50 Sunscreen</h3>
-                                    <p class="product-description">Broad spectrum sunscreen with zinc oxide</p>
-                                    <div class="product-price">
-                                        <span class="price-current">$42.00</span>
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="btn-add-cart" onclick="addToCart('SPF 50 Sunscreen', 42)">Add to Cart</button>
-                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
+                        <!-- Product 6 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                💎
+                                <span class="product-badge">Premium</span>
                             </div>
-
-                            <!-- Product 6 -->
-                            <div class="product-card">
-                                <div class="product-image">
-                                    💎
-                                    <span class="product-badge">Premium</span>
+                            <div class="product-info">
+                                <h3 class="product-name">Night Repair Cream</h3>
+                                <p class="product-description">Advanced anti-aging night treatment</p>
+                                <div class="product-price">
+                                    <span class="price-current">$78.00</span>
+                                    <span class="price-original">$95.00</span>
                                 </div>
-                                <div class="product-info">
-                                    <h3 class="product-name">Night Repair Cream</h3>
-                                    <p class="product-description">Advanced anti-aging night treatment</p>
-                                    <div class="product-price">
-                                        <span class="price-current">$78.00</span>
-                                        <span class="price-original">$95.00</span>
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="btn-add-cart" onclick="addToCart('Night Repair Cream', 78)">Add to Cart</button>
-                                        <button class="btn-wishlist" onclick="toggleWishlist(this)">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                <div class="product-actions">
+                                    <button class="btn-add-cart" onclick="addToCart('Night Repair Cream', 78)">Add to Cart</button>
+                                    <button class="btn-wishlist" onclick="toggleWishlist(this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
+        </div>
+    </main>
 
     <script>
-        // Load user data
+        // Load user data and initialize page
         function loadUserData() {
             const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-            const userName = document.getElementById('userName');
-            const sidebarName = document.getElementById('sidebarName');
-            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            
+            // Update all user name elements
+            const userNameElements = [
+                document.getElementById('navMemberName'),
+                document.getElementById('headerUserName'),
+                document.getElementById('mobileNavName')
+            ];
+            
+            // Update all avatar elements
+            const avatarElements = [
+                document.getElementById('navAvatar'),
+                document.getElementById('headerAvatar'),
+                document.getElementById('mobileNavAvatar')
+            ];
             
             if (currentUser.name) {
-                userName.textContent = currentUser.name;
-                sidebarName.textContent = currentUser.name;
+                const displayName = currentUser.name;
+                userNameElements.forEach(el => {
+                    if (el) el.textContent = displayName;
+                });
                 
                 // Create initials for avatar
                 const names = currentUser.name.split(' ');
                 const initials = names.map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                sidebarAvatar.textContent = initials;
+                avatarElements.forEach(el => {
+                    if (el) el.textContent = initials;
+                });
             } else {
-                userName.textContent = 'Guest Member';
-                sidebarName.textContent = 'Guest Member';
-                sidebarAvatar.textContent = 'GM';
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('currentUser');
-            showToast('Logged out successfully. Redirecting to login...', 'success');
-            setTimeout(() => {
-                window.location.href = '../Login/login.html';
-            }, 2000);
-        }
-
-        function addToCart(productName, price) {
-            // Get existing cart or create new one
-            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            
-            // Check if product already in cart
-            const existingItem = cart.find(item => item.name === productName);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    name: productName,
-                    price: price,
-                    quantity: 1
+                const defaultName = 'Guest Member';
+                const defaultInitials = 'GM';
+                userNameElements.forEach(el => {
+                    if (el) el.textContent = defaultName;
+                });
+                avatarElements.forEach(el => {
+                    if (el) el.textContent = defaultInitials;
                 });
             }
             
-            // Save cart
-            localStorage.setItem('cart', JSON.stringify(cart));
-            showToast(`${productName} added to cart!`, 'success');
+            // Set current date
+            const currentDate = document.getElementById('currentDate');
+            if (currentDate) {
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                currentDate.textContent = new Date().toLocaleDateString('en-US', options);
+            }
         }
 
-        function toggleWishlist(button) {
-            button.classList.toggle('active');
-            const isActive = button.classList.contains('active');
-            const productName = button.closest('.product-card').querySelector('.product-name').textContent;
+        // Mobile drawer toggle
+        function toggleMobileDrawer() {
+            const drawer = document.getElementById('mobileNavDrawer');
+            const hamburger = document.getElementById('navHamburger');
             
-            if (isActive) {
-                showToast(`${productName} added to wishlist!`, 'success');
-            } else {
-                showToast(`${productName} removed from wishlist!`, 'info');
+            if (drawer && hamburger) {
+                drawer.classList.toggle('open');
+                hamburger.classList.toggle('open');
+            }
+        }
+
+        // Navbar scroll effect
+        function handleNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            if (navbar) {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+        }
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Hamburger menu
+            const hamburger = document.getElementById('navHamburger');
+            if (hamburger) {
+                hamburger.addEventListener('click', toggleMobileDrawer);
+            }
+            
+            // Scroll effect for navbar
+            window.addEventListener('scroll', handleNavbarScroll);
+            
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', handleSearch);
             }
         }
 
         // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
+        function handleSearch(e) {
             const searchTerm = e.target.value.toLowerCase();
             const productCards = document.querySelectorAll('.product-card');
             
@@ -853,48 +1234,99 @@
                     card.style.display = 'none';
                 }
             });
-        });
+        }
 
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 10px;
-                color: white;
-                font-weight: 500;
-                z-index: 10000;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-            `;
+        // Logout function
+        function logout() {
+            localStorage.removeItem('currentUser');
+            showToast('Logged out successfully. Redirecting to login...', 'success');
+            setTimeout(() => {
+                window.location.href = '../Login/login.html';
+            }, 2000);
+        }
+
+        // Add to cart function
+        function addToCart(productName, price) {
+            // Get existing cart or create new one
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
             
-            if (type === 'success') {
-                toast.style.background = '#28a745';
-            } else if (type === 'error') {
-                toast.style.background = '#dc3545';
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+                showToast(`${productName} quantity updated in cart`, 'success');
             } else {
-                toast.style.background = '#17a2b8';
+                cart.push({
+                    name: productName,
+                    price: price,
+                    quantity: 1
+                });
+                showToast(`${productName} added to cart`, 'success');
             }
             
+            // Save cart
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Toggle wishlist
+        function toggleWishlist(button) {
+            button.classList.toggle('active');
+            const isActive = button.classList.contains('active');
+            const productName = button.closest('.product-card').querySelector('.product-name').textContent;
+            
+            if (isActive) {
+                showToast(`${productName} added to wishlist`, 'success');
+            } else {
+                showToast(`${productName} removed from wishlist`, 'info');
+            }
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            // Remove existing toast if any
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // Create new toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
             toast.textContent = message;
+            
+            // Style based on type
+            if (type === 'success') {
+                toast.style.background = 'linear-gradient(135deg, var(--sage), #7a9a6a)';
+                toast.style.borderColor = 'rgba(168,184,156,0.3)';
+            } else if (type === 'error') {
+                toast.style.background = 'linear-gradient(135deg, #e8614f, #d44a36)';
+                toast.style.borderColor = 'rgba(231,76,60,0.3)';
+            }
+            
             document.body.appendChild(toast);
             
+            // Show toast
             setTimeout(() => {
-                toast.style.transform = 'translateX(0)';
+                toast.classList.add('show');
             }, 100);
             
+            // Hide toast after 3 seconds
             setTimeout(() => {
-                toast.style.transform = 'translateX(100%)';
+                toast.classList.remove('show');
                 setTimeout(() => {
-                    document.body.removeChild(toast);
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
                 }, 300);
             }, 3000);
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', loadUserData);
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            initializeEventListeners();
+            handleNavbarScroll(); // Initial check
+        });
     </script>
 </body>
 </html>

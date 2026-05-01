@@ -3,811 +3,1326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Dashboard - Skin Care</title>
+    <title>Member Dashboard — Lumière Skincare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Member Dashboard Specific Styles */
         :root {
-            --admin-bg: #f8f5f2;
-            --admin-sidebar: #1e1816;
-            --admin-card: #ffffff;
-            --gold: #c9a96e;
+            --cream: #faf8f5;
+            --cream-2: #f3ede6;
+            --blush: #f5e6de;
+            --rose: #e8c4b8;
             --rose-dark: #c49080;
-            --text-dark: #2c2420;
-            --text-mid: #6b5a52;
-            --text-light: #a08c84;
-            --border: #e6ddd6;
-            --shadow-sm: 0 4px 12px rgba(44, 36, 32, 0.06);
-            --shadow-md: 0 8px 24px rgba(44, 36, 32, 0.08);
-            --transition: 0.2s ease;
+            --gold: #c9a96e;
+            --gold-2: #b8924f;
+            --gold-light: #f5e8cc;
+            --gold-glow: rgba(201,169,110,0.18);
+            --sage: #a8b89c;
+            --text-dark: #1e1610;
+            --text-mid: #5c4a40;
+            --text-light: #9c8278;
+            --white: #ffffff;
+            --border: rgba(180,150,130,0.18);
+            --border-gold: rgba(201,169,110,0.3);
+            --sidebar: #18120e;
+            --sidebar-2: #211710;
+            --card: #ffffff;
+            --shadow-xs: 0 2px 8px rgba(44,36,32,0.05);
+            --shadow-sm: 0 4px 16px rgba(44,36,32,0.07);
+            --shadow-md: 0 10px 32px rgba(44,36,32,0.11);
+            --shadow-gold: 0 4px 20px rgba(201,169,110,0.22);
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Jost', sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --nav-h: 68px;
+            --topbar-h: 38px;
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 28px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--admin-bg);
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .member-wrapper {
+        /* ─── TOPBAR ─────────────────────────────────────── */
+        .topbar {
+            background: var(--sidebar);
+            color: rgba(255,255,255,0.65);
+            font-size: 11.5px;
+            height: var(--topbar-h);
             display: flex;
-            min-height: 100vh;
+            align-items: center;
+            transition: height 0.4s var(--ease), opacity 0.3s;
+            overflow: hidden;
+            letter-spacing: 0.035em;
         }
-
-        /* ---------- MEMBER SIDEBAR ---------- */
-        .member-sidebar {
-            width: 280px;
-            background: var(--admin-sidebar);
-            backdrop-filter: blur(2px);
+        .topbar.hidden { height: 0; opacity: 0; pointer-events: none; }
+        .topbar-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .topbar-promo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .topbar-dot {
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse-dot 2.4s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 11px;
+        }
+        .topbar-right a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+        .topbar-right a:hover { color: var(--gold); }
+        .topbar-sep { color: rgba(255,255,255,0.18); }
+
+        /* ─── NAVBAR ─────────────────────────────────────── */
+        .navbar {
             position: sticky;
             top: 0;
-            height: 100vh;
-            transition: all 0.3s;
-            z-index: 100;
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .sidebar-brand {
-            padding: 32px 24px;
+            z-index: 200;
+            background: var(--sidebar);
+            height: var(--nav-h);
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: box-shadow 0.3s, background 0.3s;
         }
-
-        .brand-icon {
-            font-size: 28px;
-            color: var(--gold);
+        .navbar::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.35;
         }
-
-        .brand-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 500;
-            color: white;
-            letter-spacing: 1px;
+        .navbar.scrolled {
+            box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+            background: rgba(24, 18, 14, 0.96);
+            backdrop-filter: blur(16px);
         }
-
-        .brand-badge {
-            background: rgba(201, 169, 110, 0.2);
-            color: var(--gold);
-            font-size: 9px;
-            padding: 2px 8px;
-            border-radius: 40px;
-            margin-left: 6px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 0 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .nav-item {
+        .navbar-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            background: transparent;
-            border: none;
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(255,255,255,0.65);
-            cursor: pointer;
-            transition: all 0.2s;
+            justify-content: space-between;
             width: 100%;
-            text-align: left;
-            text-decoration: none;
+            gap: 28px;
         }
 
-        .nav-item svg {
-            flex-shrink: 0;
-        }
-
-        .nav-item:hover {
-            background: rgba(255,255,255,0.06);
-            color: white;
-        }
-
-        .nav-item.active {
-            background: rgba(201, 169, 110, 0.18);
-            color: var(--gold);
-            border-left: 3px solid var(--gold);
-        }
-
-        .sidebar-footer {
-            padding: 24px 20px 32px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            margin-top: auto;
-        }
-
-        .member-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .member-avatar {
-            width: 42px;
-            height: 42px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .member-details {
-            flex: 1;
-        }
-
-        .member-name {
-            display: block;
-            color: white;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .member-role {
-            display: block;
-            color: rgba(255,255,255,0.6);
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
-        .logout-btn {
+        /* Brand */
+        .nav-brand {
             display: flex;
             align-items: center;
             gap: 10px;
-            width: 100%;
-            padding: 10px 16px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .brand-emblem {
+            width: 34px; height: 34px;
+            border: 1px solid rgba(201,169,110,0.45);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold);
+            font-size: 14px;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(201,169,110,0.12), transparent);
+            transition: all 0.3s;
+        }
+        .nav-brand:hover .brand-emblem {
+            border-color: var(--gold);
+            box-shadow: 0 0 16px rgba(201,169,110,0.3);
+        }
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+        .brand-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+        .brand-tagline {
+            font-size: 8.5px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            list-style: none;
+            flex: 1;
+        }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
             font-size: 13px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.52);
+            letter-spacing: 0.02em;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-links a svg { flex-shrink: 0; opacity: 0.65; transition: opacity 0.2s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+        .nav-links a:hover svg { opacity: 1; }
+        .nav-links a.active {
+            background: linear-gradient(135deg, rgba(201,169,110,0.18), rgba(201,169,110,0.06));
+            color: var(--gold);
+            position: relative;
+        }
+        .nav-links a.active::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 2px;
+            background: var(--gold);
+            border-radius: 1px;
+        }
+        .nav-links a.active svg { opacity: 1; }
+
+        /* Nav actions */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .nav-member-pill {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(201,169,110,0.1);
+            border: 1px solid rgba(201,169,110,0.22);
+            padding: 5px 13px 5px 5px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .nav-member-pill:hover {
+            background: rgba(201,169,110,0.18);
+            border-color: rgba(201,169,110,0.5);
+            box-shadow: var(--shadow-gold);
+        }
+        .nav-avatar {
+            width: 30px; height: 30px;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--sidebar);
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0;
+            flex-shrink: 0;
+        }
+        .nav-member-name {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .nav-logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.42);
+            font-size: 12.5px;
+            font-family: var(--font-body);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .nav-logout-btn:hover {
+            border-color: rgba(231,76,60,0.35);
+            color: #e8614f;
+            background: rgba(231,76,60,0.07);
         }
 
-        .logout-btn:hover {
-            background: rgba(231, 76, 60, 0.2);
-            border-color: rgba(231, 76, 60, 0.3);
-            color: #e74c3c;
+        /* Hamburger */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
         }
+        .nav-hamburger span {
+            display: block;
+            width: 22px; height: 1.5px;
+            background: rgba(255,255,255,0.65);
+            border-radius: 2px;
+            transition: all 0.3s var(--ease);
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-        /* ---------- MAIN CONTENT ---------- */
-        .member-main {
+        /* Mobile drawer */
+        .mobile-nav-drawer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+        }
+        .mobile-nav-drawer.open { display: block; }
+        .mobile-drawer-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(3px);
+        }
+        .mobile-drawer-panel {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 284px;
+            background: var(--sidebar);
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.35s var(--ease);
+            display: flex;
+            flex-direction: column;
+        }
+        .mobile-nav-drawer.open .mobile-drawer-panel { transform: translateX(0); }
+        .mobile-drawer-brand {
+            padding: 28px 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mobile-drawer-links {
+            list-style: none;
+            padding: 14px 10px;
             flex: 1;
-            background: var(--admin-bg);
-            overflow-x: hidden;
+        }
+        .mobile-drawer-links a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.58);
+            transition: all 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .mobile-drawer-links a:hover { background: rgba(255,255,255,0.06); color: white; }
+        .mobile-drawer-links a.active {
+            background: linear-gradient(135deg, rgba(201,169,110,0.18), rgba(201,169,110,0.06));
+            color: var(--gold);
+        }
+        .mobile-drawer-footer {
+            padding: 18px 14px 32px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .mobile-member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding: 12px;
+            background: rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
+        /* ─── PAGE ─────────────────────────────────────── */
         .dashboard-page {
-            min-height: 100vh;
-            background: var(--admin-bg);
-            padding: 20px 0;
+            min-height: calc(100vh - var(--nav-h) - var(--topbar-h));
+            padding: 36px 0 80px;
         }
-
         .dashboard-container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 28px;
         }
 
+        /* ─── WELCOME HEADER ────────────────────────────── */
         .dashboard-header {
-            background: var(--admin-card);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            padding: 0;
+            margin-bottom: 28px;
             box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            position: relative;
+        }
+        .header-accent-bar {
+            width: 5px;
+            flex-shrink: 0;
+            background: linear-gradient(180deg, var(--gold) 0%, var(--rose) 60%, transparent 100%);
+            border-radius: 4px 0 0 4px;
+        }
+        .header-content {
+            flex: 1;
+            padding: 28px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 18px;
         }
-
+        .header-pattern {
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: 260px;
+            background: radial-gradient(ellipse at 100% 50%, rgba(201,169,110,0.06) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .welcome-section { position: relative; }
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(201,169,110,0.05));
+            border: 1px solid rgba(201,169,110,0.28);
+            color: var(--gold-2);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 4px 11px;
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+        .welcome-badge::before { content: '✦'; font-size: 8px; }
         .welcome-section h1 {
-            font-size: 2rem;
-            font-weight: 300;
+            font-family: var(--font-display);
+            font-size: 2.15rem;
+            font-weight: 400;
             color: var(--text-dark);
-            margin-bottom: 8px;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            line-height: 1.25;
         }
-
-        .welcome-section p {
-            color: var(--text-mid);
-            font-size: 1.1rem;
+        .welcome-section p { color: var(--text-mid); font-size: 13.5px; font-weight: 300; }
+        .header-date {
+            font-size: 11.5px;
+            color: var(--text-light);
+            margin-top: 6px;
+            letter-spacing: 0.04em;
         }
-
-        .header-actions {
+        .header-user-block {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 14px;
+        }
+        .header-user-text { text-align: right; }
+        .header-user-name {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: 0.5px;
+        }
+        .header-user-tier {
+            font-size: 11px;
+            color: var(--text-light);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+        .header-avatar {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 0 0 3px rgba(201,169,110,0.2), var(--shadow-gold);
         }
 
-        .back-home-btn {
+        /* ─── QUICK ACTIONS ─────────────────────────────── */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .quick-btn {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 20px;
-            background: transparent;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: var(--card);
             color: var(--text-mid);
-            border: 2px solid var(--border);
-            border-radius: 25px;
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 14px;
+            transition: all 0.22s var(--ease);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            box-shadow: var(--shadow-xs);
         }
-
-        .back-home-btn:hover {
-            background: var(--admin-card);
+        .quick-btn svg { flex-shrink: 0; color: var(--text-light); transition: color 0.2s; }
+        .quick-btn:hover {
+            border-color: var(--border-gold);
             color: var(--text-dark);
-            border-color: var(--gold);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(201,169,110,0.05), var(--card));
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
         }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--rose-dark);
+        .quick-btn:hover svg { color: var(--gold); }
+        .quick-btn.primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-2));
             color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-weight: 500;
+            border-color: transparent;
+            box-shadow: var(--shadow-gold);
+        }
+        .quick-btn.primary svg { color: white; }
+        .quick-btn.primary:hover {
+            background: linear-gradient(135deg, #d4b47a, #c49a55);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(201,169,110,0.35);
         }
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
+        /* ─── STATS GRID ────────────────────────────────── */
+        .stats-label {
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 14px;
         }
-
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
         }
-
         .dashboard-card {
-            background: var(--admin-card);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--card);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px 20px;
+            box-shadow: var(--shadow-xs);
+            border: 1px solid var(--border);
+            transition: transform 0.3s var(--ease), box-shadow 0.3s, border-color 0.3s;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
         }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-        }
-
-        .card-value {
-            font-size: 2rem;
-            font-weight: 300;
-            color: var(--rose-dark);
-            margin-bottom: 8px;
-        }
-
-        .card-description {
-            color: var(--text-mid);
-            font-size: 0.9rem;
-        }
-
-        
-        .toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 40px;
-            padding: 12px 20px;
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s, visibility 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-weight: 500;
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 60%, rgba(201,169,110,0.03) 100%);
             pointer-events: none;
         }
-        .toast.show {
-            visibility: visible;
-            opacity: 1;
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-gold);
         }
+        .card-icon-wrap {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--blush), var(--gold-light));
+            border-radius: 13px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .card-title {
+            font-size: 10.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+        .card-value {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+        .card-desc { color: var(--text-light); font-size: 11.5px; font-weight: 300; }
+        .card-trend {
+            position: absolute;
+            top: 14px; right: 14px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--sage);
+            background: rgba(168,184,156,0.12);
+            border-radius: 20px;
+            padding: 2px 8px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ─── ACTIVITY + TIPS SECTION ──────────────────── */
+        .dashboard-two-col {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        .section-card {
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: 0.5px;
+        }
+        .section-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+        .section-body { padding: 20px 24px; }
+        .view-all-link {
+            font-size: 12px;
+            color: var(--gold-2);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            display: flex; align-items: center; gap: 4px;
+            transition: opacity 0.2s;
+        }
+        .view-all-link:hover { opacity: 0.75; }
+
+        /* Order rows */
+        .order-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .order-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .order-icon {
+            width: 38px; height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--cream-2), var(--blush));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .order-info { flex: 1; min-width: 0; }
+        .order-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .order-date { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+        .order-status {
+            font-size: 10.5px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.04em;
+        }
+        .status-delivered { background: rgba(168,184,156,0.18); color: #6a8f5a; }
+        .status-processing { background: rgba(201,169,110,0.14); color: var(--gold-2); }
+        .status-shipped { background: rgba(100,160,220,0.14); color: #4a88c4; }
+        .empty-state {
+            text-align: center;
+            padding: 28px 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .empty-icon { font-size: 2.2rem; margin-bottom: 10px; opacity: 0.55; }
+
+        /* Skincare tips */
+        .tip-item {
+            display: flex;
+            gap: 13px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .tip-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .tip-num {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-light), var(--blush));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--gold-2);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .tip-text { font-size: 13px; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
+        .tip-tag {
+            display: inline-block;
+            font-size: 9.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--gold-2);
+            background: rgba(201,169,110,0.1);
+            padding: 2px 7px;
+            border-radius: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* ─── REWARDS PROGRESS ──────────────────────────── */
+        .rewards-bar-wrap {
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-xs);
+            padding: 22px 26px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .rewards-icon {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--gold-light), var(--blush));
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .rewards-info { flex: 1; min-width: 180px; }
+        .rewards-title { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
+        .rewards-sub { font-size: 12px; color: var(--text-light); }
+        .rewards-progress-wrap { flex: 2; min-width: 200px; }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-light);
+            margin-bottom: 7px;
+        }
+        .progress-labels span:first-child { color: var(--gold-2); font-weight: 600; }
+        .progress-track {
+            height: 7px;
+            background: var(--cream-2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--rose-dark));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1.2s var(--ease);
+        }
+        .rewards-cta {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-2));
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-gold);
+            flex-shrink: 0;
+        }
+        .rewards-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(201,169,110,0.35); }
+
+        /* ─── TOAST ─────────────────────────────────────── */
+        .toast {
+            visibility: hidden;
+            min-width: 240px;
+            background: var(--sidebar);
+            color: var(--gold);
+            border: 1px solid rgba(201,169,110,0.3);
+            text-align: center;
+            border-radius: 40px;
+            padding: 11px 22px;
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            z-index: 2000;
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s var(--ease);
+            box-shadow: var(--shadow-md);
+            pointer-events: none;
+            letter-spacing: 0.03em;
+        }
+        .toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ─── BACK TO TOP ───────────────────────────────── */
         .back-to-top {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--gold);
+            bottom: 32px; right: 28px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-2));
             color: white;
             border: none;
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
+            width: 42px; height: 42px;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-md);
+            transition: all 0.35s var(--ease);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--shadow-gold);
             z-index: 99;
         }
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        .back-to-top:hover { transform: translateY(-3px) scale(1.07); }
+
+        /* ─── PAGE ENTER ANIMATION ──────────────────────── */
+        .anim-up {
+            opacity: 0;
+            transform: translateY(18px);
+            animation: fadeUp 0.55s var(--ease) forwards;
         }
-        .back-to-top:hover {
-            background: var(--rose-dark);
-            transform: translateY(-3px);
+        .anim-up:nth-child(1) { animation-delay: 0.05s; }
+        .anim-up:nth-child(2) { animation-delay: 0.12s; }
+        .anim-up:nth-child(3) { animation-delay: 0.19s; }
+        .anim-up:nth-child(4) { animation-delay: 0.26s; }
+        .anim-up:nth-child(5) { animation-delay: 0.33s; }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
         }
+        .dashboard-card { animation: fadeUp 0.55s var(--ease) both; }
+        .dashboard-card:nth-child(1) { animation-delay: 0.18s; }
+        .dashboard-card:nth-child(2) { animation-delay: 0.24s; }
+        .dashboard-card:nth-child(3) { animation-delay: 0.30s; }
+        .dashboard-card:nth-child(4) { animation-delay: 0.36s; }
+        .dashboard-card:nth-child(5) { animation-delay: 0.42s; }
 
-        @media (max-width: 768px) {
-            .member-sidebar {
-                position: fixed;
-                left: -280px;
-                height: 100vh;
-                z-index: 1000;
-                transition: left 0.3s ease;
-            }
-
-            .member-sidebar.open {
-                left: 0;
-            }
-
-            .member-main {
-                margin-left: 0;
-            }
-
-            .dashboard-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .header-actions {
-                flex-direction: column;
-                gap: 15px;
-                width: 100%;
-            }
-
-            .back-home-btn {
-                align-self: center;
-            }
-
-            .user-info {
-                align-self: stretch;
-                justify-content: center;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-                position: fixed;
-                top: 20px;
-                left: 20px;
-                z-index: 1001;
-                background: var(--rose-dark);
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 10px;
-                cursor: pointer;
-                box-shadow: var(--shadow-sm);
-            }
-
-            .mobile-menu-toggle svg {
-                width: 24px;
-                height: 24px;
-            }
-
-            .mobile-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 999;
-            }
-
-            .mobile-overlay.show {
-                display: block;
-            }
+        /* ─── RESPONSIVE ────────────────────────────────── */
+        @media (max-width: 1060px) {
+            .dashboard-grid { grid-template-columns: repeat(3, 1fr); }
+            .dashboard-two-col { grid-template-columns: 1fr; }
         }
-
-        @media (min-width: 769px) {
-            .mobile-menu-toggle {
-                display: none;
-            }
-
-            .mobile-overlay {
-                display: none !important;
-            }
+        @media (max-width: 960px) {
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+        @media (max-width: 700px) {
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .quick-actions { gap: 8px; }
+            .quick-btn span { display: none; }
+            .quick-btn { padding: 10px 14px; }
+        }
+        @media (max-width: 600px) {
+            .navbar-inner { padding: 0 16px; }
+            .topbar-right { display: none; }
+            .dashboard-container { padding: 0 16px; }
+            .dashboard-page { padding: 20px 0 60px; }
+            .header-content { padding: 22px 20px; }
+            .nav-member-name { display: none; }
+            .rewards-bar-wrap { flex-direction: column; align-items: flex-start; }
+        }
+        @media (max-width: 420px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Toggle -->
-    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-    </button>
 
-    <!-- Mobile Overlay -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
-
-    <div class="member-wrapper">
-        <!-- MEMBER SIDEBAR (Static UI, no dynamic data binding) -->
-        <aside class="member-sidebar" id="memberSidebar">
-            <div class="sidebar-brand">
-                <span class="brand-icon">✦</span>
-                <span class="brand-name">Skin Care</span>
-                <span class="brand-badge">member</span>
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-promo">
+                <div class="topbar-dot"></div>
+               
             </div>
-            <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item active" data-page="dashboard">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
-                    </svg>
-                    <span>Dashboard</span>
-                </a>
-                <a href="products.html" class="nav-item" data-page="products">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                        <line x1="3" y1="6" x2="21" y2="6"/>
-                        <path d="M16 10a4 4 0 0 1-8 0"/>
-                    </svg>
-                    <span>Shop Products</span>
-                </a>
-                <a href="orders.html" class="nav-item" data-page="orders">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                    </svg>
-                    <span>My Orders</span>
-                </a>
-                <a href="profile.html" class="nav-item" data-page="profile">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                    <span>Profile</span>
-                </a>
-                <a href="recruits.html" class="nav-item" data-page="recruits">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 00-4-4H11a4 4 0 00-4 4v2"/>
-                        <circle cx="15" cy="7" r="4"/>
-                    </svg>
-                    <span>My Recruits</span>
-                </a>
-                <a href="rewards.html" class="nav-item" data-page="rewards">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                    </svg>
-                    <span>Rewards</span>
-                </a>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="member-info">
-                    <div class="member-avatar" id="sidebarAvatar">—</div>
-                    <div class="member-details">
-                        <span class="member-name" id="sidebarName">Member</span>
-                        <span class="member-role">Premium Member</span>
-                    </div>
+            <div class="topbar-right">
+                <a href="#">Support</a>
+                <span class="topbar-sep">·</span>
+                <a href="#">Track Order</a>
+                <span class="topbar-sep">·</span>
+                <a href="#">FAQ</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-emblem">✦</div>
+                <div class="brand-text">
+                    <span class="brand-name">Lumière</span>
+                    <span class="brand-tagline">Skincare</span>
                 </div>
-                <button class="logout-btn" id="logoutMemberBtn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
-                    </svg>
-                    <span>Logout</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="dashboard.html" class="active" data-page="dashboard">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+                    Dashboard
+                </a></li>
+                <li><a href="products.html" data-page="products">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Shop
+                </a></li>
+                <li><a href="orders.html" data-page="orders">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    My Orders
+                </a></li>
+                <li><a href="recruits.html" data-page="recruits">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-4-4H11"/><circle cx="15" cy="7" r="4"/></svg>
+                    My Recruits
+                </a></li>
+                <li><a href="rewards.html" data-page="rewards">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Rewards
+                </a></li>
+                <li><a href="profile.html" data-page="profile">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Profile
+                </a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="nav-member-pill">
+                    <div class="nav-avatar" id="navAvatar">—</div>
+                    <span class="nav-member-name" id="navMemberName">Member</span>
+                </div>
+                <button class="nav-logout-btn" id="logoutBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Logout
+                </button>
+                <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
                 </button>
             </div>
-        </aside>
+        </div>
+    </nav>
 
-        <!-- MAIN CONTENT (Placeholder - all dynamic data removed, ready for external connection) -->
-        <main class="member-main">
-            <section class="dashboard-page">
-                <div class="dashboard-container">
-                    <!-- Dashboard Header : no dynamic user data, pure static structure -->
-                    <div class="dashboard-header">
-                        <div class="welcome-section">
-                            <h1>Welcome to Your Dashboard</h1>
-                            <p>Manage your skincare journey and track your progress</p>
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-nav-drawer" id="mobileDrawer">
+        <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+        <div class="mobile-drawer-panel">
+            <div class="mobile-drawer-brand">
+                <div class="brand-emblem" style="width:30px;height:30px;font-size:12px;">✦</div>
+                <div class="brand-text">
+                    <span style="font-family:var(--font-display);font-size:22px;color:white;letter-spacing:1.5px;">Lumière</span>
+                    <span style="font-size:8px;font-weight:600;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-top:1px;display:block;">Skincare</span>
+                </div>
+            </div>
+            <ul class="mobile-drawer-links">
+                <li><a href="dashboard.html" class="active">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+                    Dashboard
+                </a></li>
+                <li><a href="products.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Shop Products
+                </a></li>
+                <li><a href="orders.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    My Orders
+                </a></li>
+                <li><a href="recruits.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-4-4H11"/><circle cx="15" cy="7" r="4"/></svg>
+                    My Recruits
+                </a></li>
+                <li><a href="rewards.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Rewards
+                </a></li>
+                <li><a href="profile.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Profile
+                </a></li>
+                <li><a href="index.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 18 9 12 15 6"/></svg>
+                    Back to Store
+                </a></li>
+            </ul>
+            <div class="mobile-drawer-footer">
+                <div class="mobile-member-info">
+                    <div class="nav-avatar" id="drawerAvatar" style="width:36px;height:36px;font-size:13px;">—</div>
+                    <div>
+                        <div style="color:white;font-size:13px;font-weight:500;" id="drawerName">Member</div>
+                        <div style="color:rgba(255,255,255,0.45);font-size:11px;margin-top:2px;letter-spacing:0.04em;">Premium Member</div>
+                    </div>
+                </div>
+                <button class="nav-logout-btn" id="drawerLogoutBtn" style="width:100%;justify-content:center;border-radius:var(--radius-md);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD CONTENT -->
+    <div class="dashboard-page">
+        <div class="dashboard-container">
+
+            <!-- Welcome Header -->
+            <div class="dashboard-header anim-up">
+                <div class="header-accent-bar"></div>
+                <div class="header-pattern"></div>
+                <div class="header-content">
+                    <div class="welcome-section">
+                        <div class="welcome-badge">Premium Member</div>
+                        <h1>Welcome to Your Dashboard</h1>
+                        <p>Manage your skincare journey and track your progress</p>
+                        <div class="header-date" id="headerDate"></div>
+                    </div>
+                    <div class="header-user-block">
+                        <div class="header-user-text">
+                            <div class="header-user-name" id="headerUserName">Member</div>
+                            <div class="header-user-tier">Premium Member</div>
                         </div>
-                        <div class="header-actions">
-                            <div class="user-info">
-                                <div class="user-avatar">👤</div>
-                                <div>
-                                    <div id="userNameDisplay">Member</div>
-                                    <div style="font-size: 0.85rem; opacity: 0.9;">Member</div>
-                                </div>
+                        <div class="header-avatar" id="headerAvatar">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions anim-up">
+                <a href="products.html" class="quick-btn primary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    <span>Shop Now</span>
+                </a>
+                <a href="orders.html" class="quick-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>My Orders</span>
+                </a>
+                <a href="rewards.html" class="quick-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Redeem Points</span>
+                </a>
+                <a href="recruits.html" class="quick-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-4-4H11"/><circle cx="15" cy="7" r="4"/></svg>
+                    <span>Invite Friends</span>
+                </a>
+                <a href="profile.html" class="quick-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Edit Profile</span>
+                </a>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-label anim-up">Overview</div>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <span class="card-trend">All time</span>
+                    <div class="card-icon-wrap">🛒</div>
+                    <div class="card-title">Total Orders</div>
+                    <div class="card-value" id="statOrders">—</div>
+                    <div class="card-desc">Lifetime purchases</div>
+                </div>
+                <div class="dashboard-card">
+                    <span class="card-trend">Earnable</span>
+                    <div class="card-icon-wrap">⭐</div>
+                    <div class="card-title">Reward Points</div>
+                    <div class="card-value" id="statPoints">—</div>
+                    <div class="card-desc">Redeemable for discounts</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon-wrap">❤️</div>
+                    <div class="card-title">Wishlist</div>
+                    <div class="card-value" id="statWishlist">—</div>
+                    <div class="card-desc">Saved products</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon-wrap">📅</div>
+                    <div class="card-title">Member Since</div>
+                    <div class="card-value" id="statSince">—</div>
+                    <div class="card-desc">Skincare family member</div>
+                </div>
+                <div class="dashboard-card">
+                    <span class="card-trend">Active</span>
+                    <div class="card-icon-wrap">👥</div>
+                    <div class="card-title">My Recruits</div>
+                    <div class="card-value" id="statRecruits">—</div>
+                    <div class="card-desc">Team members</div>
+                </div>
+            </div>
+
+            <!-- Rewards Progress Bar -->
+            <div class="rewards-bar-wrap anim-up">
+                <div class="rewards-icon">✨</div>
+                <div class="rewards-info">
+                    <div class="rewards-title">Points Progress</div>
+                    <div class="rewards-sub">Earn 500 more points to unlock <strong>Gold Tier</strong></div>
+                </div>
+                <div class="rewards-progress-wrap">
+                    <div class="progress-labels">
+                        <span id="progressPoints">0 pts</span>
+                        <span>Gold Tier — 1,000 pts</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                <a href="rewards.html" class="rewards-cta">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    View Rewards
+                </a>
+            </div>
+
+            <!-- Two-column section -->
+            <div class="dashboard-two-col anim-up">
+                <!-- Recent Orders -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">Recent Orders</div>
+                            <div class="section-sub">Your latest purchases</div>
+                        </div>
+                        <a href="orders.html" class="view-all-link">
+                            View all
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                        </a>
+                    </div>
+                    <div class="section-body" id="recentOrders">
+                        <div class="empty-state">
+                            <div class="empty-icon">📦</div>
+                            <div>No orders yet</div>
+                            <div style="margin-top:4px;font-size:12px;color:var(--text-light);">Your orders will appear here once you shop</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skincare Tips -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <div class="section-title">Skincare Tips</div>
+                            <div class="section-sub">Curated for your routine</div>
+                        </div>
+                    </div>
+                    <div class="section-body">
+                        <div class="tip-item">
+                            <div class="tip-num">1</div>
+                            <div>
+                                <div class="tip-tag">Morning</div>
+                                <div class="tip-text">Always apply SPF 30+ sunscreen as the last step of your morning routine, even on cloudy days.</div>
+                            </div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-num">2</div>
+                            <div>
+                                <div class="tip-tag">Hydration</div>
+                                <div class="tip-text">Apply hyaluronic acid serum on slightly damp skin to lock in moisture more effectively.</div>
+                            </div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-num">3</div>
+                            <div>
+                                <div class="tip-tag">Nighttime</div>
+                                <div class="tip-text">Use retinol only at night and always follow with a rich moisturizer to minimize dryness.</div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Dashboard Stats Cards - All static placeholder values, no data fetching -->
-                    <div class="dashboard-grid">
-                        <div class="dashboard-card">
-                            <div class="card-icon">🛒</div>
-                            <div class="card-title">Total Orders</div>
-                            <div class="card-value">—</div>
-                            <div class="card-description">Lifetime purchases</div>
-                        </div>
-                        <div class="dashboard-card">
-                            <div class="card-icon">⭐</div>
-                            <div class="card-title">Reward Points</div>
-                            <div class="card-value">—</div>
-                            <div class="card-description">Redeemable for discounts</div>
-                        </div>
-                        <div class="dashboard-card">
-                            <div class="card-icon">❤️</div>
-                            <div class="card-title">Wishlist</div>
-                            <div class="card-value">—</div>
-                            <div class="card-description">Saved products</div>
-                        </div>
-                        <div class="dashboard-card">
-                            <div class="card-icon">📅</div>
-                            <div class="card-title">Member Since</div>
-                            <div class="card-value">—</div>
-                            <div class="card-description">Skincare family member</div>
-                        </div>
-                        <div class="dashboard-card">
-                            <div class="card-icon">👥</div>
-                            <div class="card-title">My Recruits</div>
-                            <div class="card-value">—</div>
-                            <div class="card-description">Active team members</div>
-                        </div>
-                    </div>
                 </div>
-            </section>
-        </main>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="18 15 12 9 6 15"/>
-        </svg>
+    <!-- Back to top -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
     </button>
 
     <script>
-        // ============================================================
-        // ALL DYNAMIC DATA CONNECTIONS HAVE BEEN REMOVED.
-        // This dashboard now contains zero hardcoded user data fetching,
-        // no localStorage reads for currentUser, no activity arrays,
-        // no static personalized values (like "John Doe" or "12 orders").
-        // All placeholders display "—" or neutral messages.
-        // Ready to be connected to external backend/API.
-        // ============================================================
-
-        (function() {
-            // Basic UI interactions only (mobile menu, back to top, toast utility)
-            // NO data loading, NO user population, NO localStorage access for member info.
-
-            // Mobile menu elements
-            const mobileToggle = document.getElementById('mobileMenuToggle');
-            const mobileOverlay = document.getElementById('mobileOverlay');
-            const sidebar = document.getElementById('memberSidebar');
-
-            function toggleMobileMenu() {
-                if (!sidebar || !mobileOverlay) return;
-                sidebar.classList.toggle('open');
-                mobileOverlay.classList.toggle('show');
-            }
-
-            function closeMobileMenu() {
-                if (sidebar) sidebar.classList.remove('open');
-                if (mobileOverlay) mobileOverlay.classList.remove('show');
-            }
-
-            if (mobileToggle) {
-                mobileToggle.addEventListener('click', toggleMobileMenu);
-            }
-            if (mobileOverlay) {
-                mobileOverlay.addEventListener('click', closeMobileMenu);
-            }
-
-            // Close mobile menu when clicking nav items on mobile
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768) {
-                        closeMobileMenu();
-                    }
-                    // Allow normal navigation for links
-                    const href = item.getAttribute('href');
-                    if (href && href !== '#') {
-                        // Let the link navigate normally
-                        return;
-                    }
-                    // For non-link items, show a message
-                    const page = item.getAttribute('data-page');
-                    if (page) {
-                        showToast(`Navigate to ${page} section (integration ready)`, 'info');
-                        e.preventDefault();
-                    }
-                });
-            });
-
-            // Logout button - no actual logout logic that depends on localStorage
-            const logoutBtn = document.getElementById('logoutMemberBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', () => {
-                    showToast('Logout function ready — connect to your auth system', 'info');
-                    // Removed any redirect or localStorage cleanup to keep data-free.
-                    // In external integration, you can attach your own logout handler.
-                });
-            }
-
-            // Back to Top button logic
-            const backToTopBtn = document.getElementById('backToTop');
-            if (backToTopBtn) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 400) {
-                        backToTopBtn.classList.add('visible');
-                    } else {
-                        backToTopBtn.classList.remove('visible');
-                    }
-                });
-                backToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            }
-
-            // Toast notification helper (pure UI, not attached to any data)
-            function showToast(message, type = 'info') {
-                const toastEl = document.getElementById('toast');
-                if (!toastEl) return;
-                toastEl.textContent = message;
-                toastEl.className = 'toast show';
-                if (type === 'success') {
-                    toastEl.style.background = '#2ecc71';
-                    toastEl.style.color = 'white';
-                } else if (type === 'error') {
-                    toastEl.style.background = '#e74c3c';
-                    toastEl.style.color = 'white';
-                } else {
-                    toastEl.style.background = 'var(--gold)';
-                    toastEl.style.color = '#1e1816';
-                }
-                setTimeout(() => {
-                    toastEl.classList.remove('show');
-                }, 2800);
-            }
-
-            // Expose showToast globally if needed for external integrations
-            window.dashboardUtils = {
-                showToast,
-                closeMobileMenu,
-                toggleMobileMenu
-            };
-
-            // Load user data and display member information
-            function loadUserData() {
-                // Try to get user data from localStorage
-                const currentUser = localStorage.getItem('currentUser');
-                let userData = null;
-                
-                if (currentUser) {
-                    try {
-                        userData = JSON.parse(currentUser);
-                    } catch (e) {
-                        console.error('Error parsing user data:', e);
-                    }
-                }
-                
-                // If no data in localStorage, try sessionStorage (for demo purposes)
-                if (!userData) {
-                    const sessionUser = sessionStorage.getItem('currentUser');
-                    if (sessionUser) {
-                        try {
-                            userData = JSON.parse(sessionUser);
-                        } catch (e) {
-                            console.error('Error parsing session user data:', e);
-                        }
-                    }
-                }
-                
-                // Get DOM elements
-                const userNameSpan = document.getElementById('userNameDisplay');
-                const sidebarNameSpan = document.getElementById('sidebarName');
-                const sidebarAvatarSpan = document.getElementById('sidebarAvatar');
-                
-                // Display user data or fallback to default
-                const displayName = userData ? (userData.name || userData.fullName || userData.username || 'Member') : 'Member';
-                const initials = userData ? getInitials(displayName) : '—';
-                
-                if (userNameSpan) userNameSpan.textContent = displayName;
-                if (sidebarNameSpan) sidebarNameSpan.textContent = displayName;
-                if (sidebarAvatarSpan) sidebarAvatarSpan.textContent = initials;
-                
-                // Store for potential external use
-                window.currentUser = userData;
-            }
-            
-            // Helper function to get initials from name
+        (function () {
+            // ── User data ───────────────────────────────
             function getInitials(name) {
-                if (!name || name === 'Member') return '—';
+                if (!name || name === 'Member') return '✦';
                 const parts = name.trim().split(' ');
-                if (parts.length >= 2) {
-                    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-                } else {
-                    return name.substring(0, 2).toUpperCase();
-                }
+                return parts.length >= 2
+                    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+                    : name.substring(0, 2).toUpperCase();
             }
-            
-            // Load user data on page load
+
+            function loadUserData() {
+                let userData = null;
+                try { userData = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser')); } catch (e) {}
+                const displayName = userData ? (userData.name || userData.fullName || userData.username || 'Member') : 'Member';
+                const initials = getInitials(displayName);
+                ['navAvatar', 'drawerAvatar', 'headerAvatar'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = initials;
+                });
+                ['navMemberName', 'drawerName', 'headerUserName'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = displayName;
+                });
+                window.currentUser = userData;
+
+                // Demo stats (replace with real data)
+                const orders = userData?.orders ?? 0;
+                const points = userData?.points ?? 0;
+                const wishlist = userData?.wishlist ?? 0;
+                const recruits = userData?.recruits ?? 0;
+                const since = userData?.memberSince ? new Date(userData.memberSince).getFullYear() : '—';
+
+                setVal('statOrders', orders || '0');
+                setVal('statPoints', points || '0');
+                setVal('statWishlist', wishlist || '0');
+                setVal('statSince', since);
+                setVal('statRecruits', recruits || '0');
+
+                // Progress bar
+                const pct = Math.min((points / 1000) * 100, 100);
+                setTimeout(() => {
+                    const fill = document.getElementById('progressFill');
+                    if (fill) fill.style.width = pct + '%';
+                }, 400);
+                const pp = document.getElementById('progressPoints');
+                if (pp) pp.textContent = points + ' pts';
+            }
+
+            function setVal(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            }
+
             loadUserData();
-            
-            // Dashboard stat numeric values all remain "—" intentionally.
-            // Activity list displays generic "No recent orders" etc.
-            // No JavaScript modifies them.    
+
+            // ── Date ────────────────────────────────────
+            const dateEl = document.getElementById('headerDate');
+            if (dateEl) {
+                dateEl.textContent = new Date().toLocaleDateString('en-PH', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                });
+            }
+
+            // ── Scroll behavior ─────────────────────────
+            const topbar = document.getElementById('topbar');
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (topbar) topbar.classList.toggle('hidden', window.scrollY > 60);
+                if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 40);
+                const btn = document.getElementById('backToTop');
+                if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+
+            // ── Mobile drawer ────────────────────────────
+            const hamburger = document.getElementById('hamburger');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+
+            function openDrawer() {
+                mobileDrawer.classList.add('open');
+                hamburger.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeDrawer() {
+                mobileDrawer.classList.remove('open');
+                hamburger.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            if (hamburger) hamburger.addEventListener('click', () =>
+                mobileDrawer.classList.contains('open') ? closeDrawer() : openDrawer());
+            if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+            // ── Logout ───────────────────────────────────
+            function handleLogout() {
+                // Clear user session from localStorage
+                localStorage.removeItem('currentUser');
+                
+                // Show logout success message
+                showToast('Logging out... Redirecting to login page', 'success');
+                
+                // Redirect to login page after a short delay
+                setTimeout(() => {
+                    window.location.href = '../Login/login.html';
+                }, 1500);
+            }
+            document.getElementById('logoutBtn')?.addEventListener('click', handleLogout);
+            document.getElementById('drawerLogoutBtn')?.addEventListener('click', handleLogout);
+
+            // ── Back to top ──────────────────────────────
+            document.getElementById('backToTop')?.addEventListener('click', () =>
+                window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            // ── Toast ────────────────────────────────────
+            function showToast(message, type = 'info') {
+                const el = document.getElementById('toast');
+                if (!el) return;
+                el.textContent = message;
+                el.className = 'toast show';
+                el.style.background = type === 'success' ? '#243c20' : type === 'error' ? '#3c1f1f' : 'var(--sidebar)';
+                el.style.color = type === 'success' ? '#7fbe6a' : type === 'error' ? '#e8614f' : 'var(--gold)';
+                setTimeout(() => el.classList.remove('show'), 3000);
+            }
+
+            window.dashboardUtils = { showToast, openDrawer, closeDrawer };
         })();
     </script>
 </body>

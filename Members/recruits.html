@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>My Recruits - Skin Care | Organized Pyramid</title>
+    <title>My Recruits - Skin Care | Elegant Hierarchy</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ---------- GLOBAL RESET & BASE (preserved original variables) ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -36,12 +35,12 @@
             overflow-x: hidden;
         }
 
-        /* member wrapper & sidebar (preserved exact style) */
         .member-wrapper {
             display: flex;
             min-height: 100vh;
         }
 
+        /* MEMBER SIDEBAR (exactly as products page) */
         .member-sidebar {
             width: 280px;
             background: var(--admin-sidebar);
@@ -196,7 +195,7 @@
             color: #e74c3c;
         }
 
-        /* MAIN CONTENT AREA */
+        /* MAIN CONTENT */
         .member-main {
             flex: 1;
             background: var(--admin-bg);
@@ -215,7 +214,7 @@
             padding: 0 24px;
         }
 
-        /* header style original */
+        /* Products-header style adapted */
         .recruits-header {
             background: var(--admin-card);
             border-radius: 20px;
@@ -253,26 +252,28 @@
             font-weight: 500;
         }
 
-        .recruits-content {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 30px;
-        }
-
+        /* Stats card (refined like product card style) */
         .stats-card {
             background: var(--admin-card);
             border-radius: 24px;
             padding: 28px;
             box-shadow: var(--shadow-sm);
-            height: fit-content;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--gold);
         }
 
         .stats-card h2 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 400;
             margin-bottom: 24px;
             color: var(--text-dark);
             font-family: 'Cormorant Garamond', serif;
+            letter-spacing: -0.2px;
         }
 
         .stat-item {
@@ -293,12 +294,17 @@
             color: var(--rose-dark);
         }
 
+        /* RECRUITS CARD -> SAME AESTHETIC AS PRODUCTS SECTION */
         .recruits-card {
             background: var(--admin-card);
             border-radius: 28px;
             padding: 28px;
             box-shadow: var(--shadow-sm);
-            overflow: visible;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .recruits-card:hover {
+            box-shadow: var(--shadow-md);
         }
 
         .recruits-card h2 {
@@ -310,26 +316,30 @@
             margin-bottom: 28px;
             color: var(--text-dark);
             font-family: 'Cormorant Garamond', serif;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .recruit-btn {
             background: var(--rose-dark);
             color: white;
             border: none;
-            padding: 10px 24px;
+            padding: 10px 28px;
             border-radius: 40px;
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
-
         .recruit-btn:hover {
             background: var(--gold);
             transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(201,169,110,0.25);
         }
 
-        /* ========== PYRAMID / HIERARCHY SECTION (COMPLETELY RESTRUCTURED, ORGANIZED, AESTHETIC) ========== */
+        /* PYRAMID STRUCTURE refined with product-card like members */
         .pyramid-structure {
             display: flex;
             flex-direction: column;
@@ -340,7 +350,6 @@
             padding: 30px 10px 40px;
         }
 
-        /* each level container */
         .pyramid-level {
             display: flex;
             flex-wrap: wrap;
@@ -351,12 +360,11 @@
             margin-bottom: 70px;
         }
 
-        /* last level margin reduced */
         .pyramid-level:last-child {
             margin-bottom: 20px;
         }
 
-        /* connector line group: elegant golden gradient vertical bar */
+        /* connector elegant lines */
         .pyramid-level:not(:first-child)::before {
             content: '';
             position: absolute;
@@ -371,7 +379,6 @@
             z-index: 3;
         }
 
-        /* decorative horizontal branch lines when multiple members exist -> smart connecting lines (only level2, level3 if needed) */
         .pyramid-level.level-2::after,
         .pyramid-level.level-3::after {
             content: '';
@@ -388,11 +395,11 @@
             opacity: 0.9;
         }
 
-        /* for each member card, we add a subtle vertical line from the main horizontal bar if needed (position absolute) but we refine for elegance */
+        /* MEMBER CARD -> INSPIRED BY PRODUCT-CARD */
         .pyramid-member {
             position: relative;
-            background: white;
-            border-radius: 32px;
+            background: var(--admin-card);
+            border-radius: 24px;
             padding: 22px 20px 20px;
             min-width: 210px;
             max-width: 260px;
@@ -406,7 +413,13 @@
             background: rgba(255,255,255,0.98);
         }
 
-        /* Individual vertical connector from horizontal branch down to each card (level 2 & 3) */
+        .pyramid-member:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 40px rgba(44, 36, 32, 0.12);
+            border-color: var(--gold);
+        }
+
+        /* vertical stem for each card */
         .pyramid-level.level-2 .pyramid-member::before,
         .pyramid-level.level-3 .pyramid-member::before {
             content: '';
@@ -419,28 +432,21 @@
             background: linear-gradient(180deg, var(--rose-dark) 30%, var(--gold) 100%);
             border-radius: 2px;
             z-index: 1;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        /* No extra line on level-1 (top) */
         .pyramid-level.level-1 .pyramid-member::before {
             display: none;
         }
 
-        /* special styling for levels */
+        /* level-specific top borders like product badges */
         .pyramid-member.top-level {
             border-top: 5px solid var(--gold);
-            background: linear-gradient(145deg, #fffef7, #ffffff);
         }
-
         .pyramid-member.mid-level {
             border-top: 5px solid var(--rose-dark);
-            background: white;
         }
-
         .pyramid-member.bottom-level {
             border-top: 5px solid var(--text-mid);
-            background: white;
         }
 
         .level-indicator {
@@ -464,7 +470,6 @@
         .pyramid-member.mid-level .level-indicator {
             background: linear-gradient(135deg, var(--rose-dark), #b57867);
         }
-
         .pyramid-member.bottom-level .level-indicator {
             background: linear-gradient(135deg, var(--text-mid), #8e6f62);
         }
@@ -486,27 +491,26 @@
             transition: transform 0.2s;
             margin-bottom: 12px;
         }
-
         .pyramid-member.mid-level .profile-image {
             border-color: var(--rose-dark);
         }
-
         .pyramid-member.bottom-level .profile-image {
             border-color: var(--text-mid);
+        }
+        .pyramid-member:hover .profile-image {
+            transform: scale(1.05);
         }
 
         .recruit-header {
             text-align: center;
             width: 100%;
         }
-
         .recruit-name {
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: var(--text-dark);
             margin-bottom: 6px;
         }
-
         .recruit-status {
             display: inline-block;
             padding: 4px 14px;
@@ -515,17 +519,14 @@
             font-weight: 600;
             letter-spacing: 0.3px;
         }
-
         .status-active {
             background: #e6f4ea;
             color: #2e6b3e;
         }
-
         .status-pending {
             background: #fff2db;
             color: #b45f1b;
         }
-
         .click-hint {
             text-align: center;
             margin-top: 16px;
@@ -538,28 +539,10 @@
             color: var(--gold);
             letter-spacing: 0.3px;
         }
-
-        .pyramid-member:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 24px 40px rgba(44, 36, 32, 0.12);
-            border-color: var(--gold);
-        }
-
         .pyramid-member:hover .click-hint {
             background: rgba(201, 169, 110, 0.2);
         }
 
-        /* level 2 & level 3 spacing adjustment to make lines visible */
-        @media (min-width: 780px) {
-            .pyramid-level {
-                gap: 50px;
-            }
-            .pyramid-member {
-                min-width: 230px;
-            }
-        }
-
-        /* responsive: mobile stack */
         @media (max-width: 860px) {
             .recruits-content {
                 grid-template-columns: 1fr;
@@ -579,12 +562,21 @@
             .pyramid-level .pyramid-member {
                 margin-top: 30px;
             }
-            .pyramid-structure {
-                padding-top: 20px;
+        }
+
+        /* responsive grid for stats + recruits */
+        .recruits-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 860px) {
+            .recruits-content {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Modal styles preserved */
+        /* MODAL stays elegant */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -668,10 +660,6 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
-        .modal-info-item {
-            display: flex;
-            flex-direction: column;
-        }
         .modal-info-label {
             font-size: 0.7rem;
             color: var(--text-mid);
@@ -697,195 +685,61 @@
             font-weight: 700;
             color: var(--gold);
         }
-        .btn-primary {
-            background: var(--rose-dark);
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 30px;
-            cursor: pointer;
-        }
-
-        /* ===== TEAM HIERARCHY PYRAMID (MODAL) ===== */
         .modal-pyramid-section {
             background: linear-gradient(135deg, #fdf9f5, #f5ede6);
-            padding: 20px 16px 24px;
+            padding: 16px;
             border-radius: 20px;
-            margin-top: 16px;
-            border: 1px solid rgba(201,169,110,0.2);
         }
         .team-hierarchy-title {
             font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-            font-size: 1rem;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .hierarchy-icon { font-size: 1.1rem; }
-
-        /* Pyramid wrapper inside modal */
         .modal-pyramid-wrap {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 0;
-            width: 100%;
+            gap: 20px;
         }
-
-        /* Each level row */
         .modal-pyr-level {
             display: flex;
             justify-content: center;
             gap: 14px;
-            width: 100%;
+            flex-wrap: wrap;
             position: relative;
-            padding-top: 36px;
+            padding-top: 20px;
         }
-
-        /* Vertical stem from previous level down to horizontal branch */
-        .modal-pyr-level::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 36px;
-            background: linear-gradient(180deg, var(--gold), var(--rose-dark));
-            border-radius: 2px;
-        }
-
-        /* Horizontal branch bar (only when >1 member in this level) */
-        .modal-pyr-level.multi-node::after {
-            content: '';
-            position: absolute;
-            top: 36px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-width: 400px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--rose-dark) 50%, var(--gold) 80%, transparent);
-            border-radius: 2px;
-            z-index: 1;
-        }
-
-        /* Individual card wrapper — adds the drop line */
-        .modal-pyr-card-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            flex: 0 0 auto;
-        }
-
-        /* Drop line from horizontal bar to each card */
-        .modal-pyr-level.multi-node .modal-pyr-card-wrap::before {
-            content: '';
-            position: absolute;
-            top: -16px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 16px;
-            background: linear-gradient(180deg, var(--rose-dark), var(--gold));
-            border-radius: 2px;
-            z-index: 2;
-        }
-
-        /* Single-node level: no branch, just the stem connects directly */
-        .modal-pyr-level.single-node .modal-pyr-card-wrap::before {
-            display: none;
-        }
-
-        /* The card itself */
         .modal-pyr-card {
             background: white;
             border-radius: 18px;
-            padding: 14px 12px 12px;
+            padding: 12px 10px;
             text-align: center;
-            box-shadow: 0 6px 16px rgba(44,36,32,0.1);
+            width: 100px;
             border: 1px solid var(--border);
-            transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+            transition: 0.2s;
             cursor: pointer;
-            width: 108px;
-            position: relative;
-            overflow: visible;
         }
-
-        /* Level accent stripe */
         .modal-pyr-card.lv-1 { border-top: 4px solid var(--gold); }
         .modal-pyr-card.lv-2 { border-top: 4px solid var(--rose-dark); }
         .modal-pyr-card.lv-3 { border-top: 4px solid var(--text-mid); }
-
-        .modal-pyr-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 14px 28px rgba(44,36,32,0.14);
-            border-color: var(--gold);
-        }
-
-        /* Level pill */
-        .modal-pyr-lvbadge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            padding: 3px 10px;
-            border-radius: 40px;
-            color: white;
-            white-space: nowrap;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-            z-index: 5;
-        }
-        .modal-pyr-card.lv-1 .modal-pyr-lvbadge { background: linear-gradient(135deg, var(--gold), #bd8a5a); }
-        .modal-pyr-card.lv-2 .modal-pyr-lvbadge { background: linear-gradient(135deg, var(--rose-dark), #b57867); }
-        .modal-pyr-card.lv-3 .modal-pyr-lvbadge { background: linear-gradient(135deg, var(--text-mid), #8e6f62); }
-
         .modal-pyr-avatar {
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 4px auto 10px;
+            margin: 6px auto;
             border: 2px solid var(--gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            display: block;
-            transition: transform 0.2s;
         }
-        .modal-pyr-card.lv-2 .modal-pyr-avatar { border-color: var(--rose-dark); }
-        .modal-pyr-card.lv-3 .modal-pyr-avatar { border-color: var(--text-mid); }
-        .modal-pyr-card:hover .modal-pyr-avatar { transform: scale(1.07); }
-
         .modal-pyr-name {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 7px;
-            line-height: 1.2;
         }
         .modal-pyr-status {
-            font-size: 0.68rem;
-            padding: 3px 10px;
+            font-size: 0.65rem;
+            padding: 2px 8px;
             border-radius: 20px;
-            font-weight: 600;
-            letter-spacing: 0.2px;
             display: inline-block;
-        }
-        .modal-pyr-status.status-active  { background: #e6f4ea; color: #2e6b3e; }
-        .modal-pyr-status.status-pending  { background: #fff2db; color: #b45f1b; }
-        .modal-pyr-status.status-inactive { background: #ffebee; color: #c62828; }
-
-        .no-recruits-message {
-            text-align: center;
-            color: var(--text-mid);
-            font-style: italic;
-            padding: 20px;
-            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -907,57 +761,28 @@
         </nav>
         <div class="sidebar-footer">
             <div class="member-info"><div class="member-avatar" id="sidebarAvatar">JD</div><div class="member-details"><span class="member-name" id="sidebarName">John Doe</span><span class="member-role">Premium Member</span></div></div>
-            <button class="logout-btn" id="logoutMemberBtn" onclick="logout()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Logout</span></button>
+            <button class="logout-btn" onclick="logout()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Logout</span></button>
         </div>
     </aside>
     <main class="member-main">
         <section class="recruits-page">
             <div class="recruits-container">
-                <div class="recruits-header"><div class="welcome-section"><h1>My Recruits</h1><p>Manage your team and track recruitment performance</p></div><div class="header-actions"><div class="user-info"><div>👤</div><div><div id="userName">Loading...</div><div style="font-size:0.85rem;">Member</div></div></div></div></div>
+                <div class="recruits-header">
+                    <div class="welcome-section"><h1>My Recruits</h1><p>Manage your team & track performance</p></div>
+                    <div class="user-info"><div>👤</div><div><div id="userName">Loading...</div><div style="font-size:0.85rem;">Member</div></div></div>
+                </div>
                 <div class="recruits-content">
-                    <div class="stats-card"><h2>Recruitment Stats</h2><div class="stat-item"><span class="stat-label">Total Recruits</span><span class="stat-value">5</span></div><div class="stat-item"><span class="stat-label">Active Members</span><span class="stat-value">3</span></div><div class="stat-item"><span class="stat-label">Pending Approval</span><span class="stat-value">2</span></div><div class="stat-item"><span class="stat-label">Commission Earned</span><span class="stat-value">$450</span></div><div class="stat-item"><span class="stat-label">This Month</span><span class="stat-value">2</span></div></div>
-                    <div class="recruits-card"><h2>Team Members <button class="recruit-btn" onclick="showRecruitForm()">+ New Recruit</button></h2>
-                        <!-- PYRAMID STRUCTURE: IMPROVED VISUAL HIERARCHY WITH VISIBLE LINES -->
-                        <div class="pyramid-structure">
-                            <!-- Level 1 (Top) -->
-                            <div class="pyramid-level level-1">
-                                <div class="pyramid-member top-level" onclick="openModal({image:'https://picsum.photos/seed/leader/90/90.jpg',name:'You (Team Leader)',status:'Active',joinDate:'January 1, 2024',email:'leader@team.com',phone:'+1234567890',level:'Diamond Leader',orders:25,sales:1250,recruits:5,teamHierarchy:[{level:1,members:[{name:'Sarah Johnson',image:'https://picsum.photos/seed/sarah/80/80.jpg',status:'Active',level:'Gold Member'},{name:'Michael Chen',image:'https://picsum.photos/seed/michael/80/80.jpg',status:'Active',level:'Silver Member'}]},{level:2,members:[{name:'Emma Wilson',image:'https://picsum.photos/seed/emma/80/80.jpg',status:'Pending',level:'Bronze Member'},{name:'James Davis',image:'https://picsum.photos/seed/james/80/80.jpg',status:'Active',level:'Bronze Member'},{name:'Lisa Anderson',image:'https://picsum.photos/seed/lisa/80/80.jpg',status:'Active',level:'Bronze Member'}]}]})">
-                                    <div class="level-indicator">LEVEL 1</div>
-                                    <div class="profile-section"><img src="https://picsum.photos/seed/leader/80/80.jpg" alt="Leader" class="profile-image"><div class="recruit-header"><div class="recruit-name">You (Team Leader)</div><div class="recruit-status status-active">Active</div></div></div>
-                                    <div class="click-hint"><span>✦ View Details ✦</span></div>
-                                </div>
-                            </div>
-                            <!-- Level 2 -->
-                            <div class="pyramid-level level-2">
-                                <div class="pyramid-member mid-level" onclick="openModal({image:'https://picsum.photos/seed/sarah2/90/90.jpg',name:'Sarah Johnson',status:'Active',joinDate:'March 1, 2024',email:'sarah.j@email.com',phone:'+1234567890',level:'Gold Member',orders:12,sales:680,recruits:3,teamHierarchy:[{level:1,members:[{name:'Emma Wilson',image:'https://picsum.photos/seed/emma/80/80.jpg',status:'Pending',level:'Bronze Member'},{name:'James Davis',image:'https://picsum.photos/seed/james/80/80.jpg',status:'Active',level:'Bronze Member'},{name:'Lisa Anderson',image:'https://picsum.photos/seed/lisa/80/80.jpg',status:'Active',level:'Bronze Member'}]}]})">
-                                    <div class="level-indicator">LEVEL 2</div>
-                                    <div class="profile-section"><img src="https://picsum.photos/seed/sarah/80/80.jpg" class="profile-image"><div class="recruit-header"><div class="recruit-name">Sarah Johnson</div><div class="recruit-status status-active">Active</div></div></div>
-                                    <div class="click-hint"><span>Click details</span></div>
-                                </div>
-                                <div class="pyramid-member mid-level" onclick="openModal({image:'https://picsum.photos/seed/michael2/90/90.jpg',name:'Michael Chen',status:'Active',joinDate:'February 15, 2024',email:'m.chen@email.com',phone:'+1234567891',level:'Silver Member',orders:8,sales:420,recruits:0,teamHierarchy:[]})">
-                                    <div class="level-indicator">LEVEL 2</div>
-                                    <div class="profile-section"><img src="https://picsum.photos/seed/michael/80/80.jpg" class="profile-image"><div class="recruit-header"><div class="recruit-name">Michael Chen</div><div class="recruit-status status-active">Active</div></div></div>
-                                    <div class="click-hint"><span>Click details</span></div>
-                                </div>
-                            </div>
-                            <!-- Level 3 -->
-                            <div class="pyramid-level level-3">
-                                <div class="pyramid-member bottom-level" onclick="openModal({image:'https://picsum.photos/seed/emma3/90/90.jpg',name:'Emma Wilson',status:'Pending',joinDate:'March 20, 2024',email:'emma.w@email.com',phone:'+1234567892',level:'Bronze Member',orders:2,sales:120,recruits:0,teamHierarchy:[]})">
-                                    <div class="level-indicator">LEVEL 3</div>
-                                    <div class="profile-section"><img src="https://picsum.photos/seed/emma/80/80.jpg" class="profile-image"><div class="recruit-header"><div class="recruit-name">Emma Wilson</div><div class="recruit-status status-pending">Pending</div></div></div>
-                                    <div class="click-hint"><span>Click details</span></div>
-                                </div>
-                                <div class="pyramid-member bottom-level" onclick="openModal({image:'https://picsum.photos/seed/james3/90/90.jpg',name:'James Davis',status:'Active',joinDate:'March 10, 2024',email:'james.d@email.com',phone:'+1234567893',level:'Bronze Member',orders:5,sales:280,recruits:0,teamHierarchy:[]})">
-                                    <div class="level-indicator">LEVEL 3</div>
-                                    <div class="profile-section"><img src="https://picsum.photos/seed/james/80/80.jpg" class="profile-image"><div class="recruit-header"><div class="recruit-name">James Davis</div><div class="recruit-status status-active">Active</div></div></div>
-                                    <div class="click-hint"><span>Click details</span></div>
-                                </div>
-                                <div class="pyramid-member bottom-level" onclick="openModal({image:'https://picsum.photos/seed/lisa3/90/90.jpg',name:'Lisa Anderson',status:'Active',joinDate:'March 5, 2024',email:'lisa.a@email.com',phone:'+1234567894',level:'Bronze Member',orders:3,sales:180,recruits:0,teamHierarchy:[]})">
-                                    <div class="level-indicator">LEVEL 3</div>
-                                    <div class="profile-section"><img src="https://picsum.photos/seed/lisa/80/80.jpg" class="profile-image"><div class="recruit-header"><div class="recruit-name">Lisa Anderson</div><div class="recruit-status status-active">Active</div></div></div>
-                                    <div class="click-hint"><span>Click details</span></div>
-                                </div>
-                            </div>
+                    <div class="stats-card"><h2>Recruitment Stats</h2>
+                        <div class="stat-item"><span class="stat-label">Total Recruits</span><span class="stat-value" id="totalRecruitsStat">5</span></div>
+                        <div class="stat-item"><span class="stat-label">Active Members</span><span class="stat-value" id="activeStat">3</span></div>
+                        <div class="stat-item"><span class="stat-label">Pending Approval</span><span class="stat-value" id="pendingStat">2</span></div>
+                        <div class="stat-item"><span class="stat-label">Commission Earned</span><span class="stat-value">$450</span></div>
+                        <div class="stat-item"><span class="stat-label">This Month</span><span class="stat-value">2</span></div>
+                    </div>
+                    <div class="recruits-card">
+                        <h2>Team Hierarchy <button class="recruit-btn" onclick="showRecruitForm()">+ New Recruit</button></h2>
+                        <div class="pyramid-structure" id="pyramidStructure">
+                            <!-- Dynamic generation with product-like cards -->
                         </div>
                     </div>
                 </div>
@@ -965,64 +790,119 @@
         </section>
     </main>
 </div>
-<div class="modal-overlay" id="memberModal"><div class="modal"><div class="modal-header"><img id="modalProfileImage" class="modal-profile-image"><div><h3 id="modalName" class="modal-name"></h3><span id="modalStatus" class="modal-status"></span></div><button class="modal-close" onclick="closeModal()">&times;</button></div><div class="modal-content"><div class="modal-section"><h4 class="modal-section-title">Personal Information</h4><div class="modal-info-grid"><div><span class="modal-info-label">Join Date</span><div id="modalJoinDate"></div></div><div><span class="modal-info-label">Email</span><div id="modalEmail"></div></div><div><span class="modal-info-label">Phone</span><div id="modalPhone"></div></div><div><span class="modal-info-label">Level</span><div id="modalLevel"></div></div></div></div><div class="modal-section"><h4 class="modal-section-title">Performance</h4><div class="modal-stats-grid"><div class="modal-stat-item"><div id="modalOrders" class="modal-stat-value"></div><div>Orders</div></div><div class="modal-stat-item"><div id="modalSales" class="modal-stat-value"></div><div>Sales ($)</div></div><div class="modal-stat-item"><div id="modalRecruits" class="modal-stat-value"></div><div>Recruits</div></div></div></div><div class="modal-pyramid-section" id="modalPyramidSection" style="display:none;"><div id="modalPyramidContainer" class="modal-pyramid-container"></div></div></div></div></div>
-    <script>
-        function loadUserData(){const u=JSON.parse(localStorage.getItem('currentUser')||'{}');const nameSpan=document.getElementById('userName'),sideName=document.getElementById('sidebarName'),avatar=document.getElementById('sidebarAvatar');if(u.name){nameSpan.textContent=u.name;sideName.textContent=u.name;let initials=u.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();avatar.textContent=initials;}else{nameSpan.textContent='Guest Member';sideName.textContent='Guest Member';avatar.textContent='GM';}}
-        function logout(){localStorage.removeItem('currentUser');showToast('Logged out successfully. Redirecting...','success');setTimeout(()=>{window.location.href='../Login/login.html';},1500);}
-        function showRecruitForm(){showToast('Recruitment form coming soon!','info');}
-        function openModal(d){
-            const m=document.getElementById('memberModal');
-            document.getElementById('modalProfileImage').src=d.image;
-            document.getElementById('modalName').innerText=d.name;
-            const statusSpan=document.getElementById('modalStatus');
-            statusSpan.innerText=d.status;
-            statusSpan.className=`modal-status status-${d.status.toLowerCase()}`;
-            document.getElementById('modalJoinDate').innerText=d.joinDate;
-            document.getElementById('modalEmail').innerText=d.email;
-            document.getElementById('modalPhone').innerText=d.phone;
-            document.getElementById('modalLevel').innerText=d.level;
-            document.getElementById('modalOrders').innerText=d.orders;
-            document.getElementById('modalSales').innerText=d.sales;
-            document.getElementById('modalRecruits').innerText=d.recruits;
-            const pyramidSection=document.getElementById('modalPyramidSection');
-            const pyramidContainer=document.getElementById('modalPyramidContainer');
-            if(d.teamHierarchy&&d.teamHierarchy.length>0){
-                pyramidSection.style.display='block';
-                // level class names map
-                const lvClass=['lv-1','lv-2','lv-3'];
-                const lvLabel=['LEVEL 1','LEVEL 2','LEVEL 3'];
-                let html='<h4 class="team-hierarchy-title"><span class="hierarchy-icon">🏆</span> Team Hierarchy</h4>';
-                html+='<div class="modal-pyramid-wrap">';
-                d.teamHierarchy.forEach((lvData,idx)=>{
-                    const lv=lvClass[idx]||'lv-3';
-                    const label=lvLabel[idx]||`LEVEL ${idx+1}`;
-                    const multi=lvData.members.length>1?'multi-node':'single-node';
-                    html+=`<div class="modal-pyr-level ${multi}">`;
-                    lvData.members.forEach(member=>{
-                        html+=`<div class="modal-pyr-card-wrap">
-                            <div class="modal-pyr-card ${lv}">
-                                <span class="modal-pyr-lvbadge">${label}</span>
-                                <img src="${member.image}" alt="${member.name}" class="modal-pyr-avatar">
-                                <div class="modal-pyr-name">${member.name}</div>
-                                <span class="modal-pyr-status status-${member.status.toLowerCase()}">${member.status}</span>
-                            </div>
-                        </div>`;
-                    });
-                    html+='</div>';
+
+<div class="modal-overlay" id="memberModal"><div class="modal"><div class="modal-header"><img id="modalProfileImage" class="modal-profile-image"><div><h3 id="modalName" class="modal-name"></h3><span id="modalStatus" class="modal-status"></span></div><button class="modal-close" onclick="closeModal()">&times;</button></div><div class="modal-content"><div class="modal-section"><h4 class="modal-section-title">Personal Information</h4><div class="modal-info-grid"><div><span class="modal-info-label">Join Date</span><div id="modalJoinDate"></div></div><div><span class="modal-info-label">Email</span><div id="modalEmail"></div></div><div><span class="modal-info-label">Phone</span><div id="modalPhone"></div></div><div><span class="modal-info-label">Level</span><div id="modalLevel"></div></div></div></div><div class="modal-section"><h4 class="modal-section-title">Performance</h4><div class="modal-stats-grid"><div class="modal-stat-item"><div id="modalOrders" class="modal-stat-value"></div><div>Orders</div></div><div class="modal-stat-item"><div id="modalSales" class="modal-stat-value"></div><div>Sales ($)</div></div><div class="modal-stat-item"><div id="modalRecruits" class="modal-stat-value"></div><div>Recruits</div></div></div></div><div class="modal-pyramid-section" id="modalPyramidSection" style="display:none;"><div id="modalPyramidContainer"></div></div></div></div></div>
+
+<script>
+    // Team data same as original but enhanced for product-style cards
+    const teamData = {
+        leader: { image:'https://picsum.photos/seed/leader/90/90.jpg', name:'You (Team Leader)', status:'Active', joinDate:'January 1, 2024', email:'leader@team.com', phone:'+1234567890', level:'Diamond Leader', orders:25, sales:1250, recruits:5, teamHierarchy:[{level:1,members:[{name:'Sarah Johnson',image:'https://picsum.photos/seed/sarah/80/80.jpg',status:'Active',level:'Gold Member'},{name:'Michael Chen',image:'https://picsum.photos/seed/michael/80/80.jpg',status:'Active',level:'Silver Member'}]},{level:2,members:[{name:'Emma Wilson',image:'https://picsum.photos/seed/emma/80/80.jpg',status:'Pending',level:'Bronze Member'},{name:'James Davis',image:'https://picsum.photos/seed/james/80/80.jpg',status:'Active',level:'Bronze Member'},{name:'Lisa Anderson',image:'https://picsum.photos/seed/lisa/80/80.jpg',status:'Active',level:'Bronze Member'}]}] },
+        level2members: [
+            { image:'https://picsum.photos/seed/sarah/90/90.jpg', name:'Sarah Johnson', status:'Active', joinDate:'March 1, 2024', email:'sarah.j@email.com', phone:'+1234567890', level:'Gold Member', orders:12, sales:680, recruits:3, subRecruits:['Emma Wilson','James Davis','Lisa Anderson'] },
+            { image:'https://picsum.photos/seed/michael/90/90.jpg', name:'Michael Chen', status:'Active', joinDate:'February 15, 2024', email:'m.chen@email.com', phone:'+1234567891', level:'Silver Member', orders:8, sales:420, recruits:0, subRecruits:[] }
+        ],
+        level3members: [
+            { image:'https://picsum.photos/seed/emma/90/90.jpg', name:'Emma Wilson', status:'Pending', joinDate:'March 20, 2024', email:'emma.w@email.com', phone:'+1234567892', level:'Bronze Member', orders:2, sales:120, recruits:0 },
+            { image:'https://picsum.photos/seed/james/90/90.jpg', name:'James Davis', status:'Active', joinDate:'March 10, 2024', email:'james.d@email.com', phone:'+1234567893', level:'Bronze Member', orders:5, sales:280, recruits:0 },
+            { image:'https://picsum.photos/seed/lisa/90/90.jpg', name:'Lisa Anderson', status:'Active', joinDate:'March 5, 2024', email:'lisa.a@email.com', phone:'+1234567894', level:'Bronze Member', orders:3, sales:180, recruits:0 }
+        ]
+    };
+
+    function renderPyramid() {
+        const container = document.getElementById('pyramidStructure');
+        if(!container) return;
+        // Level 1 (top)
+        const l1html = `<div class="pyramid-level level-1">
+            <div class="pyramid-member top-level" onclick='openModalFromData(${JSON.stringify(teamData.leader).replace(/'/g, "\\'")})'>
+                <div class="level-indicator">LEVEL 1</div>
+                <div class="profile-section"><img src="${teamData.leader.image}" alt="Leader" class="profile-image"><div class="recruit-header"><div class="recruit-name">${teamData.leader.name}</div><div class="recruit-status status-active">${teamData.leader.status}</div></div></div>
+                <div class="click-hint"><span>✦ View Details ✦</span></div>
+            </div>
+        </div>`;
+        let level2html = `<div class="pyramid-level level-2">`;
+        teamData.level2members.forEach(m => {
+            level2html += `<div class="pyramid-member mid-level" onclick='openModalFromData(${JSON.stringify(m).replace(/'/g, "\\'")})'>
+                <div class="level-indicator">LEVEL 2</div>
+                <div class="profile-section"><img src="${m.image}" class="profile-image"><div class="recruit-header"><div class="recruit-name">${m.name}</div><div class="recruit-status status-${m.status.toLowerCase()}">${m.status}</div></div></div>
+                <div class="click-hint"><span>Click details</span></div>
+            </div>`;
+        });
+        level2html += `</div>`;
+        let level3html = `<div class="pyramid-level level-3">`;
+        teamData.level3members.forEach(m => {
+            level3html += `<div class="pyramid-member bottom-level" onclick='openModalFromData(${JSON.stringify(m).replace(/'/g, "\\'")})'>
+                <div class="level-indicator">LEVEL 3</div>
+                <div class="profile-section"><img src="${m.image}" class="profile-image"><div class="recruit-header"><div class="recruit-name">${m.name}</div><div class="recruit-status status-${m.status.toLowerCase()}">${m.status}</div></div></div>
+                <div class="click-hint"><span>Click details</span></div>
+            </div>`;
+        });
+        level3html += `</div>`;
+        container.innerHTML = l1html + level2html + level3html;
+        // update stats numbers
+        document.getElementById('totalRecruitsStat').innerText = teamData.level2members.length + teamData.level3members.length;
+        const activeCount = [...teamData.level2members, ...teamData.level3members].filter(m => m.status === 'Active').length;
+        const pendingCount = [...teamData.level2members, ...teamData.level3members].filter(m => m.status === 'Pending').length;
+        document.getElementById('activeStat').innerText = activeCount;
+        document.getElementById('pendingStat').innerText = pendingCount;
+    }
+
+    function openModalFromData(d) {
+        const modal = document.getElementById('memberModal');
+        document.getElementById('modalProfileImage').src = d.image;
+        document.getElementById('modalName').innerText = d.name;
+        const statusSpan = document.getElementById('modalStatus');
+        statusSpan.innerText = d.status;
+        statusSpan.className = `modal-status status-${d.status.toLowerCase()}`;
+        document.getElementById('modalJoinDate').innerText = d.joinDate || 'N/A';
+        document.getElementById('modalEmail').innerText = d.email || 'N/A';
+        document.getElementById('modalPhone').innerText = d.phone || 'N/A';
+        document.getElementById('modalLevel').innerText = d.level || 'Member';
+        document.getElementById('modalOrders').innerText = d.orders || 0;
+        document.getElementById('modalSales').innerText = d.sales || 0;
+        document.getElementById('modalRecruits').innerText = d.recruits || 0;
+        const pyramidSection = document.getElementById('modalPyramidSection');
+        const pyramidContainer = document.getElementById('modalPyramidContainer');
+        if(d.teamHierarchy && d.teamHierarchy.length) {
+            pyramidSection.style.display = 'block';
+            let html = '<h4 class="team-hierarchy-title">🏆 Team Hierarchy</h4><div class="modal-pyramid-wrap">';
+            d.teamHierarchy.forEach((lv, idx) => {
+                const lvClass = idx===0?'lv-1':(idx===1?'lv-2':'lv-3');
+                html += `<div class="modal-pyr-level">`;
+                lv.members.forEach(m => {
+                    html += `<div class="modal-pyr-card ${lvClass}">
+                        <span class="modal-pyr-lvbadge" style="font-size:9px;display:block;">LEVEL ${idx+1}</span>
+                        <img src="${m.image}" class="modal-pyr-avatar">
+                        <div class="modal-pyr-name">${m.name}</div>
+                        <span class="modal-pyr-status status-${m.status.toLowerCase()}">${m.status}</span>
+                    </div>`;
                 });
-                html+='</div>';
-                pyramidContainer.innerHTML=html;
-            }else{
-                pyramidSection.style.display='none';
-            }
-            m.classList.add('active');
-            document.body.style.overflow='hidden';
+                html += `</div>`;
+            });
+            html += `</div>`;
+            pyramidContainer.innerHTML = html;
+        } else if(d.subRecruits && d.subRecruits.length > 0) {
+            pyramidSection.style.display = 'block';
+            let subHtml = '<h4 class="team-hierarchy-title">👥 Direct Recruits</h4><div class="modal-pyramid-wrap"><div class="modal-pyr-level">';
+            d.subRecruits.forEach(name => {
+                subHtml += `<div class="modal-pyr-card lv-3"><div class="modal-pyr-name">${name}</div><span class="modal-pyr-status status-pending">Pending</span></div>`;
+            });
+            subHtml += `</div></div>`;
+            pyramidContainer.innerHTML = subHtml;
+        } else {
+            pyramidSection.style.display = 'none';
         }
-        function closeModal(){document.getElementById('memberModal').classList.remove('active');document.body.style.overflow='auto';}
-        document.getElementById('memberModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
-        document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
-        function showToast(m,t){const toast=document.createElement('div');toast.style.cssText=`position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:40px;color:#fff;background:${t==='success'?'#2e7d64':t==='error'?'#c45c4a':'#b48c5c'};z-index:10001;transform:translateX(100%);transition:0.2s;`;toast.innerText=m;document.body.appendChild(toast);setTimeout(()=>toast.style.transform='translateX(0)',20);setTimeout(()=>{toast.style.transform='translateX(100%)';setTimeout(()=>toast.remove(),300);},2800);}
-        document.addEventListener('DOMContentLoaded',loadUserData);
-    </script>
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() { document.getElementById('memberModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+    function showRecruitForm() { showToast('Recruitment form coming soon!', 'info'); }
+    function loadUserData() { const u = JSON.parse(localStorage.getItem('currentUser') || '{}'); const nameSpan = document.getElementById('userName'), sideName = document.getElementById('sidebarName'), avatar = document.getElementById('sidebarAvatar'); if(u.name){ nameSpan.textContent = u.name; sideName.textContent = u.name; let initials = u.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase(); avatar.textContent = initials; } else { nameSpan.textContent = 'Guest Member'; sideName.textContent = 'Guest Member'; avatar.textContent = 'GM'; } }
+    function logout() { localStorage.removeItem('currentUser'); showToast('Logged out.', 'success'); setTimeout(()=>{ window.location.href='../Login/login.html'; },1500); }
+    function showToast(m,t){ const toast = document.createElement('div'); toast.style.cssText = `position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:40px;color:#fff;background:${t==='success'?'#2e7d64':t==='error'?'#c45c4a':'#b48c5c'};z-index:10001;transform:translateX(100%);transition:0.2s;`; toast.innerText=m; document.body.appendChild(toast); setTimeout(()=>toast.style.transform='translateX(0)',20); setTimeout(()=>{ toast.style.transform='translateX(100%)'; setTimeout(()=>toast.remove(),300); },2800); }
+    document.addEventListener('DOMContentLoaded', () => { loadUserData(); renderPyramid(); });
+    document.getElementById('memberModal')?.addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+</script>
 </body>
 </html>
