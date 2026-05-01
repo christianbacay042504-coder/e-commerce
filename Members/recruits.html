@@ -2,344 +2,602 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>My Recruits - Skin Care | Elegant Hierarchy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Recruits — Lumière Skincare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --cream: #faf8f5;
+            --cream-2: #f3ede6;
+            --blush: #f5e6de;
+            --rose: #e8c4b8;
+            --rose-dark: #c49080;
+            --gold: #c9a96e;
+            --gold-2: #b8924f;
+            --gold-light: #f5e8cc;
+            --gold-glow: rgba(201,169,110,0.18);
+            --sage: #a8b89c;
+            --text-dark: #1e1610;
+            --text-mid: #5c4a40;
+            --text-light: #9c8278;
+            --white: #ffffff;
+            --border: rgba(180,150,130,0.18);
+            --border-gold: rgba(201,169,110,0.3);
+            --sidebar: #18120e;
+            --sidebar-2: #211710;
+            --card: #ffffff;
+            --shadow-xs: 0 2px 8px rgba(44,36,32,0.05);
+            --shadow-sm: 0 4px 16px rgba(44,36,32,0.07);
+            --shadow-md: 0 10px 32px rgba(44,36,32,0.11);
+            --shadow-gold: 0 4px 20px rgba(201,169,110,0.22);
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Jost', sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --nav-h: 68px;
+            --topbar-h: 38px;
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --radius-xl: 28px;
         }
 
-        :root {
-            --admin-bg: #f8f5f2;
-            --admin-sidebar: #1e1816;
-            --admin-card: #ffffff;
-            --gold: #c9a96e;
-            --rose-dark: #c49080;
-            --text-dark: #2c2420;
-            --text-mid: #6b5a52;
-            --text-light: #a08c84;
-            --border: #e6ddd6;
-            --shadow-sm: 0 4px 12px rgba(44, 36, 32, 0.06);
-            --shadow-md: 0 8px 24px rgba(44, 36, 32, 0.08);
-            --transition: 0.2s ease;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--admin-bg);
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--text-dark);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .member-wrapper {
+        /* ─── TOPBAR ─────────────────────────────────────── */
+        .topbar {
+            background: var(--sidebar);
+            color: rgba(255,255,255,0.65);
+            font-size: 11.5px;
+            height: var(--topbar-h);
             display: flex;
-            min-height: 100vh;
+            align-items: center;
+            transition: height 0.4s var(--ease), opacity 0.3s;
+            overflow: hidden;
+            letter-spacing: 0.035em;
         }
-
-        /* MEMBER SIDEBAR (exactly as products page) */
-        .member-sidebar {
-            width: 280px;
-            background: var(--admin-sidebar);
-            backdrop-filter: blur(2px);
+        .topbar.hidden { height: 0; opacity: 0; pointer-events: none; }
+        .topbar-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .topbar-promo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .topbar-dot {
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse-dot 2.4s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 11px;
+        }
+        .topbar-right a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+        .topbar-right a:hover { color: var(--gold); }
+        .topbar-sep { color: rgba(255,255,255,0.18); }
+
+        /* ─── NAVBAR ─────────────────────────────────────── */
+        .navbar {
             position: sticky;
             top: 0;
-            height: 100vh;
-            transition: all 0.3s;
-            z-index: 100;
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .sidebar-brand {
-            padding: 32px 24px;
+            z-index: 200;
+            background: var(--sidebar);
+            height: var(--nav-h);
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: box-shadow 0.3s, background 0.3s;
+        }
+        .navbar::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.35;
+        }
+        .navbar.scrolled {
+            box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+            background: rgba(24, 18, 14, 0.96);
+            backdrop-filter: blur(16px);
+        }
+        .navbar-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 28px;
         }
 
-        .brand-icon {
-            font-size: 28px;
+        /* Brand */
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .brand-emblem {
+            width: 34px; height: 34px;
+            border: 1px solid rgba(201,169,110,0.45);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             color: var(--gold);
+            font-size: 14px;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(201,169,110,0.12), transparent);
+            transition: all 0.3s;
         }
-
-        .brand-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 500;
-            color: white;
-            letter-spacing: 1px;
+        .nav-brand:hover .brand-emblem {
+            border-color: var(--gold);
+            box-shadow: 0 0 16px rgba(201,169,110,0.3);
         }
-
-        .brand-badge {
-            background: rgba(201, 169, 110, 0.2);
-            color: var(--gold);
-            font-size: 9px;
-            padding: 2px 8px;
-            border-radius: 40px;
-            margin-left: 6px;
-            font-weight: 500;
-            text-transform: uppercase;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 0 16px;
+        .brand-text {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            line-height: 1;
+        }
+        .brand-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+        .brand-tagline {
+            font-size: 8.5px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-top: 2px;
         }
 
-        .nav-item {
+        /* Nav links */
+        .nav-links {
             display: flex;
             align-items: center;
-            gap: 14px;
-            background: transparent;
-            border: none;
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(255,255,255,0.65);
+            gap: 2px;
+            list-style: none;
+            flex: 1;
+        }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.52);
+            letter-spacing: 0.02em;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-links a svg { flex-shrink: 0; opacity: 0.65; transition: opacity 0.2s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+        .nav-links a:hover svg { opacity: 1; }
+        .nav-links a.active {
+            background: linear-gradient(135deg, rgba(201,169,110,0.18), rgba(201,169,110,0.06));
+            color: var(--gold);
+            position: relative;
+        }
+        .nav-links a.active::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 20%; bottom: 20%;
+            width: 2px;
+            background: var(--gold);
+            border-radius: 1px;
+        }
+        .nav-links a.active svg { opacity: 1; }
+
+        /* Nav actions */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .nav-member-pill {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(201,169,110,0.1);
+            border: 1px solid rgba(201,169,110,0.22);
+            padding: 5px 13px 5px 5px;
+            border-radius: 40px;
             cursor: pointer;
+            transition: all 0.25s;
+        }
+        .nav-member-pill:hover {
+            background: rgba(201,169,110,0.18);
+            border-color: rgba(201,169,110,0.5);
+            box-shadow: var(--shadow-gold);
+        }
+        .nav-avatar {
+            width: 30px; height: 30px;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--sidebar);
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0;
+            flex-shrink: 0;
+        }
+        .nav-member-name {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .nav-logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.42);
+            font-size: 12.5px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .nav-logout-btn:hover {
+            border-color: rgba(231,76,60,0.35);
+            color: #e8614f;
+            background: rgba(231,76,60,0.07);
+        }
+
+        /* Hamburger */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 22px; height: 1.5px;
+            background: rgba(255,255,255,0.65);
+            border-radius: 2px;
+            transition: all 0.3s var(--ease);
+        }
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        /* Mobile drawer */
+        .mobile-nav-drawer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+        }
+        .mobile-nav-drawer.open { display: block; }
+        .mobile-drawer-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(3px);
+        }
+        .mobile-drawer-panel {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 284px;
+            background: var(--sidebar);
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.35s var(--ease);
+            display: flex;
+            flex-direction: column;
+        }
+        .mobile-nav-drawer.open .mobile-drawer-panel { transform: translateX(0); }
+        .mobile-drawer-brand {
+            padding: 28px 22px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mobile-drawer-links {
+            list-style: none;
+            padding: 14px 10px;
+            flex: 1;
+        }
+        .mobile-drawer-links a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.58);
+            transition: all 0.2s;
+            letter-spacing: 0.02em;
+        }
+        .mobile-drawer-links a:hover { background: rgba(255,255,255,0.06); color: white; }
+        .mobile-drawer-links a.active {
+            background: linear-gradient(135deg, rgba(201,169,110,0.18), rgba(201,169,110,0.06));
+            color: var(--gold);
+        }
+        .mobile-drawer-footer {
+            padding: 18px 14px 32px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .mobile-member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding: 12px;
+            background: rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* ─── PAGE ─────────────────────────────────────── */
+        .recruits-page {
+            min-height: calc(100vh - var(--nav-h) - var(--topbar-h));
+            padding: 36px 0 80px;
+        }
+        .recruits-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ─── WELCOME HEADER ────────────────────────────── */
+        .recruits-header {
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            padding: 0;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
             transition: all 0.2s;
             width: 100%;
             text-align: left;
             text-decoration: none;
         }
 
-        .nav-item svg {
+        .header-accent-bar {
+            width: 5px;
             flex-shrink: 0;
+            background: linear-gradient(180deg, var(--gold) 0%, var(--rose) 60%, transparent 100%);
+            border-radius: 4px 0 0 4px;
         }
-
-        .nav-item:hover {
-            background: rgba(255,255,255,0.06);
-            color: white;
-        }
-
-        .nav-item.active {
-            background: rgba(201, 169, 110, 0.18);
-            color: var(--gold);
-            border-left: 3px solid var(--gold);
-        }
-
-        .sidebar-footer {
-            padding: 24px 20px 32px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            margin-top: auto;
-        }
-
-        .member-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .member-avatar {
-            width: 42px;
-            height: 42px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .member-details {
+        .header-content {
             flex: 1;
+            padding: 28px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
         }
-
-        .member-name {
-            display: block;
+        .header-pattern {
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: 260px;
+            background: radial-gradient(ellipse at 100% 50%, rgba(201,169,110,0.06) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .welcome-section { position: relative; }
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(201,169,110,0.05));
+            border: 1px solid rgba(201,169,110,0.28);
+            color: var(--gold-2);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 4px 11px;
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+        .welcome-badge::before { content: '✦'; font-size: 8px; }
+        .welcome-section h1 {
+            font-family: var(--font-display);
+            font-size: 2.15rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            line-height: 1.25;
+        }
+        .welcome-section p { color: var(--text-mid); font-size: 13.5px; font-weight: 300; }
+        .header-date {
+            font-size: 11.5px;
+            color: var(--text-light);
+            margin-top: 6px;
+            letter-spacing: 0.04em;
+        }
+        .header-user-block {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-user-text { text-align: right; }
+        .header-user-name {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            letter-spacing: 0.5px;
+        }
+        .header-user-tier {
+            font-size: 11px;
+            color: var(--text-light);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+        .header-avatar {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             color: white;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 0 0 3px rgba(201,169,110,0.2), var(--shadow-gold);
+        }
+
+        /* ─── QUICK ACTIONS ─────────────────────────────── */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .quick-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 13px;
             font-weight: 500;
-            font-size: 14px;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-xs);
+        }
+        .quick-btn:hover {
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-gold);
+            transform: translateY(-1px);
         }
 
-        .member-role {
-            display: block;
-            color: rgba(255,255,255,0.6);
+        /* ─── STATS GRID ───────────────────────────────── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-xs);
+            transition: all 0.3s var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--rose));
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .stat-icon {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            color: var(--text-mid);
             font-size: 12px;
-            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
         }
 
-        .logout-btn {
+        /* ─── RECRUITS CONTENT ─────────────────────────── */
+        .recruits-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 28px;
+        }
+        .recruits-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-xs);
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
-            width: 100%;
-            padding: 10px 16px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            color: rgba(255,255,255,0.7);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
+        }
+        .section-title::before {
+            content: '✦';
+            color: var(--gold);
+            font-size: 16px;
         }
 
-        .logout-btn:hover {
-            background: rgba(231, 76, 60, 0.2);
-            border-color: rgba(231, 76, 60, 0.3);
-            color: #e74c3c;
-        }
-
-        /* MAIN CONTENT */
-        .member-main {
-            flex: 1;
-            background: var(--admin-bg);
-            overflow-x: hidden;
-        }
-
-        .recruits-page {
-            min-height: 100vh;
-            background: var(--admin-bg);
-            padding: 20px 0;
-        }
-
-        .recruits-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Products-header style adapted */
-        .recruits-header {
-            background: var(--admin-card);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .welcome-section h1 {
-            font-size: 2rem;
-            font-weight: 300;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .welcome-section p {
-            color: var(--text-mid);
-            font-size: 1rem;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--rose-dark);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-weight: 500;
-        }
-
-        /* Stats card (refined like product card style) */
-        .stats-card {
-            background: var(--admin-card);
-            border-radius: 24px;
-            padding: 28px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-        .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--gold);
-        }
-
-        .stats-card h2 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 24px;
-            color: var(--text-dark);
-            font-family: 'Cormorant Garamond', serif;
-            letter-spacing: -0.2px;
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .stat-label {
-            color: var(--text-mid);
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--rose-dark);
-        }
-
-        /* RECRUITS CARD -> SAME AESTHETIC AS PRODUCTS SECTION */
-        .recruits-card {
-            background: var(--admin-card);
-            border-radius: 28px;
-            padding: 28px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .recruits-card:hover {
-            box-shadow: var(--shadow-md);
-        }
-
-        .recruits-card h2 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 28px;
-            color: var(--text-dark);
-            font-family: 'Cormorant Garamond', serif;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .recruit-btn {
-            background: var(--rose-dark);
-            color: white;
-            border: none;
-            padding: 10px 28px;
-            border-radius: 40px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.9rem;
-            font-family: 'DM Sans', sans-serif;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .recruit-btn:hover {
-            background: var(--gold);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(201,169,110,0.25);
-        }
-
-        /* PYRAMID STRUCTURE refined with product-card like members */
+        /* ─── PYRAMID HIERARCHY ───────────────────────── */
         .pyramid-structure {
             display: flex;
             flex-direction: column;
@@ -347,9 +605,8 @@
             justify-content: center;
             width: 100%;
             position: relative;
-            padding: 30px 10px 40px;
+            padding: 40px 20px;
         }
-
         .pyramid-level {
             display: flex;
             flex-wrap: wrap;
@@ -359,12 +616,9 @@
             position: relative;
             margin-bottom: 70px;
         }
-
         .pyramid-level:last-child {
             margin-bottom: 20px;
         }
-
-        /* connector elegant lines */
         .pyramid-level:not(:first-child)::before {
             content: '';
             position: absolute;
@@ -373,32 +627,14 @@
             transform: translateX(-50%);
             width: 3px;
             height: 48px;
-            background: linear-gradient(180deg, var(--gold) 0%, var(--rose-dark) 80%);
+            background: linear-gradient(180deg, var(--gold) 0%, var(--rose) 80%);
             border-radius: 4px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             z-index: 3;
         }
-
-        .pyramid-level.level-2::after,
-        .pyramid-level.level-3::after {
-            content: '';
-            position: absolute;
-            top: -48px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 60px);
-            max-width: 580px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--rose-dark) 50%, var(--gold) 80%, transparent);
-            border-radius: 4px;
-            z-index: 2;
-            opacity: 0.9;
-        }
-
-        /* MEMBER CARD -> INSPIRED BY PRODUCT-CARD */
         .pyramid-member {
             position: relative;
-            background: var(--admin-card);
+            background: var(--card);
             border-radius: 24px;
             padding: 22px 20px 20px;
             min-width: 210px;
@@ -407,54 +643,30 @@
             flex: 0 0 auto;
             transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             cursor: pointer;
-            box-shadow: 0 12px 28px rgba(44, 36, 32, 0.08);
+            box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
-            backdrop-filter: blur(2px);
-            background: rgba(255,255,255,0.98);
+            text-align: center;
         }
-
         .pyramid-member:hover {
             transform: translateY(-8px);
-            box-shadow: 0 24px 40px rgba(44, 36, 32, 0.12);
+            box-shadow: var(--shadow-md);
             border-color: var(--gold);
         }
-
-        /* vertical stem for each card */
-        .pyramid-level.level-2 .pyramid-member::before,
-        .pyramid-level.level-3 .pyramid-member::before {
-            content: '';
-            position: absolute;
-            top: -48px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 48px;
-            background: linear-gradient(180deg, var(--rose-dark) 30%, var(--gold) 100%);
-            border-radius: 2px;
-            z-index: 1;
-        }
-
-        .pyramid-level.level-1 .pyramid-member::before {
-            display: none;
-        }
-
-        /* level-specific top borders like product badges */
         .pyramid-member.top-level {
             border-top: 5px solid var(--gold);
         }
         .pyramid-member.mid-level {
-            border-top: 5px solid var(--rose-dark);
+            border-top: 5px solid var(--rose);
         }
         .pyramid-member.bottom-level {
             border-top: 5px solid var(--text-mid);
         }
-
         .level-indicator {
             position: absolute;
             top: -18px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--gold), #bd8a5a);
+            background: linear-gradient(135deg, var(--gold), var(--gold-2));
             color: white;
             padding: 6px 18px;
             border-radius: 50px;
@@ -464,60 +676,45 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.1);
             white-space: nowrap;
             z-index: 5;
-            font-family: 'DM Sans', sans-serif;
         }
-
         .pyramid-member.mid-level .level-indicator {
-            background: linear-gradient(135deg, var(--rose-dark), #b57867);
+            background: linear-gradient(135deg, var(--rose), var(--rose-dark));
         }
         .pyramid-member.bottom-level .level-indicator {
-            background: linear-gradient(135deg, var(--text-mid), #8e6f62);
+            background: linear-gradient(135deg, var(--text-mid), var(--text-dark));
         }
-
-        .profile-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-
-        .profile-image {
-            width: 80px;
-            height: 80px;
+        .pyramid-avatar-img {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            margin: 0 auto 12px;
             object-fit: cover;
             border: 3px solid var(--gold);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-            margin-bottom: 12px;
+            transition: transform 0.3s;
         }
-        .pyramid-member.mid-level .profile-image {
-            border-color: var(--rose-dark);
+        .pyramid-member.mid-level .pyramid-avatar-img {
+            border-color: var(--rose);
         }
-        .pyramid-member.bottom-level .profile-image {
+        .pyramid-member.bottom-level .pyramid-avatar-img {
             border-color: var(--text-mid);
         }
-        .pyramid-member:hover .profile-image {
+        .pyramid-member:hover .pyramid-avatar-img {
             transform: scale(1.05);
         }
-
-        .recruit-header {
-            text-align: center;
-            width: 100%;
-        }
-        .recruit-name {
+        .pyramid-name {
             font-weight: 700;
             font-size: 1.1rem;
             color: var(--text-dark);
             margin-bottom: 6px;
         }
-        .recruit-status {
+        .pyramid-status {
             display: inline-block;
             padding: 4px 14px;
             border-radius: 30px;
             font-size: 0.7rem;
             font-weight: 600;
             letter-spacing: 0.3px;
+            margin-bottom: 12px;
         }
         .status-active {
             background: #e6f4ea;
@@ -527,9 +724,14 @@
             background: #fff2db;
             color: #b45f1b;
         }
+        .pyramid-info {
+            font-size: 0.8rem;
+            color: var(--text-mid);
+            margin-bottom: 8px;
+        }
         .click-hint {
             text-align: center;
-            margin-top: 16px;
+            margin-top: 12px;
             padding: 8px 6px;
             background: rgba(201, 169, 110, 0.08);
             border-radius: 40px;
@@ -537,372 +739,363 @@
             font-size: 0.7rem;
             font-weight: 500;
             color: var(--gold);
-            letter-spacing: 0.3px;
         }
         .pyramid-member:hover .click-hint {
             background: rgba(201, 169, 110, 0.2);
         }
 
-        @media (max-width: 860px) {
-            .recruits-content {
-                grid-template-columns: 1fr;
-            }
-            .pyramid-level {
-                flex-direction: column;
-                align-items: center;
-                gap: 60px;
-                margin-bottom: 60px;
-            }
-            .pyramid-level:not(:first-child)::before,
-            .pyramid-level.level-2::after,
-            .pyramid-level.level-3::after,
-            .pyramid-member::before {
-                display: none;
-            }
-            .pyramid-level .pyramid-member {
-                margin-top: 30px;
-            }
+        /* Responsive */
+        @media (max-width: 960px) {
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+            .mobile-nav-drawer { display: block; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; align-items: flex-start; }
+            .header-user-block { width: 100%; justify-content: space-between; }
         }
 
-        /* responsive grid for stats + recruits */
-        .recruits-content {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 30px;
-        }
-        @media (max-width: 860px) {
-            .recruits-content {
-                grid-template-columns: 1fr;
-            }
+        .nav-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: white;
         }
 
-        /* MODAL stays elegant */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.25s;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal {
-            background: white;
-            border-radius: 32px;
-            max-width: 540px;
-            width: 92%;
-            padding: 28px;
-            transform: scale(0.95);
-            transition: 0.2s;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
-            max-height: 88vh;
-            overflow-y: auto;
-        }
-        .modal-overlay.active .modal {
-            transform: scale(1);
-        }
-        .modal-header {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 18px;
-        }
-        .modal-profile-image {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--gold);
-        }
-        .modal-name {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-        .modal-close {
-            margin-left: auto;
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--text-mid);
-        }
-        .modal-content {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .modal-section {
-            background: #f9f6f3;
-            padding: 16px;
-            border-radius: 20px;
-        }
-        .modal-section-title {
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-dark);
-        }
-        .modal-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .modal-info-label {
-            font-size: 0.7rem;
-            color: var(--text-mid);
-        }
-        .modal-info-value {
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        .modal-stats-grid {
-            display: flex;
-            gap: 16px;
-            justify-content: space-between;
-        }
-        .modal-stat-item {
-            flex: 1;
-            text-align: center;
-            background: white;
-            padding: 12px;
-            border-radius: 16px;
-        }
-        .modal-stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--gold);
-        }
-        .modal-pyramid-section {
-            background: linear-gradient(135deg, #fdf9f5, #f5ede6);
-            padding: 16px;
-            border-radius: 20px;
-        }
-        .team-hierarchy-title {
-            font-weight: 600;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .modal-pyramid-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .modal-pyr-level {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            flex-wrap: wrap;
-            position: relative;
-            padding-top: 20px;
-        }
-        .modal-pyr-card {
-            background: white;
-            border-radius: 18px;
-            padding: 12px 10px;
-            text-align: center;
-            width: 100px;
-            border: 1px solid var(--border);
-            transition: 0.2s;
-            cursor: pointer;
-        }
-        .modal-pyr-card.lv-1 { border-top: 4px solid var(--gold); }
-        .modal-pyr-card.lv-2 { border-top: 4px solid var(--rose-dark); }
-        .modal-pyr-card.lv-3 { border-top: 4px solid var(--text-mid); }
-        .modal-pyr-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 6px auto;
-            border: 2px solid var(--gold);
-        }
-        .modal-pyr-name {
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-        .modal-pyr-status {
-            font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-    </style>
+        </style>
 </head>
 <body>
-<div class="member-wrapper">
-    <aside class="member-sidebar" id="memberSidebar">
-        <div class="sidebar-brand">
-            <span class="brand-icon">✦</span>
-            <span class="brand-name">Skin Care</span>
-            <span class="brand-badge">member</span>
+
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-promo">
+                <span class="topbar-dot"></span>
+                <span>Free shipping on orders over ₱1500</span>
+            </div>
+            <div class="topbar-right">
+                <a href="#">Support</a>
+                <span class="topbar-sep">·</span>
+                <a href="#">Track Order</a>
+                <span class="topbar-sep">·</span>
+                <a href="#">FAQ</a>
+            </div>
         </div>
-        <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg><span>Dashboard</span></a>
-            <a href="products.html" class="nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>Shop Products</span></a>
-            <a href="orders.html" class="nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>My Orders</span></a>
-            <a href="profile.html" class="nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
-            <a href="recruits.html" class="nav-item active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-4-4H11a4 4 0 00-4 4v2"/><circle cx="15" cy="7" r="4"/></svg><span>My Recruits</span></a>
-            <a href="rewards.html" class="nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Rewards</span></a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="member-info"><div class="member-avatar" id="sidebarAvatar">JD</div><div class="member-details"><span class="member-name" id="sidebarName">John Doe</span><span class="member-role">Premium Member</span></div></div>
-            <button class="logout-btn" onclick="logout()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Logout</span></button>
-        </div>
-    </aside>
-    <main class="member-main">
-        <section class="recruits-page">
-            <div class="recruits-container">
-                <div class="recruits-header">
-                    <div class="welcome-section"><h1>My Recruits</h1><p>Manage your team & track performance</p></div>
-                    <div class="user-info"><div>👤</div><div><div id="userName">Loading...</div><div style="font-size:0.85rem;">Member</div></div></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-emblem">✦</div>
+                <div class="brand-text">
+                    <span class="brand-name">Lumière</span>
+                    <span class="brand-tagline">Skincare</span>
                 </div>
-                <div class="recruits-content">
-                    <div class="stats-card"><h2>Recruitment Stats</h2>
-                        <div class="stat-item"><span class="stat-label">Total Recruits</span><span class="stat-value" id="totalRecruitsStat">5</span></div>
-                        <div class="stat-item"><span class="stat-label">Active Members</span><span class="stat-value" id="activeStat">3</span></div>
-                        <div class="stat-item"><span class="stat-label">Pending Approval</span><span class="stat-value" id="pendingStat">2</span></div>
-                        <div class="stat-item"><span class="stat-label">Commission Earned</span><span class="stat-value">$450</span></div>
-                        <div class="stat-item"><span class="stat-label">This Month</span><span class="stat-value">2</span></div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="dashboard.html">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-5v-7H9v7H4a2 2 0 01-2-2z"/></svg>
+                    Dashboard
+                </a></li>
+                <li><a href="products.html">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Shop
+                </a></li>
+                <li><a href="orders.html">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Orders
+                </a></li>
+                <li><a href="recruits.html" class="active">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-4-4H11"/><circle cx="15" cy="7" r="4"/></svg>
+                    My Recruits
+                </a></li>
+                <li><a href="rewards.html">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Rewards
+                </a></li>
+                <li><a href="profile.html">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Profile
+                </a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="nav-member-pill">
+                    <div class="nav-avatar" id="navAvatar">JD</div>
+                    <span class="nav-member-name" id="navMemberName">John Doe</span>
+                </div>
+                <button class="nav-logout-btn" id="logoutBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Logout
+                </button>
+                <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-nav-drawer" id="mobileDrawer">
+        <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+        <div class="mobile-drawer-panel">
+            <div class="mobile-drawer-brand">
+                <div class="brand-emblem" style="width:30px;height:30px;font-size:12px;">✦</div>
+                <div class="brand-text">
+                    <span style="font-family:var(--font-display);font-size:22px;color:white;letter-spacing:1.5px;">Lumière</span>
+                    <span style="font-size:8px;font-weight:600;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-top:1px;display:block;">Skincare</span>
+                </div>
+            </div>
+            <ul class="mobile-drawer-links">
+                <li><a href="dashboard.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-5v-7H9v7H4a2 2 0 01-2-2z"/></svg>
+                    Dashboard
+                </a></li>
+                <li><a href="products.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Shop Products
+                </a></li>
+                <li><a href="orders.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    My Orders
+                </a></li>
+                <li><a href="recruits.html" class="active">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-4-4H11"/><circle cx="15" cy="7" r="4"/></svg>
+                    My Recruits
+                </a></li>
+                <li><a href="rewards.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    Rewards
+                </a></li>
+                <li><a href="profile.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Profile
+                </a></li>
+                <li><a href="index.html">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 18 9 12 15 6"/></svg>
+                    Back to Store
+                </a></li>
+            </ul>
+            <div class="mobile-drawer-footer">
+                <div class="mobile-member-info">
+                    <div class="nav-avatar" id="drawerAvatar" style="width:36px;height:36px;font-size:13px;">—</div>
+                    <div>
+                        <div style="color:white;font-size:13px;font-weight:500;" id="drawerName">Member</div>
+                        <div style="color:rgba(255,255,255,0.45);font-size:11px;margin-top:2px;letter-spacing:0.04em;">Premium Member</div>
                     </div>
-                    <div class="recruits-card">
-                        <h2>Team Hierarchy <button class="recruit-btn" onclick="showRecruitForm()">+ New Recruit</button></h2>
-                        <div class="pyramid-structure" id="pyramidStructure">
-                            <!-- Dynamic generation with product-like cards -->
+                </div>
+                <button class="nav-logout-btn" id="drawerLogoutBtn" style="width:100%;justify-content:center;border-radius:var(--radius-md);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECRUITS PAGE CONTENT -->
+    <div class="recruits-page">
+        <div class="recruits-container">
+
+            <!-- Recruits Header -->
+            <div class="recruits-header">
+                <div class="header-accent-bar"></div>
+                <div class="header-content">
+                    <div class="welcome-section">
+                        <div class="welcome-badge">Team Leader</div>
+                        <h1>My Recruits</h1>
+                        <p>Manage your recruitment network and track team performance</p>
+                        <div class="header-date">
+                            <span id="currentDate">Loading...</span>
                         </div>
                     </div>
+                    <div class="header-user-block">
+                        <div class="header-user-text">
+                            <div class="header-user-name" id="headerUserName">John Doe</div>
+                            <div class="header-user-tier">Premium Member</div>
+                        </div>
+                        <div class="header-avatar" id="headerAvatar">JD</div>
+                    </div>
+                </div>
+                <div class="header-pattern"></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="#" class="quick-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    Add New Recruit
+                </a>
+                <a href="#" class="quick-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+                    View Hierarchy
+                </a>
+                <a href="#" class="quick-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Export Reports
+                </a>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Total Recruits</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">Growth Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Team Leaders</div>
                 </div>
             </div>
-        </section>
-    </main>
-</div>
 
-<div class="modal-overlay" id="memberModal"><div class="modal"><div class="modal-header"><img id="modalProfileImage" class="modal-profile-image"><div><h3 id="modalName" class="modal-name"></h3><span id="modalStatus" class="modal-status"></span></div><button class="modal-close" onclick="closeModal()">&times;</button></div><div class="modal-content"><div class="modal-section"><h4 class="modal-section-title">Personal Information</h4><div class="modal-info-grid"><div><span class="modal-info-label">Join Date</span><div id="modalJoinDate"></div></div><div><span class="modal-info-label">Email</span><div id="modalEmail"></div></div><div><span class="modal-info-label">Phone</span><div id="modalPhone"></div></div><div><span class="modal-info-label">Level</span><div id="modalLevel"></div></div></div></div><div class="modal-section"><h4 class="modal-section-title">Performance</h4><div class="modal-stats-grid"><div class="modal-stat-item"><div id="modalOrders" class="modal-stat-value"></div><div>Orders</div></div><div class="modal-stat-item"><div id="modalSales" class="modal-stat-value"></div><div>Sales ($)</div></div><div class="modal-stat-item"><div id="modalRecruits" class="modal-stat-value"></div><div>Recruits</div></div></div></div><div class="modal-pyramid-section" id="modalPyramidSection" style="display:none;"><div id="modalPyramidContainer"></div></div></div></div></div>
-
-<script>
-    // Team data same as original but enhanced for product-style cards
-    const teamData = {
-        leader: { image:'https://picsum.photos/seed/leader/90/90.jpg', name:'You (Team Leader)', status:'Active', joinDate:'January 1, 2024', email:'leader@team.com', phone:'+1234567890', level:'Diamond Leader', orders:25, sales:1250, recruits:5, teamHierarchy:[{level:1,members:[{name:'Sarah Johnson',image:'https://picsum.photos/seed/sarah/80/80.jpg',status:'Active',level:'Gold Member'},{name:'Michael Chen',image:'https://picsum.photos/seed/michael/80/80.jpg',status:'Active',level:'Silver Member'}]},{level:2,members:[{name:'Emma Wilson',image:'https://picsum.photos/seed/emma/80/80.jpg',status:'Pending',level:'Bronze Member'},{name:'James Davis',image:'https://picsum.photos/seed/james/80/80.jpg',status:'Active',level:'Bronze Member'},{name:'Lisa Anderson',image:'https://picsum.photos/seed/lisa/80/80.jpg',status:'Active',level:'Bronze Member'}]}] },
-        level2members: [
-            { image:'https://picsum.photos/seed/sarah/90/90.jpg', name:'Sarah Johnson', status:'Active', joinDate:'March 1, 2024', email:'sarah.j@email.com', phone:'+1234567890', level:'Gold Member', orders:12, sales:680, recruits:3, subRecruits:['Emma Wilson','James Davis','Lisa Anderson'] },
-            { image:'https://picsum.photos/seed/michael/90/90.jpg', name:'Michael Chen', status:'Active', joinDate:'February 15, 2024', email:'m.chen@email.com', phone:'+1234567891', level:'Silver Member', orders:8, sales:420, recruits:0, subRecruits:[] }
-        ],
-        level3members: [
-            { image:'https://picsum.photos/seed/emma/90/90.jpg', name:'Emma Wilson', status:'Pending', joinDate:'March 20, 2024', email:'emma.w@email.com', phone:'+1234567892', level:'Bronze Member', orders:2, sales:120, recruits:0 },
-            { image:'https://picsum.photos/seed/james/90/90.jpg', name:'James Davis', status:'Active', joinDate:'March 10, 2024', email:'james.d@email.com', phone:'+1234567893', level:'Bronze Member', orders:5, sales:280, recruits:0 },
-            { image:'https://picsum.photos/seed/lisa/90/90.jpg', name:'Lisa Anderson', status:'Active', joinDate:'March 5, 2024', email:'lisa.a@email.com', phone:'+1234567894', level:'Bronze Member', orders:3, sales:180, recruits:0 }
-        ]
-    };
-
-    function renderPyramid() {
-        const container = document.getElementById('pyramidStructure');
-        if(!container) return;
-        // Level 1 (top)
-        const l1html = `<div class="pyramid-level level-1">
-            <div class="pyramid-member top-level" onclick='openModalFromData(${JSON.stringify(teamData.leader).replace(/'/g, "\\'")})'>
-                <div class="level-indicator">LEVEL 1</div>
-                <div class="profile-section"><img src="${teamData.leader.image}" alt="Leader" class="profile-image"><div class="recruit-header"><div class="recruit-name">${teamData.leader.name}</div><div class="recruit-status status-active">${teamData.leader.status}</div></div></div>
-                <div class="click-hint"><span>✦ View Details ✦</span></div>
+            <!-- Recruits Content -->
+            <div class="recruits-content">
+                <div class="recruits-section">
+                    <h2 class="section-title">Team Hierarchy</h2>
+                    <div class="pyramid-structure" id="pyramidStructure">
+                        <!-- Pyramid structure will be dynamically loaded here -->
+                    </div>
+                </div>
             </div>
-        </div>`;
-        let level2html = `<div class="pyramid-level level-2">`;
-        teamData.level2members.forEach(m => {
-            level2html += `<div class="pyramid-member mid-level" onclick='openModalFromData(${JSON.stringify(m).replace(/'/g, "\\'")})'>
-                <div class="level-indicator">LEVEL 2</div>
-                <div class="profile-section"><img src="${m.image}" class="profile-image"><div class="recruit-header"><div class="recruit-name">${m.name}</div><div class="recruit-status status-${m.status.toLowerCase()}">${m.status}</div></div></div>
-                <div class="click-hint"><span>Click details</span></div>
-            </div>`;
-        });
-        level2html += `</div>`;
-        let level3html = `<div class="pyramid-level level-3">`;
-        teamData.level3members.forEach(m => {
-            level3html += `<div class="pyramid-member bottom-level" onclick='openModalFromData(${JSON.stringify(m).replace(/'/g, "\\'")})'>
-                <div class="level-indicator">LEVEL 3</div>
-                <div class="profile-section"><img src="${m.image}" class="profile-image"><div class="recruit-header"><div class="recruit-name">${m.name}</div><div class="recruit-status status-${m.status.toLowerCase()}">${m.status}</div></div></div>
-                <div class="click-hint"><span>Click details</span></div>
-            </div>`;
-        });
-        level3html += `</div>`;
-        container.innerHTML = l1html + level2html + level3html;
-        // update stats numbers
-        document.getElementById('totalRecruitsStat').innerText = teamData.level2members.length + teamData.level3members.length;
-        const activeCount = [...teamData.level2members, ...teamData.level3members].filter(m => m.status === 'Active').length;
-        const pendingCount = [...teamData.level2members, ...teamData.level3members].filter(m => m.status === 'Pending').length;
-        document.getElementById('activeStat').innerText = activeCount;
-        document.getElementById('pendingStat').innerText = pendingCount;
-    }
 
-    function openModalFromData(d) {
-        const modal = document.getElementById('memberModal');
-        document.getElementById('modalProfileImage').src = d.image;
-        document.getElementById('modalName').innerText = d.name;
-        const statusSpan = document.getElementById('modalStatus');
-        statusSpan.innerText = d.status;
-        statusSpan.className = `modal-status status-${d.status.toLowerCase()}`;
-        document.getElementById('modalJoinDate').innerText = d.joinDate || 'N/A';
-        document.getElementById('modalEmail').innerText = d.email || 'N/A';
-        document.getElementById('modalPhone').innerText = d.phone || 'N/A';
-        document.getElementById('modalLevel').innerText = d.level || 'Member';
-        document.getElementById('modalOrders').innerText = d.orders || 0;
-        document.getElementById('modalSales').innerText = d.sales || 0;
-        document.getElementById('modalRecruits').innerText = d.recruits || 0;
-        const pyramidSection = document.getElementById('modalPyramidSection');
-        const pyramidContainer = document.getElementById('modalPyramidContainer');
-        if(d.teamHierarchy && d.teamHierarchy.length) {
-            pyramidSection.style.display = 'block';
-            let html = '<h4 class="team-hierarchy-title">🏆 Team Hierarchy</h4><div class="modal-pyramid-wrap">';
-            d.teamHierarchy.forEach((lv, idx) => {
-                const lvClass = idx===0?'lv-1':(idx===1?'lv-2':'lv-3');
-                html += `<div class="modal-pyr-level">`;
-                lv.members.forEach(m => {
-                    html += `<div class="modal-pyr-card ${lvClass}">
-                        <span class="modal-pyr-lvbadge" style="font-size:9px;display:block;">LEVEL ${idx+1}</span>
-                        <img src="${m.image}" class="modal-pyr-avatar">
-                        <div class="modal-pyr-name">${m.name}</div>
-                        <span class="modal-pyr-status status-${m.status.toLowerCase()}">${m.status}</span>
-                    </div>`;
-                });
-                html += `</div>`;
+        </div>
+    </div>
+
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current date
+            const currentDate = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
             });
-            html += `</div>`;
-            pyramidContainer.innerHTML = html;
-        } else if(d.subRecruits && d.subRecruits.length > 0) {
-            pyramidSection.style.display = 'block';
-            let subHtml = '<h4 class="team-hierarchy-title">👥 Direct Recruits</h4><div class="modal-pyramid-wrap"><div class="modal-pyr-level">';
-            d.subRecruits.forEach(name => {
-                subHtml += `<div class="modal-pyr-card lv-3"><div class="modal-pyr-name">${name}</div><span class="modal-pyr-status status-pending">Pending</span></div>`;
+            document.getElementById('currentDate').textContent = currentDate;
+            
+            // Set user info
+            const userName = 'John Doe';
+            const userInitials = userName.split(' ').map(n => n[0]).join('');
+            
+            document.getElementById('headerUserName').textContent = userName;
+            document.getElementById('headerAvatar').textContent = userInitials;
+            document.getElementById('navAvatar').textContent = userInitials;
+            document.getElementById('navMemberName').textContent = userName;
+            document.getElementById('drawerAvatar').textContent = userInitials;
+            document.getElementById('drawerName').textContent = userName;
+            
+            // Mobile navigation
+            const hamburger = document.getElementById('hamburger');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('open');
+                mobileDrawer.classList.toggle('open');
             });
-            subHtml += `</div></div>`;
-            pyramidContainer.innerHTML = subHtml;
-        } else {
-            pyramidSection.style.display = 'none';
+            
+            drawerOverlay.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                mobileDrawer.classList.remove('open');
+            });
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('drawerLogoutBtn').addEventListener('click', logout);
+            
+            function logout() {
+                window.location.href = '../index.html';
+            }
+            
+            // Load pyramid data
+            loadPyramid();
+        });
+        
+        function loadPyramid() {
+            // Sample pyramid data with profile images
+            const pyramidData = {
+                level1: [
+                    { name: 'John Doe', status: 'active', recruits: 8, sales: '₱45,000', image: 'https://picsum.photos/seed/johndoe/120/120.jpg' }
+                ],
+                level2: [
+                    { name: 'Maria Santos', status: 'active', recruits: 3, sales: '₱18,000', image: 'https://picsum.photos/seed/mariasantos/120/120.jpg' },
+                    { name: 'Ana Cruz', status: 'pending', recruits: 0, sales: '₱5,000', image: 'https://picsum.photos/seed/anacruz/120/120.jpg' }
+                ],
+                level3: [
+                    { name: 'Luis Martinez', status: 'active', recruits: 0, sales: '₱8,000', image: 'https://picsum.photos/seed/luis/120/120.jpg' },
+                    { name: 'Carla Reyes', status: 'active', recruits: 0, sales: '₱6,000', image: 'https://picsum.photos/seed/carla/120/120.jpg' },
+                    { name: 'Roberto Kim', status: 'pending', recruits: 0, sales: '₱2,000', image: 'https://picsum.photos/seed/roberto/120/120.jpg' }
+                ]
+            };
+            
+            const pyramidStructure = document.getElementById('pyramidStructure');
+            
+            // Generate Level 1 (Top)
+            let level1Html = '<div class="pyramid-level">';
+            pyramidData.level1.forEach(member => {
+                level1Html += `
+                    <div class="pyramid-member top-level">
+                        <div class="level-indicator">LEVEL 1</div>
+                        <img src="${member.image}" alt="${member.name}" class="pyramid-avatar-img">
+                        <div class="pyramid-name">${member.name}</div>
+                        <div class="pyramid-status status-${member.status}">${member.status}</div>
+                        <div class="pyramid-info">${member.recruits} recruits</div>
+                        <div class="pyramid-info">Sales: ${member.sales}</div>
+                        <div class="click-hint">✦ View Details ✦</div>
+                    </div>
+                `;
+            });
+            level1Html += '</div>';
+            
+            // Generate Level 2 (Middle)
+            let level2Html = '<div class="pyramid-level">';
+            pyramidData.level2.forEach(member => {
+                level2Html += `
+                    <div class="pyramid-member mid-level">
+                        <div class="level-indicator">LEVEL 2</div>
+                        <img src="${member.image}" alt="${member.name}" class="pyramid-avatar-img">
+                        <div class="pyramid-name">${member.name}</div>
+                        <div class="pyramid-status status-${member.status}">${member.status}</div>
+                        <div class="pyramid-info">${member.recruits} recruits</div>
+                        <div class="pyramid-info">Sales: ${member.sales}</div>
+                        <div class="click-hint">Click details</div>
+                    </div>
+                `;
+            });
+            level2Html += '</div>';
+            
+            // Generate Level 3 (Bottom)
+            let level3Html = '<div class="pyramid-level">';
+            pyramidData.level3.forEach(member => {
+                level3Html += `
+                    <div class="pyramid-member bottom-level">
+                        <div class="level-indicator">LEVEL 3</div>
+                        <img src="${member.image}" alt="${member.name}" class="pyramid-avatar-img">
+                        <div class="pyramid-name">${member.name}</div>
+                        <div class="pyramid-status status-${member.status}">${member.status}</div>
+                        <div class="pyramid-info">${member.recruits} recruits</div>
+                        <div class="pyramid-info">Sales: ${member.sales}</div>
+                        <div class="click-hint">Click details</div>
+                    </div>
+                `;
+            });
+            level3Html += '</div>';
+            
+            pyramidStructure.innerHTML = level1Html + level2Html + level3Html;
         }
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
+    </script>
 
-    function closeModal() { document.getElementById('memberModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-    function showRecruitForm() { showToast('Recruitment form coming soon!', 'info'); }
-    function loadUserData() { const u = JSON.parse(localStorage.getItem('currentUser') || '{}'); const nameSpan = document.getElementById('userName'), sideName = document.getElementById('sidebarName'), avatar = document.getElementById('sidebarAvatar'); if(u.name){ nameSpan.textContent = u.name; sideName.textContent = u.name; let initials = u.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase(); avatar.textContent = initials; } else { nameSpan.textContent = 'Guest Member'; sideName.textContent = 'Guest Member'; avatar.textContent = 'GM'; } }
-    function logout() { localStorage.removeItem('currentUser'); showToast('Logged out.', 'success'); setTimeout(()=>{ window.location.href='../Login/login.html'; },1500); }
-    function showToast(m,t){ const toast = document.createElement('div'); toast.style.cssText = `position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:40px;color:#fff;background:${t==='success'?'#2e7d64':t==='error'?'#c45c4a':'#b48c5c'};z-index:10001;transform:translateX(100%);transition:0.2s;`; toast.innerText=m; document.body.appendChild(toast); setTimeout(()=>toast.style.transform='translateX(0)',20); setTimeout(()=>{ toast.style.transform='translateX(100%)'; setTimeout(()=>toast.remove(),300); },2800); }
-    document.addEventListener('DOMContentLoaded', () => { loadUserData(); renderPyramid(); });
-    document.getElementById('memberModal')?.addEventListener('click', function(e){ if(e.target===this) closeModal(); });
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
-</script>
 </body>
 </html>
