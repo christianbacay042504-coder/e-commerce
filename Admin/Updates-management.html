@@ -239,6 +239,177 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            display: flex !important;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-dialog {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--text-mid);
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--admin-bg);
+            color: var(--text-dark);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-body p {
+            color: var(--text-mid);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .update-preview {
+            background: var(--admin-bg);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .preview-title {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .preview-content {
+            color: var(--text-mid);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .preview-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .preview-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .preview-date {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 20px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-danger {
+            background: #e14b3c;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-danger:hover {
+            background: #d23322;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--admin-bg);
+            color: var(--text-mid);
+            border: 1px solid var(--border);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+            color: var(--text-dark);
+        }
     </style>
 </head>
 <body>
@@ -373,6 +544,24 @@
         </main>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Confirm Delete</h3>
+                <button class="modal-close-btn" id="closeDeleteModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this update? This action cannot be undone.</p>
+                <div class="update-preview" id="deletePreview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                <button class="btn-danger" id="confirmDeleteBtn">Delete Update</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Initialize data
         let updates = JSON.parse(localStorage.getItem('companyUpdates')) || [
@@ -398,6 +587,7 @@
 
         let uploadedImages = [];
         let editingId = null;
+        let deleteTargetId = null;
 
         // File upload handling
         const fileUploadArea = document.getElementById('fileUploadArea');
@@ -535,11 +725,38 @@
         }
 
         function deleteUpdate(id) {
-            if (confirm('Are you sure you want to delete this update?')) {
-                updates = updates.filter(u => u.id !== id);
+            const update = updates.find(u => u.id === id);
+            if (update) {
+                deleteTargetId = id;
+                showDeleteModal(update);
+            }
+        }
+
+        function showDeleteModal(update) {
+            const preview = document.getElementById('deletePreview');
+            preview.innerHTML = `
+                <div class="preview-title">${update.title}</div>
+                <div class="preview-content">${update.content.substring(0, 150)}${update.content.length > 150 ? '...' : ''}</div>
+                <div class="preview-meta">
+                    <span class="preview-type type-${update.type}">${update.type}</span>
+                    <span class="preview-date">${formatDate(update.date)}</span>
+                </div>
+            `;
+            document.getElementById('deleteModal').classList.add('open');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('open');
+            deleteTargetId = null;
+        }
+
+        function confirmDelete() {
+            if (deleteTargetId) {
+                updates = updates.filter(u => u.id !== deleteTargetId);
                 localStorage.setItem('companyUpdates', JSON.stringify(updates));
                 renderUpdates();
                 showToast('Update deleted successfully!');
+                closeDeleteModal();
             }
         }
 
@@ -639,6 +856,18 @@
             
             loadAdminUserData();
             renderUpdates();
+
+            // Modal event listeners
+            document.getElementById('closeDeleteModalBtn')?.addEventListener('click', closeDeleteModal);
+            document.getElementById('cancelDeleteBtn')?.addEventListener('click', closeDeleteModal);
+            document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
+            
+            // Close modal when clicking outside
+            document.getElementById('deleteModal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'deleteModal') {
+                    closeDeleteModal();
+                }
+            });
 
             document.getElementById('logoutAdminBtn')?.addEventListener('click', () => { 
                 window.location.href = '../index.html'; 

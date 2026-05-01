@@ -112,8 +112,27 @@
         </div>
     </div>
 
+    <!-- MODAL: Delete Confirmation -->
+    <div class="modal-overlay" id="deleteConfirmModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-header">
+                <h3>Confirm Delete</h3>
+                <button class="modal-close-btn" id="closeDeleteModalBtn">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove this member? This action cannot be undone.</p>
+                <div class="member-preview" id="deleteMemberPreview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                <button class="btn-danger" id="confirmDeleteBtn">Remove Member</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let adminMembers = [];
+        let memberToDelete = null;
 
         function loadMembersData() {
             const stored = localStorage.getItem('lumiere_admin_members');
@@ -229,16 +248,42 @@
         }
 
         function deleteMember(id) {
-            if (confirm('Remove member?')) {
-                adminMembers = adminMembers.filter(m => m.id !== id);
-                saveMembersToLocal();
-                renderMembersGrid();
-                window.dispatchEvent(new StorageEvent('storage', { key: 'lumiere_admin_members', newValue: JSON.stringify(adminMembers) }));
+            const member = adminMembers.find(m => m.id === id);
+            if (member) {
+                memberToDelete = id;
+                document.getElementById('deleteMemberPreview').innerHTML = `
+                    <div style="padding: 12px; background: #f8f9fa; border-radius: 8px; margin-top: 12px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: ${member.color || '#f0e0d0'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">${member.avatar}</div>
+                            <div>
+                                <div style="font-weight: 600; color: #333;">${escapeHtml(member.name)}</div>
+                                <div style="font-size: 14px; color: #666;">${member.location} • ${member.type} • ${member.sales}</div>
+                                <div style="font-size: 12px; color: #888; margin-top: 2px;">${member.badge}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('deleteConfirmModal').classList.add('open');
             }
         }
 
         function closeMemberForm() {
             document.getElementById('memberModalForm').classList.remove('open');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteConfirmModal').classList.remove('open');
+            memberToDelete = null;
+        }
+
+        function confirmDelete() {
+            if (memberToDelete) {
+                adminMembers = adminMembers.filter(m => m.id !== memberToDelete);
+                saveMembersToLocal();
+                renderMembersGrid();
+                window.dispatchEvent(new StorageEvent('storage', { key: 'lumiere_admin_members', newValue: JSON.stringify(adminMembers) }));
+                closeDeleteModal();
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -249,6 +294,9 @@
             document.getElementById('saveMemberBtn')?.addEventListener('click', saveMember);
             document.getElementById('closeMemberModalBtn')?.addEventListener('click', closeMemberForm);
             document.getElementById('cancelMemberBtn')?.addEventListener('click', closeMemberForm);
+            document.getElementById('closeDeleteModalBtn')?.addEventListener('click', closeDeleteModal);
+            document.getElementById('cancelDeleteBtn')?.addEventListener('click', closeDeleteModal);
+            document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
             document.getElementById('adminMemberSearch')?.addEventListener('input', () => renderMembersGrid());
             document.getElementById('logoutAdminBtn')?.addEventListener('click', () => { window.location.href = '../index.html'; });
 

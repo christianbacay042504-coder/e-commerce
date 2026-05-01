@@ -602,9 +602,109 @@ body {
 .btn-secondary {
     background: transparent;
     border: 1.5px solid var(--border);
-    padding: 8px 20px;
+    padding: 10px 24px;
     border-radius: 40px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-mid);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-secondary:hover {
+    border-color: var(--rose-dark);
+    color: var(--rose-dark);
+    background: rgba(196, 144, 128, 0.05);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(196, 144, 128, 0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--text-dark) 0%, var(--rose-dark) 100%);
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(44, 36, 32, 0.2);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(44, 36, 32, 0.3);
+    background: linear-gradient(135deg, var(--rose-dark) 0%, var(--text-dark) 100%);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(44, 36, 32, 0.2);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.25);
+}
+
+.btn-danger::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-danger:hover::before {
+    left: 100%;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(220, 38, 38, 0.35);
+    background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+}
+
+.btn-danger:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 12px rgba(220, 38, 38, 0.2);
+}
+
+.modal-sm .modal-dialog {
+    max-width: 420px;
 }
 
 /* Responsive */
